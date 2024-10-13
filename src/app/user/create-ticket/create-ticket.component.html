@@ -1,0 +1,16 @@
+<form (ngSubmit)="createTicket()">
+    <label for="id">ID:</label>
+    <input type="text" id="id" [(ngModel)]="ticket.id" name="id" required />
+  
+    <label for="name">Name:</label>
+    <input type="text" id="name" [(ngModel)]="ticket.name" name="name" required />
+  
+    <label for="description">Beschreibung:</label>
+    <textarea id="description" [(ngModel)]="ticket.description" name="description" required></textarea>
+  
+    <label for="level">Stufe:</label>
+    <input type="text" id="level" [(ngModel)]="ticket.level" name="level" required />
+  
+    <button type="submit">Ticket erstellen</button>
+  </form>
+  

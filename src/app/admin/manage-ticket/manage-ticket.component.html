@@ -1,0 +1,9 @@
+<h2>Verwaltung der Tickets</h2>
+<ul>
+  <li *ngFor="let ticket of tickets">
+    <strong>ID:</strong> {{ ticket.id }}<br>
+    <strong>Name:</strong> {{ ticket.name }}<br>
+    <strong>Beschreibung:</strong> {{ ticket.description }}<br>
+    <strong>Stufe:</strong> {{ ticket.level }}<br>
+  </li>
+</ul>
