@@ -1,9 +1,15 @@
-<h2>Verwaltung der Tickets:</h2>
+<h2>Verwaltung der Tickets</h2>
 <ul>
   <li *ngFor="let ticket of tickets">
     <strong>ID:</strong> {{ ticket.id }}<br>
-    <strong>Name:</strong> {{ ticket.name }}<br>
+    <strong>Titel:</strong> {{ ticket.titel }}<br>
     <strong>Beschreibung:</strong> {{ ticket.description }}<br>
-    <strong>Stufe:</strong> {{ ticket.level }}<br>
+    <strong>Stufe:</strong> {{ getLevelDescription(ticket.level) }}<br>
+    <strong>Erstellungsdatum:</strong> {{ ticket.erstellungsdatum }}<br>
+    <strong>Status:</strong>
+    <select [(ngModel)]="ticket.status" (change)="updateTicketStatus(ticket)">
+      <option value="offen">Offen</option>
+      <option value="geschlossen">Geschlossen</option>
+    </select>
   </li>
 </ul>

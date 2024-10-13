@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import json
 from flask_cors import CORS
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)  # Füge dies hinzu, um CORS zu aktivieren
@@ -21,14 +22,21 @@ def get_tickets():
                 tickets.append(ticket_data)
     return jsonify(tickets)
 
-# Vorherige POST-Methode zum Erstellen von Tickets
 @app.route('/api/tickets', methods=['POST'])
 def create_ticket():
     ticket_data = request.json
-    ticket_id = ticket_data['id']
+
+    # Automatische ID-Erstellung
+    existing_ids = [int(ticket_id) for ticket_id in os.listdir(tickets_folder) if ticket_id.isdigit()]
+    new_id = str(max(existing_ids) + 1) if existing_ids else '1'
+
+    # Attribute anpassen
+    ticket_data['id'] = new_id
+    ticket_data['erstellungsdatum'] = datetime.now().isoformat()  # Erstellungsdatum hinzufügen
+    ticket_data['titel'] = ticket_data.pop('name', ticket_data.get('titel', ''))  # Name in Titel ändern
 
     # Ordner für das Ticket erstellen
-    ticket_path = os.path.join(tickets_folder, ticket_id)
+    ticket_path = os.path.join(tickets_folder, new_id)
     if not os.path.exists(ticket_path):
         os.makedirs(ticket_path)
 
@@ -36,7 +44,16 @@ def create_ticket():
     with open(os.path.join(ticket_path, 'ticket.json'), 'w') as f:
         json.dump(ticket_data, f)
 
-    return jsonify({'message': 'Ticket erstellt', 'ticket_id': ticket_id}), 201
+    return jsonify({'message': 'Ticket erstellt', 'ticket_id': new_id}), 201
+
+@app.route('/api/tickets/<ticket_id>', methods=['DELETE'])
+def delete_ticket(ticket_id):
+    ticket_path = os.path.join(tickets_folder, ticket_id)
+    if os.path.exists(ticket_path):
+        os.rmdir(ticket_path)  # Ticket-Ordner und Inhalte löschen
+        return jsonify({'message': 'Ticket gelöscht'}), 204
+    return jsonify({'message': 'Ticket nicht gefunden'}), 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)

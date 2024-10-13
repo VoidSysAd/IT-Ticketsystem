@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.component.html',
   standalone: true,
-  imports: [HttpClientModule, FormsModule] // Hier das HttpClientModule importieren
+  imports: [HttpClientModule, FormsModule, CommonModule]
 })
 export class CreateTicketComponent {
   ticket = {
-    id: '',
-    name: '',
+    titel: '',
     description: '',
     level: '',
   };
