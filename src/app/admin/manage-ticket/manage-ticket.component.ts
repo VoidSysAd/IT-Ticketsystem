@@ -22,25 +22,29 @@ export class ManageTicketComponent implements OnInit {
   loadTickets() {
     this.http.get<any[]>('http://localhost:5000/api/tickets').subscribe(
       (data) => {
-        this.tickets = data.map(ticket => ({ ...ticket, status: ticket.status || 'offen' })); // Status setzen
+        this.tickets = data.map(ticket => ({
+          ...ticket,
+          status: ticket.status || 'offen'
+        })); // Status setzen
       },
       (error) => {
         console.error('Fehler beim Laden der Tickets:', error);
       }
     );
-  }
+}
 
-  updateTicketStatus(ticket: any) {
-    const updatedStatus = { status: ticket.status }; // Den neuen Status in ein Objekt packen
-    this.http.put(`http://localhost:5000/api/tickets/${ticket.id}`, updatedStatus).subscribe(
-      () => {
-        console.log('Ticketstatus aktualisiert:', ticket.id);
-      },
-      (error) => {
-        console.error('Fehler beim Aktualisieren des Ticketstatus:', error);
-      }
-    );
-  }
+updateTicketStatus(ticket: any) {
+  const updatedStatus = { status: ticket.status }; // Den neuen Status in ein Objekt packen
+  this.http.put(`http://localhost:5000/api/tickets/${ticket.id}`, updatedStatus).subscribe(
+    () => {
+      console.log('Ticketstatus aktualisiert:', ticket.id);
+      this.loadTickets(); // Nach der Aktualisierung die Tickets erneut laden
+    },
+    (error) => {
+      console.error('Fehler beim Aktualisieren des Ticketstatus:', error);
+    }
+  );
+}
 
   deleteTicket(ticketId: string) {
     this.http.delete(`http://localhost:5000/api/tickets/${ticketId}`).subscribe(
