@@ -33,7 +33,8 @@ def create_ticket():
     # Attribute anpassen
     ticket_data['id'] = new_id
     ticket_data['erstellungsdatum'] = datetime.now().isoformat()  # Erstellungsdatum hinzufügen
-    ticket_data['titel'] = ticket_data.pop('name', ticket_data.get('titel', ''))  # Name in Titel ändern
+    ticket_data['titel'] = ticket_data.pop('titel', '')  # Sicherstellen, dass 'titel' vorhanden ist
+    ticket_data['status'] = 'offen'  # Standardstatus auf "offen" setzen
 
     # Ordner für das Ticket erstellen
     ticket_path = os.path.join(tickets_folder, new_id)
@@ -46,14 +47,26 @@ def create_ticket():
 
     return jsonify({'message': 'Ticket erstellt', 'ticket_id': new_id}), 201
 
-@app.route('/api/tickets/<ticket_id>', methods=['DELETE'])
-def delete_ticket(ticket_id):
-    ticket_path = os.path.join(tickets_folder, ticket_id)
-    if os.path.exists(ticket_path):
-        os.rmdir(ticket_path)  # Ticket-Ordner und Inhalte löschen
-        return jsonify({'message': 'Ticket gelöscht'}), 204
-    return jsonify({'message': 'Ticket nicht gefunden'}), 404
+@app.route('/api/tickets/<ticket_id>', methods=['PUT'])
+def update_ticket_status(ticket_id):
+    ticket_path = os.path.join(tickets_folder, ticket_id, 'ticket.json')
+    if not os.path.isfile(ticket_path):
+        return jsonify({'message': 'Ticket nicht gefunden'}), 404
 
+    # Ticket laden und aktualisieren
+    with open(ticket_path, 'r') as f:
+        ticket_data = json.load(f)
+
+    # Den Status aktualisieren
+    new_status = request.json.get('status')
+    if new_status:
+        ticket_data['status'] = new_status
+
+    # Aktualisierte Daten in die JSON-Datei zurückschreiben
+    with open(ticket_path, 'w') as f:
+        json.dump(ticket_data, f)
+
+    return jsonify({'message': 'Ticketstatus aktualisiert', 'ticket_id': ticket_id}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
