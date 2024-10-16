@@ -6,8 +6,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.component.html',
+  styleUrls: ['./create-ticket.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule] // HttpClientModule wird hier nicht mehr benötigt
+  imports: [FormsModule, CommonModule]
 })
 export class CreateTicketComponent {
   ticket = {
@@ -15,18 +16,29 @@ export class CreateTicketComponent {
     description: '',
     level: '',
   };
+  ticketCreated: boolean = false;
+  createdTicketId: string = '';
 
-  constructor(private http: HttpClient) {} // HttpClient ist bereits verfügbar durch provideHttpClient()
+  constructor(private http: HttpClient) {}
 
   createTicket() {
     const ticketData = { ...this.ticket };
-    this.http.post('http://localhost:5000/api/tickets', ticketData).subscribe(
-      response => {
-        console.log('Ticket erstellt:', response);
-      },
-      error => {
-        console.error('Fehler beim Erstellen des Tickets:', error);
-      }
-    );
+    this.http.post<{ ticket_id: string }>('http://localhost:5000/api/tickets', ticketData).subscribe(response => {
+      console.log('Ticket erstellt:', response);
+      this.ticketCreated = true;
+      this.createdTicketId = response.ticket_id;
+    }, error => {
+      console.error('Fehler beim Erstellen des Tickets:', error);
+    });
+  }
+
+  createNewTicket() {
+    this.ticket = {
+      titel: '',
+      description: '',
+      level: '',
+    };
+    this.ticketCreated = false;
+    this.createdTicketId = '';
   }
 }

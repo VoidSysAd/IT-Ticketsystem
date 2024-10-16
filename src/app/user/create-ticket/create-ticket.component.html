@@ -1,38 +1,46 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="card shadow-lg">
-        <div class="card-header bg-info text-white text-center">
-          <h2>Ticket erstellen</h2>
-        </div>
-        <div class="card-body">
-          <form (ngSubmit)="createTicket()" #ticketForm="ngForm">
-            <div class="form-group mb-4">
-              <label for="titel"><strong>Titel:</strong></label>
-              <input type="text" id="titel" class="form-control" [(ngModel)]="ticket.titel" name="titel" required />
-            </div>
-
-            <div class="form-group mb-4">
-              <label for="description"><strong>Beschreibung:</strong></label>
-              <textarea id="description" class="form-control" [(ngModel)]="ticket.description" name="description" rows="4" required></textarea>
-            </div>
-
-            <div class="form-group mb-4">
-              <label for="level"><strong>Stufe:</strong></label>
-              <select id="level" class="form-control" [(ngModel)]="ticket.level" name="level" required>
-                <option value="" disabled selected>Bitte wählen</option>
-                <option value="1">Normal</option>
-                <option value="2">Dringend</option>
-                <option value="3">Kritisch</option>
-              </select>
-            </div>
-
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary px-4 py-2" [disabled]="!ticketForm.form.valid">Ticket erstellen</button>
-            </div>
-          </form>
-        </div>
+      <div *ngIf="ticketCreated; else ticketForm" class="alert alert-success text-center">
+        <h4>Ticket erfolgreich erstellt!</h4>
+        <p>Ticket-ID: <strong>{{ createdTicketId }}</strong></p>
+        <button class="btn btn-primary mt-3" (click)="createNewTicket()">Neues Ticket erstellen</button>
       </div>
+
+      <ng-template #ticketForm>
+        <div class="card shadow-lg">
+          <div class="card-header bg-info text-white text-center">
+            <h2>Ticket erstellen</h2>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="createTicket()" #ticketForm="ngForm">
+              <div class="form-group mb-4">
+                <label for="titel"><strong>Titel:</strong></label>
+                <input type="text" id="titel" class="form-control" [(ngModel)]="ticket.titel" name="titel" required />
+              </div>
+
+              <div class="form-group mb-4">
+                <label for="description"><strong>Beschreibung:</strong></label>
+                <textarea id="description" class="form-control" [(ngModel)]="ticket.description" name="description" rows="4" required></textarea>
+              </div>
+
+              <div class="form-group mb-4">
+                <label for="level"><strong>Stufe:</strong></label>
+                <select id="level" class="form-control" [(ngModel)]="ticket.level" name="level" required>
+                  <option value="" disabled selected>Bitte wählen</option>
+                  <option value="1">Normal</option>
+                  <option value="2">Dringend</option>
+                  <option value="3">Kritisch</option>
+                </select>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4 py-2" [disabled]="!ticketForm.form.valid">Ticket erstellen</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
