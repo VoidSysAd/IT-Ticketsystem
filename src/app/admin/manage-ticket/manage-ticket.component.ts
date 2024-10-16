@@ -13,6 +13,7 @@ export class ManageTicketComponent implements OnInit {
   offeneTickets: any[] = [];
   geschlosseneTickets: any[] = [];
   selectedTicket: any = null;
+  newCommentContent: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -23,7 +24,6 @@ export class ManageTicketComponent implements OnInit {
   loadTickets() {
     this.http.get<any[]>('http://localhost:5000/api/tickets').subscribe(
       (data) => {
-        // Tickets in offene und geschlossene Tickets aufteilen
         this.offeneTickets = data.filter(ticket => ticket.status === 'offen');
         this.geschlosseneTickets = data.filter(ticket => ticket.status === 'geschlossen');
       },
@@ -34,7 +34,27 @@ export class ManageTicketComponent implements OnInit {
   }
 
   selectTicket(ticket: any) {
-    this.selectedTicket = ticket; // Ticket auswählen, um die Details anzuzeigen
+    this.selectedTicket = ticket;
+  }
+
+  addComment() {
+    if (this.newCommentContent.trim() === '') {
+      return;
+    }
+
+    const commentData = { inhalt: this.newCommentContent };
+    this.http.post(`http://localhost:5000/api/tickets/${this.selectedTicket.id}/comments`, commentData).subscribe(
+      (response: any) => {
+        if (!this.selectedTicket.kommentare) {
+          this.selectedTicket.kommentare = [];
+        }
+        this.selectedTicket.kommentare.push(response.comment);
+        this.newCommentContent = ''; // Textfeld zurücksetzen
+      },
+      (error) => {
+        console.error('Fehler beim Hinzufügen des Kommentars:', error);
+      }
+    );
   }
 
   getLevelDescription(level: string): string {
@@ -50,4 +70,3 @@ export class ManageTicketComponent implements OnInit {
     }
   }
 }
-

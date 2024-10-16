@@ -1,0 +1,17 @@
+{
+    "description": "json-format",
+    "level": "3",
+    "id": "6",
+    "erstellungsdatum": "2024-10-16T11:07:54.640278",
+    "titel": "json-format",
+    "status": "offen",
+    "schlussdatum": null,
+    "kommentare": [
+        {
+            "kommentar_id": "1",
+            "inhalt": "test\n",
+            "zeitstempel": "2024-10-16T11:08:10.819620",
+            "autor": "admin"
+        }
+    ]
+}

@@ -31,6 +31,21 @@
       <p><strong>Status:</strong> <span [ngClass]="{'badge badge-success': selectedTicket.status === 'geschlossen', 'badge badge-warning': selectedTicket.status === 'offen'}">{{ selectedTicket.status }}</span></p>
       <p><strong>Erstellungsdatum:</strong> {{ selectedTicket.erstellungsdatum | date:'short' }}</p>
       <p><strong>Schließungsdatum:</strong> {{ selectedTicket.schlussdatum || 'Nicht geschlossen' }}</p>
+      
+      <hr>
+      <h5>Kommentare</h5>
+      <ul class="list-group mb-3">
+        <li *ngFor="let comment of selectedTicket.kommentare" class="list-group-item">
+          <strong>{{ comment.autor }}:</strong> {{ comment.inhalt }} <br>
+          <small class="text-muted">{{ comment.zeitstempel | date:'short' }}</small>
+        </li>
+      </ul>
+
+      <div class="form-group">
+        <label for="newComment">Neuen Kommentar hinzufügen:</label>
+        <textarea id="newComment" class="form-control" [(ngModel)]="newCommentContent" rows="3"></textarea>
+        <button class="btn btn-primary mt-2" (click)="addComment()">Kommentar hinzufügen</button>
+      </div>
     </div>
   </div>
 </div>
