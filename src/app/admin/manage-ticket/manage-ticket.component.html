@@ -1,17 +1,36 @@
-<h2>Verwaltung der Tickets</h2>
-<ul>
-  <li *ngFor="let ticket of tickets">
-    <strong>ID:</strong> {{ ticket.id }}<br>
-    <strong>Titel:</strong> {{ ticket.titel }}<br>
-    <strong>Beschreibung:</strong> {{ ticket.description }}<br>
-    <strong>Stufe:</strong> {{ getLevelDescription(ticket.level) }}<br>
-    <strong>Erstellungsdatum:</strong> {{ ticket.erstellungsdatum }}<br>
-    <strong>Status:</strong>
-    <select [(ngModel)]="ticket.status" (change)="updateTicketStatus(ticket)">
-      <option value="offen">Offen</option>
-      <option value="geschlossen">Geschlossen</option>
-    </select>
-    <br>
-    <strong>Schließungsdatum:</strong> {{ ticket.schlussdatum || 'Nicht geschlossen' }}<br>
-  </li>
-</ul>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="text-primary">Offene Tickets</h2>
+      <ul class="list-group mb-4">
+        <li *ngFor="let ticket of offeneTickets" class="list-group-item list-group-item-action" (click)="selectTicket(ticket)">
+          <strong>{{ ticket.titel }}</strong>
+          <span class="float-right">{{ ticket.erstellungsdatum | date:'short' }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <h2 class="text-secondary">Geschlossene Tickets</h2>
+      <ul class="list-group mb-4">
+        <li *ngFor="let ticket of geschlosseneTickets" class="list-group-item list-group-item-action" (click)="selectTicket(ticket)">
+          <strong>{{ ticket.titel }}</strong>
+          <span class="float-right">{{ ticket.erstellungsdatum | date:'short' }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div *ngIf="selectedTicket" class="card mt-4">
+    <div class="card-header bg-info text-white">
+      Details für Ticket #{{ selectedTicket.id }}
+    </div>
+    <div class="card-body">
+      <p><strong>Titel:</strong> {{ selectedTicket.titel }}</p>
+      <p><strong>Beschreibung:</strong> {{ selectedTicket.description }}</p>
+      <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.level) }}</p>
+      <p><strong>Status:</strong> <span [ngClass]="{'badge badge-success': selectedTicket.status === 'geschlossen', 'badge badge-warning': selectedTicket.status === 'offen'}">{{ selectedTicket.status }}</span></p>
+      <p><strong>Erstellungsdatum:</strong> {{ selectedTicket.erstellungsdatum | date:'short' }}</p>
+      <p><strong>Schließungsdatum:</strong> {{ selectedTicket.schlussdatum || 'Nicht geschlossen' }}</p>
+    </div>
+  </div>
+</div>

@@ -39,13 +39,17 @@ def create_ticket():
 
 @app.route('/api/tickets', methods=['GET'])
 def get_tickets():
+    status = request.args.get('status')  # Status als Query-Parameter (z.B. ?status=offen oder ?status=geschlossen)
     tickets = []
+
     for ticket_id in os.listdir(tickets_folder):
         ticket_path = os.path.join(tickets_folder, ticket_id, 'ticket.json')
         if os.path.isfile(ticket_path):
             with open(ticket_path, 'r') as f:
                 ticket_data = json.load(f)
-                tickets.append(ticket_data)  # Stelle sicher, dass ticket_data korrekt geladen wird
+                if status is None or ticket_data['status'] == status:
+                    tickets.append(ticket_data)
+    
     return jsonify(tickets)
 
 

@@ -7,10 +7,12 @@ import { CommonModule } from '@angular/common';
   selector: 'app-manage-ticket',
   templateUrl: './manage-ticket.component.html',
   standalone: true,
-  imports: [FormsModule, CommonModule] // HttpClientModule wird nicht mehr benötigt
+  imports: [FormsModule, CommonModule]
 })
 export class ManageTicketComponent implements OnInit {
-  tickets: any[] = [];
+  offeneTickets: any[] = [];
+  geschlosseneTickets: any[] = [];
+  selectedTicket: any = null;
 
   constructor(private http: HttpClient) {}
 
@@ -21,10 +23,9 @@ export class ManageTicketComponent implements OnInit {
   loadTickets() {
     this.http.get<any[]>('http://localhost:5000/api/tickets').subscribe(
       (data) => {
-        this.tickets = data.map(ticket => ({
-          ...ticket,
-          status: ticket.status || 'offen'
-        }));
+        // Tickets in offene und geschlossene Tickets aufteilen
+        this.offeneTickets = data.filter(ticket => ticket.status === 'offen');
+        this.geschlosseneTickets = data.filter(ticket => ticket.status === 'geschlossen');
       },
       (error) => {
         console.error('Fehler beim Laden der Tickets:', error);
@@ -32,34 +33,14 @@ export class ManageTicketComponent implements OnInit {
     );
   }
 
-  updateTicketStatus(ticket: any) {
-    const updatedStatus = { status: ticket.status };
-    this.http.put(`http://localhost:5000/api/tickets/${ticket.id}`, updatedStatus).subscribe(
-      () => {
-        console.log('Ticketstatus aktualisiert:', ticket.id);
-        this.loadTickets(); // Nach der Aktualisierung die Tickets erneut laden
-      },
-      (error) => {
-        console.error('Fehler beim Aktualisieren des Ticketstatus:', error);
-      }
-    );
-  }
-
-  deleteTicket(ticketId: string) {
-    this.http.delete(`http://localhost:5000/api/tickets/${ticketId}`).subscribe(
-      () => {
-        this.tickets = this.tickets.filter(ticket => ticket.id !== ticketId);
-      },
-      (error) => {
-        console.error('Fehler beim Löschen des Tickets:', error);
-      }
-    );
+  selectTicket(ticket: any) {
+    this.selectedTicket = ticket; // Ticket auswählen, um die Details anzuzeigen
   }
 
   getLevelDescription(level: string): string {
     switch (level) {
       case '1':
-        return 'normal';
+        return 'Normal';
       case '2':
         return 'Dringend';
       case '3':
@@ -69,3 +50,4 @@ export class ManageTicketComponent implements OnInit {
     }
   }
 }
+
