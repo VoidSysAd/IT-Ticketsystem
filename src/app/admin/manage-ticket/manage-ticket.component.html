@@ -28,18 +28,33 @@
       <p><strong>Titel:</strong> {{ selectedTicket.titel }}</p>
       <p><strong>Beschreibung:</strong> {{ selectedTicket.description }}</p>
       <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.level) }}</p>
-      <p><strong>Status:</strong> <span [ngClass]="{'badge badge-success': selectedTicket.status === 'geschlossen', 'badge badge-warning': selectedTicket.status === 'offen'}">{{ selectedTicket.status }}</span></p>
+      <p><strong>Status:</strong>
+        <span [ngClass]="{'badge badge-success': selectedTicket.status === 'geschlossen', 'badge badge-warning': selectedTicket.status === 'offen'}">
+          {{ selectedTicket.status }}
+        </span>
+      </p>
+      <button 
+        *ngIf="selectedTicket && selectedTicket.status" 
+        class="btn mt-3 mb-4 px-4 py-2" 
+        [ngClass]="{
+          'btn-success': selectedTicket.status === 'offen', 
+          'btn-danger': selectedTicket.status === 'geschlossen'
+        }" 
+        (click)="toggleTicketStatus()">
+        Status ändern zu "{{ selectedTicket.status === 'offen' ? 'geschlossen' : 'offen' }}"
+      </button>
       <p><strong>Erstellungsdatum:</strong> {{ selectedTicket.erstellungsdatum | date:'short' }}</p>
       <p><strong>Schließungsdatum:</strong> {{ selectedTicket.schlussdatum || 'Nicht geschlossen' }}</p>
-      
+
       <hr>
       <h5>Kommentare</h5>
-      <ul class="list-group mb-3">
+      <ul *ngIf="selectedTicket.kommentare && selectedTicket.kommentare.length > 0" class="list-group mb-3">
         <li *ngFor="let comment of selectedTicket.kommentare" class="list-group-item">
           <strong>{{ comment.autor }}:</strong> {{ comment.inhalt }} <br>
           <small class="text-muted">{{ comment.zeitstempel | date:'short' }}</small>
         </li>
       </ul>
+      <p *ngIf="!selectedTicket.kommentare || selectedTicket.kommentare.length === 0" class="text-muted">Keine Kommentare vorhanden.</p>
 
       <div class="form-group">
         <label for="newComment">Neuen Kommentar hinzufügen:</label>

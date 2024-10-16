@@ -57,6 +57,24 @@ export class ManageTicketComponent implements OnInit {
     );
   }
 
+  toggleTicketStatus() {
+    const newStatus = this.selectedTicket.status === 'offen' ? 'geschlossen' : 'offen';
+    this.http.put(`http://localhost:5000/api/tickets/${this.selectedTicket.id}`, { status: newStatus }).subscribe(
+      () => {
+        this.selectedTicket.status = newStatus;
+        if (newStatus === 'geschlossen') {
+          this.selectedTicket.schlussdatum = new Date().toISOString();
+        } else {
+          this.selectedTicket.schlussdatum = null;
+        }
+        this.loadTickets(); // Aktualisiere die Listen der offenen und geschlossenen Tickets
+      },
+      (error) => {
+        console.error('Fehler beim Aktualisieren des Ticketstatus:', error);
+      }
+    );
+  }
+
   getLevelDescription(level: string): string {
     switch (level) {
       case '1':

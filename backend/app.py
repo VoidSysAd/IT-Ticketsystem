@@ -69,12 +69,15 @@ def update_ticket_status(ticket_id):
         ticket_data['status'] = new_status
         if new_status == 'geschlossen':
             ticket_data['schlussdatum'] = datetime.now().isoformat()  # Schließungsdatum setzen
+        elif new_status == 'offen':
+            ticket_data['schlussdatum'] = None  # Schließungsdatum zurücksetzen
 
     # Aktualisierte Daten in die JSON-Datei zurückschreiben
     with open(ticket_path, 'w') as f:
-        json.dump(ticket_data, f)
+        json.dump(ticket_data, f, indent=4)
 
     return jsonify({'message': 'Ticketstatus aktualisiert', 'ticket_id': ticket_id}), 200
+
 
 
 @app.route('/api/tickets/<ticket_id>/comments', methods=['POST'])

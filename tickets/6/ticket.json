@@ -4,13 +4,19 @@
     "id": "6",
     "erstellungsdatum": "2024-10-16T11:07:54.640278",
     "titel": "json-format",
-    "status": "offen",
-    "schlussdatum": null,
+    "status": "geschlossen",
+    "schlussdatum": "2024-10-16T11:19:17.029696",
     "kommentare": [
         {
             "kommentar_id": "1",
             "inhalt": "test\n",
             "zeitstempel": "2024-10-16T11:08:10.819620",
+            "autor": "admin"
+        },
+        {
+            "kommentar_id": "2",
+            "inhalt": "json-format erfolgreich erledigt ",
+            "zeitstempel": "2024-10-16T11:21:56.773157",
             "autor": "admin"
         }
     ]
