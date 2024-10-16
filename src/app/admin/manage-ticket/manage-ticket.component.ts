@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -8,7 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-manage-ticket',
   templateUrl: './manage-ticket.component.html',
   standalone: true,
-  imports: [HttpClientModule, FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule] // HttpClientModule wird nicht mehr benötigt
 })
 export class ManageTicketComponent implements OnInit {
   tickets: any[] = [];
@@ -25,31 +24,31 @@ export class ManageTicketComponent implements OnInit {
         this.tickets = data.map(ticket => ({
           ...ticket,
           status: ticket.status || 'offen'
-        })); // Status setzen
+        }));
       },
       (error) => {
         console.error('Fehler beim Laden der Tickets:', error);
       }
     );
-}
+  }
 
-updateTicketStatus(ticket: any) {
-  const updatedStatus = { status: ticket.status }; // Den neuen Status in ein Objekt packen
-  this.http.put(`http://localhost:5000/api/tickets/${ticket.id}`, updatedStatus).subscribe(
-    () => {
-      console.log('Ticketstatus aktualisiert:', ticket.id);
-      this.loadTickets(); // Nach der Aktualisierung die Tickets erneut laden
-    },
-    (error) => {
-      console.error('Fehler beim Aktualisieren des Ticketstatus:', error);
-    }
-  );
-}
+  updateTicketStatus(ticket: any) {
+    const updatedStatus = { status: ticket.status };
+    this.http.put(`http://localhost:5000/api/tickets/${ticket.id}`, updatedStatus).subscribe(
+      () => {
+        console.log('Ticketstatus aktualisiert:', ticket.id);
+        this.loadTickets(); // Nach der Aktualisierung die Tickets erneut laden
+      },
+      (error) => {
+        console.error('Fehler beim Aktualisieren des Ticketstatus:', error);
+      }
+    );
+  }
 
   deleteTicket(ticketId: string) {
     this.http.delete(`http://localhost:5000/api/tickets/${ticketId}`).subscribe(
       () => {
-        this.tickets = this.tickets.filter(ticket => ticket.id !== ticketId); // Ticket aus der Liste entfernen
+        this.tickets = this.tickets.filter(ticket => ticket.id !== ticketId);
       },
       (error) => {
         console.error('Fehler beim Löschen des Tickets:', error);
