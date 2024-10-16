@@ -1,0 +1,9 @@
+{
+    "description": "Anmeldung f\u00fcr Admins, und Kunden, jeweilige Berechtigungen gehen einher mit der M\u00f6glichkeit sich dementsprechend anzumelden",
+    "level": "3",
+    "id": "11",
+    "erstellungsdatum": "2024-10-16T12:19:13.770967",
+    "titel": "Benutzer Anmeldung - Backend (JSON)",
+    "status": "offen",
+    "schlussdatum": null
+}

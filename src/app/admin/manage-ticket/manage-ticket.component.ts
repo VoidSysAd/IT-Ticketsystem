@@ -20,18 +20,24 @@ export class ManageTicketComponent implements OnInit {
   ngOnInit() {
     this.loadTickets();
   }
-
+  
   loadTickets() {
     this.http.get<any[]>('http://localhost:5000/api/tickets').subscribe(
       (data) => {
-        this.offeneTickets = data.filter(ticket => ticket.status === 'offen');
-        this.geschlosseneTickets = data.filter(ticket => ticket.status === 'geschlossen');
+        this.offeneTickets = data
+          .filter(ticket => ticket.status === 'offen')
+          .sort((a, b) => new Date(b.erstellungsdatum).getTime() - new Date(a.erstellungsdatum).getTime());
+        
+        this.geschlosseneTickets = data
+          .filter(ticket => ticket.status === 'geschlossen')
+          .sort((a, b) => new Date(b.erstellungsdatum).getTime() - new Date(a.erstellungsdatum).getTime());
       },
       (error) => {
         console.error('Fehler beim Laden der Tickets:', error);
       }
     );
   }
+  
 
   selectTicket(ticket: any) {
     this.selectedTicket = ticket;

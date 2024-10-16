@@ -1,0 +1,17 @@
+{
+    "titel": "Moeglichkeit Bilder hinzuzufuegen",
+    "description": "Bei der Ticketerstellung müssen Nutzer die Möglichkeit haben 'Screenshots' ihrer Probleme anzuknüpfen, diese müssen dann in der Ticketbearbeitung angezeigt werden",
+    "level": "3",
+    "id": "10",
+    "erstellungsdatum": "2024-10-16T12:06:25.681537",
+    "status": "offen",
+    "schlussdatum": null,
+    "kommentare": [
+        {
+            "kommentar_id": "1",
+            "inhalt": "chatgpt macht behinderte faxxen",
+            "zeitstempel": "2024-10-16T12:12:54.576064",
+            "autor": "admin"
+        }
+    ]
+}

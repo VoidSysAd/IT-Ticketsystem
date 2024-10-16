@@ -1,0 +1,9 @@
+{
+    "description": "Eben genannte Backend Programmierungen m\u00fcssen ins Frontend eingebaut werden, um den Nutzern die M\u00f6glichkeit zu bieten sich anzumelden, und dementsprechende Tickets zu erstellen und oder zu bearbeiten",
+    "level": "3",
+    "id": "12",
+    "erstellungsdatum": "2024-10-16T12:20:20.469052",
+    "titel": "Benutzeranmeldung - Frontend",
+    "status": "offen",
+    "schlussdatum": null
+}
