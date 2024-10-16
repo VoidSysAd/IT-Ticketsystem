@@ -1,0 +1,17 @@
+{
+    "description": "dd",
+    "level": "3",
+    "id": "8",
+    "erstellungsdatum": "2024-10-16T11:52:41.609823",
+    "titel": "zeitstempel",
+    "status": "geschlossen",
+    "schlussdatum": "10/16/24, 11:54 AM",
+    "kommentare": [
+        {
+            "kommentar_id": "1",
+            "inhalt": "muss noch ins json format \u00fcbertragen werden",
+            "zeitstempel": "2024-10-16T11:53:27.811668",
+            "autor": "admin"
+        }
+    ]
+}

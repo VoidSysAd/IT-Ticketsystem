@@ -56,26 +56,22 @@ export class ManageTicketComponent implements OnInit {
       }
     );
   }
-
   toggleTicketStatus() {
     const newStatus = this.selectedTicket.status === 'offen' ? 'geschlossen' : 'offen';
-    this.http.put(`http://localhost:5000/api/tickets/${this.selectedTicket.id}`, { status: newStatus }).subscribe(
+    const options: Intl.DateTimeFormatOptions = {
+      year: '2-digit',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    };
+    const schlussdatum = newStatus === 'geschlossen' ? new Date().toLocaleString('en-US', options) : null;
+  
+    this.http.put(`http://localhost:5000/api/tickets/${this.selectedTicket.id}`, { status: newStatus, schlussdatum: schlussdatum }).subscribe(
       () => {
         this.selectedTicket.status = newStatus;
-        if (newStatus === 'geschlossen') {
-          // Verwende das gleiche Format wie das Erstellungsdatum (MM/DD/YY, HH:MM AM/PM)
-          const options: Intl.DateTimeFormatOptions = {
-            year: '2-digit',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-          };
-          this.selectedTicket.schlussdatum = new Date().toLocaleString('en-US', options);
-        } else {
-          this.selectedTicket.schlussdatum = null;
-        }
+        this.selectedTicket.schlussdatum = schlussdatum;
         this.loadTickets(); // Aktualisiere die Listen der offenen und geschlossenen Tickets
       },
       (error) => {
@@ -83,6 +79,8 @@ export class ManageTicketComponent implements OnInit {
       }
     );
   }
+  
+  
   
   
 

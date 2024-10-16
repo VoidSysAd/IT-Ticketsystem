@@ -63,14 +63,13 @@ def update_ticket_status(ticket_id):
     with open(ticket_path, 'r') as f:
         ticket_data = json.load(f)
 
-    # Den Status aktualisieren
+    # Den Status und das Schließungsdatum aktualisieren
     new_status = request.json.get('status')
+    schlussdatum = request.json.get('schlussdatum')
+
     if new_status:
         ticket_data['status'] = new_status
-        if new_status == 'geschlossen':
-            ticket_data['schlussdatum'] = datetime.now().isoformat()  # Schließungsdatum setzen
-        elif new_status == 'offen':
-            ticket_data['schlussdatum'] = None  # Schließungsdatum zurücksetzen
+        ticket_data['schlussdatum'] = schlussdatum
 
     # Aktualisierte Daten in die JSON-Datei zurückschreiben
     with open(ticket_path, 'w') as f:
