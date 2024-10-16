@@ -1,0 +1,13 @@
+.card {
+    border-radius: 10px; /* Runde Ecken für die Karte */
+  }
+  
+  .btn {
+    font-weight: bold; /* Macht die Beschriftung der Buttons deutlicher */
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn:hover {
+    transform: scale(1.05); /* Vergrößert den Button leicht, wenn er gehighlighted wird */
+  }
+  

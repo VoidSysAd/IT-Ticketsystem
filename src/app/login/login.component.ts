@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'] // Hier sollte 'styleUrls' im Plural stehen
 })
 export class LoginComponent { 
-  constructor(private router:Router){}
+  constructor(private router: Router) {}
 
-  navigateTo(route:String){
-    this.router.navigate([route])
+  navigateTo(route: string) {
+    this.router.navigate([route]);
   }
 }
