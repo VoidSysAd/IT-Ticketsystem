@@ -1,9 +1,17 @@
 {
-    "description": "Tickets m\u00fcssen auf der Admin Seite nach Zeitstempel sortiert werden (aktuell alphabetisch)",
-    "level": "1",
+    "description": "erik",
+    "level": "3",
     "id": "15",
-    "erstellungsdatum": "2024-10-16T12:27:52.646493",
-    "titel": "Sortierung der Tickets ",
-    "status": "geschlossen",
-    "schlussdatum": "10/16/24, 12:29 PM"
+    "erstellungsdatum": "2024-10-16T18:46:08.392546",
+    "titel": "erik",
+    "status": "offen",
+    "schlussdatum": null,
+    "kommentare": [
+        {
+            "kommentar_id": "1",
+            "inhalt": "hallo erik",
+            "zeitstempel": "2024-10-16T18:46:53.034678",
+            "autor": "admin"
+        }
+    ]
 }

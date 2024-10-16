@@ -29,7 +29,7 @@
       <p><strong>Beschreibung:</strong> {{ selectedTicket.description }}</p>
       <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.level) }}</p>
       <p><strong>Status:</strong>
-        <span [ngClass]="{'badge badge-bnt-success': selectedTicket.status === 'geschlossen', 'badge badge-bnt-warning': selectedTicket.status === 'offen'}">
+        <span style="font-size: 100%; font-weight: 400;" [ngClass]="{'badge badge-bnt-success': selectedTicket.status === 'geschlossen', 'badge badge-bnt-warning': selectedTicket.status === 'offen'}">
           {{ selectedTicket.status }}
         </span>
       </p>
