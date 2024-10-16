@@ -29,16 +29,17 @@
       <p><strong>Beschreibung:</strong> {{ selectedTicket.description }}</p>
       <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.level) }}</p>
       <p><strong>Status:</strong>
-        <span [ngClass]="{'badge badge-success': selectedTicket.status === 'geschlossen', 'badge badge-warning': selectedTicket.status === 'offen'}">
+        <span [ngClass]="{'badge badge-bnt-success': selectedTicket.status === 'geschlossen', 'badge badge-bnt-warning': selectedTicket.status === 'offen'}">
           {{ selectedTicket.status }}
         </span>
       </p>
+      
       <button 
         *ngIf="selectedTicket && selectedTicket.status" 
         class="btn mt-3 mb-4 px-4 py-2" 
         [ngClass]="{
-          'btn-success': selectedTicket.status === 'offen', 
-          'btn-danger': selectedTicket.status === 'geschlossen'
+          'btn-danger': selectedTicket.status === 'offen', 
+          'btn-success': selectedTicket.status === 'geschlossen'
         }" 
         (click)="toggleTicketStatus()">
         Status ändern zu "{{ selectedTicket.status === 'offen' ? 'geschlossen' : 'offen' }}"
