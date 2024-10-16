@@ -6,11 +6,14 @@ import { CreateTicketComponent } from './app/user/create-ticket/create-ticket.co
 import { ManageTicketComponent } from './app/admin/manage-ticket/manage-ticket.component';
 import { provideHttpClient } from '@angular/common/http';
 
+
+
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: LoginComponent },  // Default route
   { path: 'create-ticket', component: CreateTicketComponent },
   { path: 'manage-ticket', component: ManageTicketComponent }
 ];
+
 
 bootstrapApplication(AppComponent, {
   providers: [
