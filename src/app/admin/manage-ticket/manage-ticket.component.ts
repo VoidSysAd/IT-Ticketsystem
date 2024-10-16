@@ -63,7 +63,16 @@ export class ManageTicketComponent implements OnInit {
       () => {
         this.selectedTicket.status = newStatus;
         if (newStatus === 'geschlossen') {
-          this.selectedTicket.schlussdatum = new Date().toISOString();
+          // Verwende das gleiche Format wie das Erstellungsdatum (MM/DD/YY, HH:MM AM/PM)
+          const options: Intl.DateTimeFormatOptions = {
+            year: '2-digit',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+          };
+          this.selectedTicket.schlussdatum = new Date().toLocaleString('en-US', options);
         } else {
           this.selectedTicket.schlussdatum = null;
         }
@@ -74,6 +83,8 @@ export class ManageTicketComponent implements OnInit {
       }
     );
   }
+  
+  
 
   getLevelDescription(level: string): string {
     switch (level) {
