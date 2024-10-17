@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   FormsModule,
 } from '@angular/forms';
-import { AuthService } from '../auth.service';// Überprüfen Sie diesen Import
+import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,11 +20,12 @@ import { CommonModule } from '@angular/common';
 export class AnmeldenComponent implements OnInit {
   loginForm: FormGroup;
   role: string = '';
+  message: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private authService: AuthService, // Stellen Sie sicher, dass dies korrekt ist
+    private authService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -39,20 +40,45 @@ export class AnmeldenComponent implements OnInit {
     });
   }
 
+  messageType: 'success' | 'error' | '' = '';
   onSubmit() {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
 
       this.authService.login(credentials.name, credentials.email).subscribe(
         (response: any) => {
-          // Ihre Logik hier
+          if (response.success) {
+            // Überprüfe, ob der Benutzer die richtige Rolle hat
+            if (this.role === 'admin' && response.role !== 'admin') {
+              this.message = 'Zugriff verweigert: Sie haben keine Admin-Berechtigungen.';
+            } else {
+              // Speichere die Benutzerinformationen im AuthService
+              this.authService.setUser(response);
+
+              // Erfolgsmeldung anzeigen
+              this.message = 'Anmeldung erfolgreich! Sie werden weitergeleitet...';
+
+              // Navigiere zur entsprechenden Seite nach kurzer Verzögerung
+              setTimeout(() => {
+                if (response.role === 'admin') {
+                  this.router.navigate(['manage-ticket']);
+                } else {
+                  this.router.navigate(['create-ticket']);
+                }
+              }, 2000); // 2 Sekunden Verzögerung
+            }
+          } else {
+            // Fehlermeldung anzeigen
+            this.message = response.message || 'Anmeldedaten sind ungültig.';
+          }
         },
         (error) => {
-          // Fehlerbehandlung
+          console.error('Fehler bei der Anmeldung:', error);
+          this.message = error.error.message || 'Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
         }
       );
     } else {
-      alert('Bitte füllen Sie alle Felder korrekt aus.');
+      this.message = 'Bitte füllen Sie alle Felder korrekt aus.';
     }
   }
 }

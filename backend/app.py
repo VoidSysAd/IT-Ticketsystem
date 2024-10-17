@@ -130,6 +130,36 @@ def register_account():
 
     return jsonify({'message': 'Account erfolgreich registriert'}), 200
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+
+    if not name or not email:
+        return jsonify({'success': False, 'message': 'Name und E-Mail sind erforderlich.'}), 400
+
+    accounts_dir = os.path.join(os.getcwd(), 'accounts')
+    filename = os.path.join(accounts_dir, f"{name}.json")
+
+    if not os.path.exists(filename):
+        return jsonify({'success': False, 'message': 'Benutzer nicht gefunden.'}), 404
+
+    with open(filename, 'r', encoding='utf-8') as f:
+        account_data = json.load(f)
+
+    if account_data['email'] != email:
+        return jsonify({'success': False, 'message': 'E-Mail stimmt nicht überein.'}), 401
+
+    # Erfolgreiche Anmeldung
+    return jsonify({
+        'success': True,
+        'message': 'Anmeldung erfolgreich.',
+        'name': account_data['name'],
+        'abteilung': account_data['abteilung'],
+        'email': account_data['email'],
+        'role': account_data['role']
+    }), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
