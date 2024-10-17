@@ -22,7 +22,8 @@ import { CommonModule } from '@angular/common';
 export class AnmeldenComponent implements OnInit {
   loginForm: FormGroup;
   role: string = '';
-  message: string = '';
+  targetRoute: string = ''; // <--- Fügen Sie diese Zeile hinzu
+  message: string = ''; 
   messageType: 'success' | 'error' | '' = '';
 
   constructor(
@@ -40,6 +41,9 @@ export class AnmeldenComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.role = params['role'] || 'user';
+      this.targetRoute = params['target'] || 'create-ticket'; // <--- Stellen Sie sicher, dass targetRoute hier gesetzt wird
+      console.log('Anmelden - Erwartete Rolle:', this.role);
+      console.log('Anmelden - Zielroute:', this.targetRoute);
     });
   }
 
@@ -49,6 +53,7 @@ export class AnmeldenComponent implements OnInit {
 
       this.authService.login(credentials.name, credentials.email).subscribe(
         (response: any) => {
+          console.log('Login - Serverantwort:', response);
           if (response.success) {
             // Überprüfe, ob der Benutzer die richtige Rolle hat
             if (this.role === 'admin' && response.role !== 'admin') {
@@ -62,13 +67,9 @@ export class AnmeldenComponent implements OnInit {
               this.message =
                 'Anmeldung erfolgreich! Sie werden weitergeleitet...';
 
-              // Navigiere zur entsprechenden Seite nach kurzer Verzögerung
+              // Navigiere zur Zielroute nach kurzer Verzögerung
               setTimeout(() => {
-                if (response.role === 'admin') {
-                  this.router.navigate(['manage-ticket']);
-                } else {
-                  this.router.navigate(['create-ticket']);
-                }
+                this.router.navigate([this.targetRoute]);
               }, 2000); // 2 Sekunden Verzögerung
             }
           } else {

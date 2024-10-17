@@ -10,8 +10,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AccountService } from './account.service'; // Pfad angepasst
-import { HttpClientModule } from '@angular/common/http';
+import { AccountService } from './account.service';
 
 @Component({
   selector: 'app-registrate',
@@ -20,7 +19,6 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    
   ],
   templateUrl: './registrate.component.html',
   styleUrls: ['./registrate.component.css'],
@@ -53,11 +51,16 @@ export class RegistrateComponent {
     if (this.registrationForm.valid) {
       const formData = this.registrationForm.value;
 
+      // Überprüfen und Protokollieren der Abteilung und Rolle
+      console.log('Formulardaten:', formData);
+
       // Bestimme die Rolle basierend auf der Abteilung
       let role = 'user';
       if (formData.abteilung === 'IT') {
         role = 'admin';
       }
+
+      console.log('Zugewiesene Rolle:', role);
 
       const accountData = {
         name: formData.name,
@@ -75,13 +78,13 @@ export class RegistrateComponent {
         },
         (error) => {
           console.error('Fehler beim Registrieren des Accounts:', error);
-          let errorMessage = 'Es gab einen Fehler bei der Registrierung. Bitte versuchen Sie es erneut.';
+          let errorMessage =
+            'Es gab einen Fehler bei der Registrierung. Bitte versuchen Sie es erneut.';
           if (error.error && error.error.error) {
             errorMessage += '\n' + error.error.error;
           }
           alert(errorMessage);
         }
-        
       );
     } else {
       alert('Bitte füllen Sie alle Felder korrekt aus.');

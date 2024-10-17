@@ -10,23 +10,35 @@ import { AuthService } from './auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | UrlTree {
-    const expectedRole = route.data['expectedRole'];
+// auth.guard.ts
 
-    if (!this.authService.isLoggedIn()) {
-      // Benutzer ist nicht angemeldet
-      return this.router.parseUrl('/login');
-    }
+// auth.guard.ts
 
-    if (expectedRole && !this.authService.hasRole(expectedRole)) {
-      // Benutzer hat nicht die erforderliche Rolle
-      alert('Zugriff verweigert: Sie haben nicht die erforderlichen Berechtigungen.');
-      return false;
-    }
+canActivate(
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): boolean | UrlTree {
+  const expectedRoles = route.data['expectedRole'];
 
-    return true;
+  if (!this.authService.isLoggedIn()) {
+    // Benutzer ist nicht angemeldet
+    return this.router.parseUrl('/login');
   }
+
+  const userRole = this.authService.getUserRole();
+
+  if (
+    expectedRoles &&
+    !expectedRoles.includes(userRole)
+  ) {
+    // Benutzer hat nicht die erforderliche Rolle
+    alert(
+      'Zugriff verweigert: Sie haben nicht die erforderlichen Berechtigungen.'
+    );
+    return false;
+  }
+
+  return true;
+}
+
 }

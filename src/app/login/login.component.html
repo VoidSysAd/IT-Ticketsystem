@@ -9,19 +9,37 @@
           <p class="mb-4">
             Bitte wählen Sie, ob Sie sich als Administrator oder Benutzer anmelden möchten.
           </p>
-          <button
-            class="btn btn-primary btn-block mb-3 px-4 py-2"
-            (click)="navigateToAnmelden('admin')"
-          >
-            Admin
-          </button>
+          <!-- Anmeldung für Benutzer -->
+<!-- login.component.html -->
+
+          <!-- Anmeldung für Benutzer -->
           <button
             class="btn btn-secondary btn-block mb-3 px-4 py-2"
-            (click)="navigateToAnmelden('user')"
+            (click)="navigateToAnmelden('user', 'create-ticket')"
           >
-            User
+            Als Benutzer anmelden
           </button>
-          <button class="btn btn-success btn-block px-4 py-2" (click)="navigateTo('registrate')">
+
+          <!-- Anmeldung für Admins mit Wahl der Zielseite -->
+          <h3>Admin-Anmeldung</h3>
+          <button
+            class="btn btn-primary btn-block mb-3 px-4 py-2"
+            (click)="navigateToAnmelden('admin', 'create-ticket')"
+          >
+            Als Admin anmelden (Ticket erstellen)
+          </button>
+          <button
+            class="btn btn-primary btn-block mb-3 px-4 py-2"
+            (click)="navigateToAnmelden('admin', 'manage-ticket')"
+          >
+            Als Admin anmelden (Tickets verwalten)
+          </button>
+
+          <!-- Registrierung -->
+          <button
+            class="btn btn-success btn-block px-4 py-2"
+            (click)="navigateTo('registrate')"
+          >
             Registrierung
           </button>
         </div>

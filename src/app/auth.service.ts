@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   getUser(): Observable<any> {
-    return this.userSubject.asObservable(); 
+    return this.userSubject.asObservable();
   }
 
   logout() {
@@ -34,15 +34,26 @@ export class AuthService {
     return this.userSubject.getValue() !== null;
   }
 
-  // Neue Methode: Überprüfen, ob der Benutzer eine bestimmte Rolle hat
-  hasRole(expectedRole: string): boolean {
+  // Neue Methode: Gibt die Rolle des angemeldeten Benutzers zurück
+  getUserRole(): string | null {
     const user = this.userSubject.getValue();
-    return user && user.role === expectedRole;
+    return user ? user.role : null;
   }
   // auth.service.ts
 
-get currentUser(): any {
-  return this.userSubject.getValue();
-}
+// ... Ihr bestehender Code ...
+
+  hasRole(expectedRole: string | string[]): boolean {
+    const user = this.userSubject.getValue();
+    if (!user || !user.role) {
+      return false;
+    }
+
+    if (Array.isArray(expectedRole)) {
+      return expectedRole.includes(user.role);
+    } else {
+      return user.role === expectedRole;
+    }
+  }
 
 }
