@@ -111,6 +111,24 @@ def add_comment(ticket_id):
 
     return jsonify({'message': 'Kommentar hinzugefügt', 'comment': new_comment}), 201
 
+@app.route('/accounts', methods=['POST'])
+def register_account():
+    account_data = request.get_json()
+    name = account_data.get('name')
+    if not name:
+        return jsonify({'error': 'Name ist erforderlich'}), 400
+
+    # Erstelle den Ordner 'accounts', falls er nicht existiert
+    accounts_dir = os.path.join(os.getcwd(), 'accounts')
+    if not os.path.exists(accounts_dir):
+        os.makedirs(accounts_dir)
+
+    # Speichere die Account-Daten in einer JSON-Datei
+    filename = os.path.join(accounts_dir, f"{name}.json")
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(account_data, f, ensure_ascii=False, indent=4)
+
+    return jsonify({'message': 'Account erfolgreich registriert'}), 200
 
 
 if __name__ == '__main__':

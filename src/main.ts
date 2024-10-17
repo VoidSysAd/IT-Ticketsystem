@@ -5,13 +5,15 @@ import { LoginComponent } from './app/login/login.component';
 import { CreateTicketComponent } from './app/user/create-ticket/create-ticket.component';
 import { ManageTicketComponent } from './app/admin/manage-ticket/manage-ticket.component';
 import { provideHttpClient } from '@angular/common/http';
+import { RegistrateComponent } from './app/registrate/registrate.component';
 
 
 
 const routes: Routes = [
   { path: '', component: LoginComponent },  // Default route
   { path: 'create-ticket', component: CreateTicketComponent },
-  { path: 'manage-ticket', component: ManageTicketComponent }
+  { path: 'manage-ticket', component: ManageTicketComponent },
+  { path: 'registrate', component: RegistrateComponent}
 ];
 
 
