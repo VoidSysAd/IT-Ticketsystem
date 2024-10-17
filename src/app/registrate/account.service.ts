@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AccountService {
-  private apiUrl = 'http://localhost:5000/accounts'; // Passen Sie die URL an Ihren Backend-Endpunkt an
+  private apiUrl = 'http://localhost:5000/accounts';
 
   constructor(private http: HttpClient) {}
 

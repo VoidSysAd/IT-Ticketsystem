@@ -130,6 +130,7 @@ def register_account():
 
     return jsonify({'message': 'Account erfolgreich registriert'}), 200
 
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
