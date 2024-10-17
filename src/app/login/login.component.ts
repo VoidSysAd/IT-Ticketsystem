@@ -1,3 +1,5 @@
+// login.component.ts
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -20,5 +22,4 @@ export class LoginComponent {
     console.log(`Navigating to anmelden with role: ${role}`);
     this.router.navigate(['/anmelden'], { queryParams: { role: role } });
   }
-  
 }

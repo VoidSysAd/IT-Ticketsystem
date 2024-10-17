@@ -13,20 +13,40 @@
             <h2>Ticket erstellen</h2>
           </div>
           <div class="card-body">
-            <form (ngSubmit)="createTicket()" #ticketForm="ngForm">
+            <form (ngSubmit)="createTicket(ticketForm)" #ticketForm="ngForm">
               <div class="form-group mb-4">
                 <label for="titel"><strong>Titel:</strong></label>
-                <input type="text" id="titel" class="form-control" [(ngModel)]="ticket.titel" name="titel" required />
+                <input
+                  type="text"
+                  id="titel"
+                  class="form-control"
+                  [(ngModel)]="ticket.titel"
+                  name="titel"
+                  required
+                />
               </div>
 
               <div class="form-group mb-4">
                 <label for="description"><strong>Beschreibung:</strong></label>
-                <textarea id="description" class="form-control" [(ngModel)]="ticket.description" name="description" rows="4" required></textarea>
+                <textarea
+                  id="description"
+                  class="form-control"
+                  [(ngModel)]="ticket.description"
+                  name="description"
+                  rows="4"
+                  required
+                ></textarea>
               </div>
 
               <div class="form-group mb-4">
                 <label for="level"><strong>Stufe:</strong></label>
-                <select id="level" class="form-control" [(ngModel)]="ticket.level" name="level" required>
+                <select
+                  id="level"
+                  class="form-control"
+                  [(ngModel)]="ticket.level"
+                  name="level"
+                  required
+                >
                   <option value="" disabled selected>Bitte wählen</option>
                   <option value="1">Normal</option>
                   <option value="2">Dringend</option>
@@ -35,7 +55,13 @@
               </div>
 
               <div class="text-center">
-                <button type="submit" class="btn btn-primary px-4 py-2" [disabled]="!ticketForm.form.valid">Ticket erstellen</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4 py-2"
+                  [disabled]="!ticketForm.form.valid"
+                >
+                  Ticket erstellen
+                </button>
               </div>
             </form>
           </div>

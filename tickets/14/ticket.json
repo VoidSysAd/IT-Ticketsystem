@@ -1,9 +1,0 @@
-{
-    "description": "Bilder m\u00fcssen in dem Ticket Ordner abgespeichert werden in einem Unterordner \"Images\" und der Pfad muss in der JSON des Tickets abgespeichert werden",
-    "level": "3",
-    "id": "14",
-    "erstellungsdatum": "2024-10-16T12:25:57.971884",
-    "titel": "Bilder v2",
-    "status": "offen",
-    "schlussdatum": null
-}

@@ -1,9 +1,0 @@
-{
-    "description": "Nutzern m\u00fcssen sich Abteilungen zuweisen (bei der Account Erstellung) und diese Abteilung muss in den Ticket Informationen und der Datenbank abgespeichert werden",
-    "level": "2",
-    "id": "13",
-    "erstellungsdatum": "2024-10-16T12:21:37.210949",
-    "titel": "Abteilungen",
-    "status": "offen",
-    "schlussdatum": null
-}

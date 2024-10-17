@@ -1,20 +1,41 @@
+// registrate.component.ts
+
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AccountService } from './account.service';
+import { AccountService } from './account.service'; // Pfad angepasst
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-registrate',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    
+  ],
   templateUrl: './registrate.component.html',
-  styleUrls: ['./registrate.component.css']
+  styleUrls: ['./registrate.component.css'],
 })
 export class RegistrateComponent {
   registrationForm: FormGroup;
-  departments: string[] = ['IT', 'Vertrieb', 'Marketing', 'Personalwesen', 'Finanzen', 'Produktion', 'Einkauf'];
+  departments: string[] = [
+    'IT',
+    'Vertrieb',
+    'Marketing',
+    'Personalwesen',
+    'Finanzen',
+    'Produktion',
+    'Einkauf',
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -24,7 +45,7 @@ export class RegistrateComponent {
     this.registrationForm = this.fb.group({
       name: ['', Validators.required],
       abteilung: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -42,20 +63,25 @@ export class RegistrateComponent {
         name: formData.name,
         abteilung: formData.abteilung,
         email: formData.email,
-        role: role
+        role: role,
       };
 
       // Sende die Daten an den Backend-Service
       this.accountService.registerAccount(accountData).subscribe(
-        response => {
+        (response) => {
           alert('Account erfolgreich registriert!');
           this.registrationForm.reset();
           this.router.navigate(['login']); // Optional: Zurück zur Login-Seite navigieren
         },
-        error => {
+        (error) => {
           console.error('Fehler beim Registrieren des Accounts:', error);
-          alert('Es gab einen Fehler bei der Registrierung. Bitte versuchen Sie es erneut.');
+          let errorMessage = 'Es gab einen Fehler bei der Registrierung. Bitte versuchen Sie es erneut.';
+          if (error.error && error.error.error) {
+            errorMessage += '\n' + error.error.error;
+          }
+          alert(errorMessage);
         }
+        
       );
     } else {
       alert('Bitte füllen Sie alle Felder korrekt aus.');

@@ -1,13 +1,15 @@
+// auth.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/login'; // Passen Sie die URL an
-  private currentUser: any;
+  private apiUrl = 'http://localhost:5000/login'; // Passen Sie die URL an Ihr Backend an
+  private userSubject = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -16,22 +18,31 @@ export class AuthService {
   }
 
   setUser(user: any) {
-    this.currentUser = user;
+    this.userSubject.next(user);
   }
 
-  getUser() {
-    return this.currentUser;
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.currentUser;
+  getUser(): Observable<any> {
+    return this.userSubject.asObservable(); 
   }
 
   logout() {
-    this.currentUser = null;
+    this.userSubject.next(null);
   }
 
-  hasRole(role: string): boolean {
-    return this.currentUser && this.currentUser.role === role;
+  // Neue Methode: Überprüfen, ob der Benutzer angemeldet ist
+  isLoggedIn(): boolean {
+    return this.userSubject.getValue() !== null;
   }
+
+  // Neue Methode: Überprüfen, ob der Benutzer eine bestimmte Rolle hat
+  hasRole(expectedRole: string): boolean {
+    const user = this.userSubject.getValue();
+    return user && user.role === expectedRole;
+  }
+  // auth.service.ts
+
+get currentUser(): any {
+  return this.userSubject.getValue();
+}
+
 }

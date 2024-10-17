@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms'; // FormsModule importieren
+import { TicketService } from '../../services/ticket.service';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.component.html',
   styleUrls: ['./create-ticket.component.css'],
-  standalone: true,
-  imports: [FormsModule, CommonModule]
+  standalone: true, // Stellen Sie sicher, dass standalone auf true gesetzt ist
+  imports: [CommonModule, FormsModule], // FormsModule hier hinzufügen
 })
 export class CreateTicketComponent {
   ticket = {
@@ -19,26 +20,47 @@ export class CreateTicketComponent {
   ticketCreated: boolean = false;
   createdTicketId: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private ticketService: TicketService,
+    private router: Router
+  ) {}
 
-  createTicket() {
-    const ticketData = { ...this.ticket };
-    this.http.post<{ ticket_id: string }>('http://localhost:5000/api/tickets', ticketData).subscribe(response => {
-      console.log('Ticket erstellt:', response);
-      this.ticketCreated = true;
-      this.createdTicketId = response.ticket_id;
-    }, error => {
-      console.error('Fehler beim Erstellen des Tickets:', error);
-    });
+  createTicket(ticketForm: NgForm) {
+    if (ticketForm.valid) {
+      const ticketData = {
+        titel: this.ticket.titel,
+        beschreibung: this.ticket.description,
+        prioritaet: this.ticket.level,
+        erstellungsdatum: new Date().toISOString(),
+        status: 'offen',
+      };
+
+      this.ticketService.createTicket(ticketData).subscribe(
+        (response: any) => {
+          // Erfolgsmeldung anzeigen
+          this.ticketCreated = true;
+          this.createdTicketId = response.ticket_id; // Angenommen, das Backend gibt die Ticket-ID zurück
+          // Formular zurücksetzen
+          ticketForm.resetForm();
+        },
+        (error) => {
+          console.error('Fehler beim Erstellen des Tickets:', error);
+          alert('Es gab einen Fehler beim Erstellen des Tickets.');
+        }
+      );
+    } else {
+      alert('Bitte füllen Sie alle Felder korrekt aus.');
+    }
   }
 
   createNewTicket() {
+    // Erfolgsnachricht ausblenden und Formular erneut anzeigen
+    this.ticketCreated = false;
+    this.createdTicketId = '';
     this.ticket = {
       titel: '',
       description: '',
       level: '',
     };
-    this.ticketCreated = false;
-    this.createdTicketId = '';
   }
 }

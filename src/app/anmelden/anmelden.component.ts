@@ -1,5 +1,6 @@
+// anmelden.component.ts
+
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -8,6 +9,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -21,6 +23,7 @@ export class AnmeldenComponent implements OnInit {
   loginForm: FormGroup;
   role: string = '';
   message: string = '';
+  messageType: 'success' | 'error' | '' = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -40,7 +43,6 @@ export class AnmeldenComponent implements OnInit {
     });
   }
 
-  messageType: 'success' | 'error' | '' = '';
   onSubmit() {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
@@ -50,13 +52,15 @@ export class AnmeldenComponent implements OnInit {
           if (response.success) {
             // Überprüfe, ob der Benutzer die richtige Rolle hat
             if (this.role === 'admin' && response.role !== 'admin') {
-              this.message = 'Zugriff verweigert: Sie haben keine Admin-Berechtigungen.';
+              this.message =
+                'Zugriff verweigert: Sie haben keine Admin-Berechtigungen.';
             } else {
               // Speichere die Benutzerinformationen im AuthService
               this.authService.setUser(response);
 
               // Erfolgsmeldung anzeigen
-              this.message = 'Anmeldung erfolgreich! Sie werden weitergeleitet...';
+              this.message =
+                'Anmeldung erfolgreich! Sie werden weitergeleitet...';
 
               // Navigiere zur entsprechenden Seite nach kurzer Verzögerung
               setTimeout(() => {
@@ -69,12 +73,15 @@ export class AnmeldenComponent implements OnInit {
             }
           } else {
             // Fehlermeldung anzeigen
-            this.message = response.message || 'Anmeldedaten sind ungültig.';
+            this.message =
+              response.message || 'Anmeldedaten sind ungültig.';
           }
         },
         (error) => {
           console.error('Fehler bei der Anmeldung:', error);
-          this.message = error.error.message || 'Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
+          this.message =
+            error.error.message ||
+            'Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
         }
       );
     } else {
