@@ -6,11 +6,19 @@
           <h2>Login</h2>
         </div>
         <div class="card-body text-center">
-          <p class="mb-4">Bitte wählen Sie, ob Sie als Administrator oder Benutzer fortfahren möchten.</p>
-          <button class="btn btn-primary btn-block mb-3 px-4 py-2" (click)="navigateTo('manage-ticket')">
+          <p class="mb-4">
+            Bitte wählen Sie, ob Sie sich als Administrator oder Benutzer anmelden möchten.
+          </p>
+          <button
+            class="btn btn-primary btn-block mb-3 px-4 py-2"
+            (click)="navigateToAnmelden('admin')"
+          >
             Admin
           </button>
-          <button class="btn btn-secondary btn-block mb-3 px-4 py-2" (click)="navigateTo('create-ticket')">
+          <button
+            class="btn btn-secondary btn-block mb-3 px-4 py-2"
+            (click)="navigateToAnmelden('user')"
+          >
             User
           </button>
           <button class="btn btn-success btn-block px-4 py-2" (click)="navigateTo('registrate')">

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-manage-ticket',
   templateUrl: './manage-ticket.component.html',
+  styleUrls: ['./manage-ticket.component.css'],
   standalone: true,
   imports: [FormsModule, CommonModule]
 })
