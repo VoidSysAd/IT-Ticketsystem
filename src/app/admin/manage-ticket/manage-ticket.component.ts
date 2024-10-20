@@ -121,4 +121,20 @@ export class ManageTicketComponent implements OnInit {
         return 'Unbekannt';
     }
   }
+
+  getImageMimeType(filename: string): string {
+    const extension = (filename.split('.').pop() || '').toLowerCase();
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'gif':
+        return 'image/gif';
+      default:
+        return 'image/jpeg';
+    }
+  }
+  
 }

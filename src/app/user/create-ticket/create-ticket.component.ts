@@ -19,21 +19,30 @@ export class CreateTicketComponent {
   };
   ticketCreated: boolean = false;
   createdTicketId: string = '';
+  selectedFile: File | null = null;
 
   constructor(
     private ticketService: TicketService,
     private router: Router
   ) {}
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] as File;
+  }
+
   createTicket(ticketForm: NgForm) {
     if (ticketForm.valid) {
-      const ticketData = {
-        titel: this.ticket.titel,
-        beschreibung: this.ticket.description,
-        prioritaet: this.ticket.level,
-        erstellungsdatum: new Date().toISOString(),
-        status: 'offen',
-      };
+      const ticketData = new FormData();
+      ticketData.append('titel', this.ticket.titel);
+      ticketData.append('beschreibung', this.ticket.description);
+      ticketData.append('prioritaet', this.ticket.level);
+      ticketData.append('erstellungsdatum', new Date().toISOString());
+      ticketData.append('status', 'offen');
+
+
+      if (this.selectedFile) {
+        ticketData.append('image', this.selectedFile, this.selectedFile.name);
+      }
 
       this.ticketService.createTicket(ticketData).subscribe(
         (response: any) => {

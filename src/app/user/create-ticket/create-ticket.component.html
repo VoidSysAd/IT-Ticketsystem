@@ -39,6 +39,11 @@
               </div>
 
               <div class="form-group mb-4">
+                <label for="image"><strong>Bild hochladen:</strong></label>
+                <input type="file" id="image" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+              </div>
+
+              <div class="form-group mb-4">
                 <label for="level"><strong>Stufe:</strong></label>
                 <select
                   id="level"

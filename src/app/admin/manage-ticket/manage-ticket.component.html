@@ -3,18 +3,30 @@
     <div class="col-md-6">
       <h2 class="text-primary">Offene Tickets</h2>
       <ul class="list-group mb-4">
-        <li *ngFor="let ticket of offeneTickets" class="list-group-item list-group-item-action" (click)="selectTicket(ticket)">
+        <li
+          *ngFor="let ticket of offeneTickets"
+          class="list-group-item list-group-item-action"
+          (click)="selectTicket(ticket)"
+        >
           <strong>{{ ticket.titel }}</strong>
-          <span class="float-right">{{ ticket.erstellungsdatum | date:'short' }}</span>
+          <span class="float-right"
+            >{{ ticket.erstellungsdatum | date: 'short' }}</span
+          >
         </li>
       </ul>
     </div>
     <div class="col-md-6">
       <h2 class="text-secondary">Geschlossene Tickets</h2>
       <ul class="list-group mb-4">
-        <li *ngFor="let ticket of geschlosseneTickets" class="list-group-item list-group-item-action" (click)="selectTicket(ticket)">
+        <li
+          *ngFor="let ticket of geschlosseneTickets"
+          class="list-group-item list-group-item-action"
+          (click)="selectTicket(ticket)"
+        >
           <strong>{{ ticket.titel }}</strong>
-          <span class="float-right">{{ ticket.erstellungsdatum | date:'short' }}</span>
+          <span class="float-right"
+            >{{ ticket.erstellungsdatum | date: 'short' }}</span
+          >
         </li>
       </ul>
     </div>
@@ -29,38 +41,86 @@
       <p><strong>Beschreibung:</strong> {{ selectedTicket.description }}</p>
       <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.level) }}</p>
       <p><strong>Status:</strong>
-        <span style="font-size: 100%; font-weight: 400;" [ngClass]="{'badge badge-bnt-success': selectedTicket.status === 'geschlossen', 'badge badge-bnt-warning': selectedTicket.status === 'offen'}">
+        <span
+          style="font-size: 100%; font-weight: 400;"
+          [ngClass]="{
+            'badge badge-bnt-success': selectedTicket.status === 'geschlossen',
+            'badge badge-bnt-warning': selectedTicket.status === 'offen'
+          }"
+        >
           {{ selectedTicket.status }}
         </span>
       </p>
-      
-      <button 
-        *ngIf="selectedTicket && selectedTicket.status" 
-        class="btn mt-3 mb-4 px-4 py-2" 
-        [ngClass]="{
-          'btn-danger': selectedTicket.status === 'offen', 
-          'btn-success': selectedTicket.status === 'geschlossen'
-        }" 
-        (click)="toggleTicketStatus()">
-        Status ändern zu "{{ selectedTicket.status === 'offen' ? 'geschlossen' : 'offen' }}"
-      </button>
-      <p><strong>Erstellungsdatum:</strong> {{ selectedTicket.erstellungsdatum | date:'short' }}</p>
-      <p><strong>Schließungsdatum:</strong> {{ selectedTicket.schlussdatum || 'Nicht geschlossen' }}</p>
 
-      <hr>
+      <button
+        *ngIf="selectedTicket && selectedTicket.status"
+        class="btn mt-3 mb-4 px-4 py-2"
+        [ngClass]="{
+          'btn-danger': selectedTicket.status === 'offen',
+          'btn-success': selectedTicket.status === 'geschlossen'
+        }"
+        (click)="toggleTicketStatus()"
+      >
+        Status ändern zu
+        "{{ selectedTicket.status === 'offen' ? 'geschlossen' : 'offen' }}"
+      </button>
+      <p>
+        <strong>Erstellungsdatum:</strong>
+        {{ selectedTicket.erstellungsdatum | date: 'short' }}
+      </p>
+      <p>
+        <strong>Schließungsdatum:</strong>
+        {{ selectedTicket.schlussdatum || 'Nicht geschlossen' }}
+      </p>
+
+      <!-- Neuer Abschnitt zum Anzeigen der Bilder -->
+      <div *ngIf="selectedTicket.images && selectedTicket.images.length > 0">
+        <h5>Bilder</h5>
+        <div class="ticket-images">
+          <img
+            *ngFor="let image of selectedTicket.images"
+            [src]="'data:' + getImageMimeType(image.filename) + ';base64,' + image.data"
+            [alt]="image.filename"
+            class="ticket-image"
+          />
+        </div>
+      </div>
+
+      <hr />
       <h5>Kommentare</h5>
-      <ul *ngIf="selectedTicket.kommentare && selectedTicket.kommentare.length > 0" class="list-group mb-3">
+      <ul
+        *ngIf="
+          selectedTicket.kommentare && selectedTicket.kommentare.length > 0
+        "
+        class="list-group mb-3"
+      >
         <li *ngFor="let comment of selectedTicket.kommentare" class="list-group-item">
-          <strong>{{ comment.autor }}:</strong> {{ comment.inhalt }} <br>
-          <small class="text-muted">{{ comment.zeitstempel | date:'short' }}</small>
+          <strong>{{ comment.autor }}:</strong> {{ comment.inhalt }} <br />
+          <small class="text-muted"
+            >{{ comment.zeitstempel | date: 'short' }}</small
+          >
         </li>
       </ul>
-      <p *ngIf="!selectedTicket.kommentare || selectedTicket.kommentare.length === 0" class="text-muted">Keine Kommentare vorhanden.</p>
+      <p
+        *ngIf="
+          !selectedTicket.kommentare || selectedTicket.kommentare.length === 0
+        "
+        class="text-muted"
+      >
+        Keine Kommentare vorhanden.
+      </p>
 
       <div class="form-group">
         <label for="newComment">Neuen Kommentar hinzufügen:</label>
-        <textarea id="newComment" class="form-control" [(ngModel)]="newCommentContent" rows="3"></textarea>
-        <button class="btn btn-primary mt-2" (click)="addComment()">Kommentar hinzufügen</button>
+        <textarea
+          id="newComment"
+          class="form-control"
+          [(ngModel)]="newCommentContent"
+          rows="3"
+        ></textarea>
+        <button class="btn btn-primary mt-2" (click)="addComment()">
+          Kommentar hinzufügen
+        </button>
       </div>
     </div>
   </div>

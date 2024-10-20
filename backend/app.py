@@ -3,8 +3,8 @@ import couchdb
 from couchdb.http import ResourceNotFound, ResourceConflict, PreconditionFailed
 from flask_cors import CORS
 from datetime import datetime
-import os
-import uuid
+from werkzeug.utils import secure_filename
+import base64
 
 app = Flask(__name__)
 CORS(app)
@@ -24,27 +24,62 @@ try:
 except PreconditionFailed:
     accounts_db = couch['accounts']
 
-# ... Rest Ihres Codes bleibt gleich, mit den oben genannten Anpassungen ...
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/api/tickets', methods=['POST'])
 def create_ticket():
-    ticket_data = request.json
+    if request.content_type == 'application/json':
+        ticket_data = request.json
+    else:
+        ticket_data = request.form.to_dict()
 
-    # Automatische ID-Erstellung
     new_id = str(datetime.now().timestamp())
-
-    # Attribute anpassen
-    ticket_data['_id'] = new_id  # CouchDB verwendet '_id' als Dokument-ID
+    ticket_data['_id'] = new_id
     ticket_data['erstellungsdatum'] = datetime.now().isoformat()
     ticket_data['titel'] = ticket_data.get('titel', '')
     ticket_data['status'] = 'offen'
     ticket_data['schlussdatum'] = None
 
-    # Ticket in der Datenbank speichern
+    # Bilder verarbeiten und als Base64-kodierte Strings speichern
+    encoded_images = []
+    if 'images' in request.files:
+        images = request.files.getlist('images')
+        for image in images:
+            if image and allowed_file(image.filename):
+                filename = secure_filename(image.filename)
+                # Lesen Sie die Bilddaten
+                image_data = image.read()
+                # Kodieren Sie die Bilddaten in Base64
+                encoded_image = base64.b64encode(image_data).decode('utf-8')
+                # Speichern Sie die kodierten Bilder in einer Liste
+                encoded_images.append({
+                    'filename': filename,
+                    'data': encoded_image
+                })
+    elif 'image' in request.files:
+        # Einzelnes Bild verarbeiten
+        image = request.files['image']
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image_data = image.read()
+            encoded_image = base64.b64encode(image_data).decode('utf-8')
+            encoded_images.append({
+                'filename': filename,
+                'data': encoded_image
+            })
+
+    if encoded_images:
+        ticket_data['images'] = encoded_images
+
+    # Speichern Sie das Dokument
     tickets_db.save(ticket_data)
 
     return jsonify({'message': 'Ticket erstellt', 'ticket_id': new_id}), 201
+
 
 @app.route('/api/tickets', methods=['GET'])
 def get_tickets():
@@ -52,11 +87,12 @@ def get_tickets():
     tickets = []
 
     for doc_id in tickets_db:
-        ticket_data = tickets_db[doc_id]
+        ticket_data = tickets_db.get(doc_id)
         if status is None or ticket_data.get('status') == status:
             tickets.append(ticket_data)
 
     return jsonify(tickets)
+
 
 @app.route('/api/tickets/<ticket_id>', methods=['PUT'])
 def update_ticket_status(ticket_id):
@@ -75,6 +111,7 @@ def update_ticket_status(ticket_id):
         tickets_db.save(ticket_data)
 
     return jsonify({'message': 'Ticketstatus aktualisiert', 'ticket_id': ticket_id}), 200
+
 
 @app.route('/api/tickets/<ticket_id>/comments', methods=['POST'])
 def add_comment(ticket_id):
@@ -102,6 +139,7 @@ def add_comment(ticket_id):
 
     return jsonify({'message': 'Kommentar hinzugefügt', 'comment': new_comment}), 201
 
+
 @app.route('/accounts', methods=['POST'])
 def register_account():
     account_data = request.get_json()
@@ -128,8 +166,8 @@ def register_account():
         print("Fehler beim Speichern des Accounts:", e)
         return jsonify({'error': f'Fehler beim Speichern des Accounts: {str(e)}'}), 500
 
-
     return jsonify({'message': 'Account erfolgreich registriert'}), 200
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -154,13 +192,14 @@ def login():
                     'success': True,
                     'message': 'Anmeldung erfolgreich.',
                     'name': account_data['name'],
-                    'abteilung': account_data['abteilung'],
+                    'abteilung': account_data.get('abteilung'),
                     'email': account_data['email'],
-                    'role': account_data['role']
+                    'role': account_data.get('role')
                 }), 200
 
     if not user_found:
         return jsonify({'success': False, 'message': 'Benutzer nicht gefunden.'}), 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
