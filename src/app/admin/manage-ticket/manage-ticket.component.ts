@@ -24,10 +24,11 @@ export class ManageTicketComponent implements OnInit {
   ngOnInit() {
     this.loadTickets();
   }
-
+  
   loadTickets() {
     this.ticketService.getTickets().subscribe(
       (data) => {
+        console.log('Geladene Tickets:', data); // Fügen Sie diese Zeile hinzu
         this.offeneTickets = data
           .filter((ticket) => ticket.status === 'offen')
           .sort(
@@ -35,7 +36,7 @@ export class ManageTicketComponent implements OnInit {
               new Date(b.erstellungsdatum).getTime() -
               new Date(a.erstellungsdatum).getTime()
           );
-
+  
         this.geschlosseneTickets = data
           .filter((ticket) => ticket.status === 'geschlossen')
           .sort(
@@ -49,10 +50,14 @@ export class ManageTicketComponent implements OnInit {
       }
     );
   }
+  
 
   selectTicket(ticket: any) {
     this.selectedTicket = ticket;
+    console.log('Ausgewähltes Ticket:', this.selectedTicket);
+    console.log('Level des ausgewählten Tickets:', this.selectedTicket.level);
   }
+
 
   addComment() {
     if (this.newCommentContent.trim() === '') {
@@ -109,8 +114,8 @@ export class ManageTicketComponent implements OnInit {
       );
   }
 
-  getLevelDescription(level: string): string {
-    switch (level) {
+  getLevelDescription(prioritaet: string): string {
+    switch (prioritaet) {
       case '1':
         return 'Normal';
       case '2':
@@ -121,6 +126,8 @@ export class ManageTicketComponent implements OnInit {
         return 'Unbekannt';
     }
   }
+  
+  
 
   getImageMimeType(filename: string): string {
     const extension = (filename.split('.').pop() || '').toLowerCase();

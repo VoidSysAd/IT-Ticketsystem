@@ -38,17 +38,18 @@
     </div>
     <div class="card-body">
       <p><strong>Titel:</strong> {{ selectedTicket.titel }}</p>
-      <p><strong>Beschreibung:</strong> {{ selectedTicket.description }}</p>
-      <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.level) }}</p>
-      <p><strong>Status:</strong>
+      <p><strong>Beschreibung:</strong> {{ selectedTicket.beschreibung }}</p>
+      <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.prioritaet) }}</p>
+      <p>
+        <strong>Status:</strong>
         <span
           style="font-size: 100%; font-weight: 400;"
           [ngClass]="{
-            'badge badge-bnt-success': selectedTicket.status === 'geschlossen',
-            'badge badge-bnt-warning': selectedTicket.status === 'offen'
+            'badge-btn-success': selectedTicket.status?.toLowerCase() === 'geschlossen',
+            'badge-btn-warning': selectedTicket.status?.toLowerCase() === 'offen'
           }"
         >
-          {{ selectedTicket.status }}
+          {{ selectedTicket.status || 'Unbekannt' }}
         </span>
       </p>
 
