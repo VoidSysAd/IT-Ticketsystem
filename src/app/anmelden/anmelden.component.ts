@@ -1,6 +1,4 @@
-// anmelden.component.ts
-
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,7 +7,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -17,17 +15,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './anmelden.component.html',
   styleUrls: ['./anmelden.component.css'],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
-export class AnmeldenComponent implements OnInit {
+export class AnmeldenComponent {
   loginForm: FormGroup;
-  role: string = '';
-  targetRoute: string = ''; // <--- Fügen Sie diese Zeile hinzu
-  message: string = ''; 
+  message: string = '';
   messageType: 'success' | 'error' | '' = '';
 
   constructor(
-    private route: ActivatedRoute,
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
@@ -35,15 +30,6 @@ export class AnmeldenComponent implements OnInit {
     this.loginForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-    });
-  }
-
-  ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.role = params['role'] || 'user';
-      this.targetRoute = params['target'] || 'create-ticket'; // <--- Stellen Sie sicher, dass targetRoute hier gesetzt wird
-      console.log('Anmelden - Erwartete Rolle:', this.role);
-      console.log('Anmelden - Zielroute:', this.targetRoute);
     });
   }
 
@@ -55,27 +41,28 @@ export class AnmeldenComponent implements OnInit {
         (response: any) => {
           console.log('Login - Serverantwort:', response);
           if (response.success) {
-            // Überprüfe, ob der Benutzer die richtige Rolle hat
-            if (this.role === 'admin' && response.role !== 'admin') {
-              this.message =
-                'Zugriff verweigert: Sie haben keine Admin-Berechtigungen.';
-            } else {
-              // Speichere die Benutzerinformationen im AuthService
-              this.authService.setUser(response);
+            // Speichere die Benutzerinformationen im AuthService
+            this.authService.setUser(response);
 
-              // Erfolgsmeldung anzeigen
-              this.message =
-                'Anmeldung erfolgreich! Sie werden weitergeleitet...';
+            // Erfolgsmeldung anzeigen
+            this.message =
+              'Anmeldung erfolgreich! Sie werden weitergeleitet...';
 
-              // Navigiere zur Zielroute nach kurzer Verzögerung
+            // Navigiere basierend auf der Rolle
+            if (response.role === 'admin') {
+              // Admin wird zur Admin-Dashboard-Komponente weitergeleitet
               setTimeout(() => {
-                this.router.navigate([this.targetRoute]);
-              }, 2000); // 2 Sekunden Verzögerung
+                this.router.navigate(['/admin-dashboard']);
+              }, 1000); // 2 Sekunden Verzögerung
+            } else {
+              // Benutzer wird zur Create-Ticket-Seite weitergeleitet
+              setTimeout(() => {
+                this.router.navigate(['/create-ticket']);
+              }, 1000); // 2 Sekunden Verzögerung
             }
           } else {
             // Fehlermeldung anzeigen
-            this.message =
-              response.message || 'Anmeldedaten sind ungültig.';
+            this.message = response.message || 'Anmeldedaten sind ungültig.';
           }
         },
         (error) => {

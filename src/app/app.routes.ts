@@ -1,16 +1,25 @@
-import { Router, Routes } from '@angular/router';
-import { provideRouter } from '@angular/router';
+// app.routes.ts
+
+import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegistrateComponent } from './registrate/registrate.component';
 import { AnmeldenComponent } from './anmelden/anmelden.component';
-import { ManageTicketComponent } from './admin/manage-ticket/manage-ticket.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { CreateTicketComponent } from './user/create-ticket/create-ticket.component';
+import { ManageTicketComponent } from './admin/manage-ticket/manage-ticket.component';
 import { AuthGuard } from './auth.guard';
 
-// app.routes.ts
-
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'registrate', component: RegistrateComponent },
+  { path: 'anmelden', component: AnmeldenComponent },
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'admin' },
+  },
   {
     path: 'create-ticket',
     component: CreateTicketComponent,
@@ -21,13 +30,7 @@ export const routes: Routes = [
     path: 'manage-ticket',
     component: ManageTicketComponent,
     canActivate: [AuthGuard],
-    data: { expectedRole: ['admin'] },
+    data: { expectedRole: 'admin' },
   },
-  // ... weitere Routen ...
-
-  { path: 'anmelden', component: AnmeldenComponent },
-  {path: 'registrate', component: RegistrateComponent},
-  {path: 'router', component: Router}
+  // ... weitere Routen
 ];
-
-  

@@ -179,26 +179,22 @@ def login():
         return jsonify({'success': False, 'message': 'Name und E-Mail sind erforderlich.'}), 400
 
     # Account suchen
-    user_found = False
     for account_id in accounts_db:
         account_data = accounts_db[account_id]
-        if account_data.get('name') == name:
-            user_found = True
-            if account_data.get('email') != email:
-                return jsonify({'success': False, 'message': 'E-Mail stimmt nicht überein.'}), 401
-            else:
-                # Erfolgreiche Anmeldung
-                return jsonify({
-                    'success': True,
-                    'message': 'Anmeldung erfolgreich.',
-                    'name': account_data['name'],
-                    'abteilung': account_data.get('abteilung'),
-                    'email': account_data['email'],
-                    'role': account_data.get('role')
-                }), 200
+        if account_data.get('name') == name and account_data.get('email') == email:
+            # Erfolgreiche Anmeldung
+            return jsonify({
+                'success': True,
+                'message': 'Anmeldung erfolgreich.',
+                'name': account_data['name'],
+                'abteilung': account_data.get('abteilung'),
+                'email': account_data['email'],
+                'role': account_data.get('role')  # Stellen Sie sicher, dass die Rolle enthalten ist
+            }), 200
 
-    if not user_found:
-        return jsonify({'success': False, 'message': 'Benutzer nicht gefunden.'}), 404
+    # Wenn kein Benutzer gefunden wurde
+    return jsonify({'success': False, 'message': 'Benutzer nicht gefunden oder E-Mail stimmt nicht überein.'}), 404
+
 
 
 if __name__ == '__main__':

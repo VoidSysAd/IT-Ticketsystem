@@ -1,3 +1,5 @@
+<!-- login.component.html -->
+
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
@@ -7,32 +9,14 @@
         </div>
         <div class="card-body text-center">
           <p class="mb-4">
-            Bitte wählen Sie, ob Sie sich als Administrator oder Benutzer anmelden möchten.
+            Bitte melden Sie sich an oder registrieren Sie sich.
           </p>
-          <!-- Anmeldung für Benutzer -->
-<!-- login.component.html -->
-
-          <!-- Anmeldung für Benutzer -->
-          <button
-            class="btn btn-secondary btn-block mb-3 px-4 py-2"
-            (click)="navigateToAnmelden('user', 'create-ticket')"
-          >
-            Als Benutzer anmelden
-          </button>
-
-          <!-- Anmeldung für Admins mit Wahl der Zielseite -->
-          <h3>Admin-Anmeldung</h3>
+          <!-- Anmelden-Button -->
           <button
             class="btn btn-primary btn-block mb-3 px-4 py-2"
-            (click)="navigateToAnmelden('admin', 'create-ticket')"
+            (click)="navigateToAnmelden()"
           >
-            Als Admin anmelden (Ticket erstellen)
-          </button>
-          <button
-            class="btn btn-primary btn-block mb-3 px-4 py-2"
-            (click)="navigateToAnmelden('admin', 'manage-ticket')"
-          >
-            Als Admin anmelden (Tickets verwalten)
+            Anmelden
           </button>
 
           <!-- Registrierung -->

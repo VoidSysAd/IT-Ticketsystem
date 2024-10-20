@@ -8,41 +8,43 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/login'; // Passen Sie die URL an Ihr Backend an
+  private apiUrl = 'http://localhost:5000/login'; // Stellen Sie sicher, dass die URL korrekt ist
   private userSubject = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) {}
 
+  // Login-Methode, die die Anmeldeanfrage an den Server sendet
   login(name: string, email: string): Observable<any> {
     return this.http.post(this.apiUrl, { name, email });
   }
 
+  // Speichert die Benutzerinformationen, einschließlich der Rolle
   setUser(user: any) {
     this.userSubject.next(user);
   }
 
+  // Gibt ein Observable zurück, um den Benutzer zu abonnieren
   getUser(): Observable<any> {
     return this.userSubject.asObservable();
   }
 
+  // Meldet den Benutzer ab
   logout() {
     this.userSubject.next(null);
   }
 
-  // Neue Methode: Überprüfen, ob der Benutzer angemeldet ist
+  // Überprüft, ob der Benutzer angemeldet ist
   isLoggedIn(): boolean {
     return this.userSubject.getValue() !== null;
   }
 
-  // Neue Methode: Gibt die Rolle des angemeldeten Benutzers zurück
+  // Gibt die Rolle des angemeldeten Benutzers zurück
   getUserRole(): string | null {
     const user = this.userSubject.getValue();
     return user ? user.role : null;
   }
-  // auth.service.ts
 
-// ... Ihr bestehender Code ...
-
+  // Überprüft, ob der Benutzer die erwartete Rolle hat
   hasRole(expectedRole: string | string[]): boolean {
     const user = this.userSubject.getValue();
     if (!user || !user.role) {
@@ -55,5 +57,4 @@ export class AuthService {
       return user.role === expectedRole;
     }
   }
-
 }
