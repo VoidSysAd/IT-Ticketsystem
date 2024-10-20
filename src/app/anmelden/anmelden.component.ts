@@ -53,12 +53,12 @@ export class AnmeldenComponent {
               // Admin wird zur Admin-Dashboard-Komponente weitergeleitet
               setTimeout(() => {
                 this.router.navigate(['/admin-dashboard']);
-              }, 1000); // 2 Sekunden Verzögerung
+              }, 1000); // 1 Sekunden Verzögerung
             } else {
               // Benutzer wird zur Create-Ticket-Seite weitergeleitet
               setTimeout(() => {
                 this.router.navigate(['/create-ticket']);
-              }, 1000); // 2 Sekunden Verzögerung
+              }, 1000); // 1 Sekunden Verzögerung
             }
           } else {
             // Fehlermeldung anzeigen
