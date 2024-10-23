@@ -2,7 +2,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { TicketService } from '../../services/ticket.service';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -16,19 +17,26 @@ import { CommonModule } from '@angular/common';
 export class ManageTicketComponent implements OnInit {
   offeneTickets: any[] = [];
   geschlosseneTickets: any[] = [];
+  meineTickets: any[] = [];
   selectedTicket: any = null;
   newCommentContent: string = '';
+  users: string[] = [];
+  selectedUser: string = '';
 
-  constructor(private ticketService: TicketService, private http: HttpClient) {}
+  constructor(
+    private ticketService: TicketService,
+    private authService: AuthService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
     this.loadTickets();
   }
-  
+
   loadTickets() {
     this.ticketService.getTickets().subscribe(
       (data) => {
-        console.log('Geladene Tickets:', data); // Fügen Sie diese Zeile hinzu
+        console.log('Geladene Tickets:', data);
         this.offeneTickets = data
           .filter((ticket) => ticket.status === 'offen')
           .sort(
@@ -36,7 +44,7 @@ export class ManageTicketComponent implements OnInit {
               new Date(b.erstellungsdatum).getTime() -
               new Date(a.erstellungsdatum).getTime()
           );
-  
+
         this.geschlosseneTickets = data
           .filter((ticket) => ticket.status === 'geschlossen')
           .sort(
@@ -50,14 +58,13 @@ export class ManageTicketComponent implements OnInit {
       }
     );
   }
-  
+
+
 
   selectTicket(ticket: any) {
     this.selectedTicket = ticket;
     console.log('Ausgewähltes Ticket:', this.selectedTicket);
-    console.log('Level des ausgewählten Tickets:', this.selectedTicket.level);
   }
-
 
   addComment() {
     if (this.newCommentContent.trim() === '') {
@@ -94,7 +101,7 @@ export class ManageTicketComponent implements OnInit {
     };
     const schlussdatum =
       newStatus === 'geschlossen'
-        ? new Date().toLocaleString('en-US', options)
+        ? new Date().toLocaleString('de-DE', options)
         : null;
 
     this.ticketService
@@ -107,12 +114,16 @@ export class ManageTicketComponent implements OnInit {
           this.selectedTicket.status = newStatus;
           this.selectedTicket.schlussdatum = schlussdatum;
           this.loadTickets(); // Aktualisiere die Listen der offenen und geschlossenen Tickets
+          
         },
         (error) => {
           console.error('Fehler beim Aktualisieren des Ticketstatus:', error);
         }
       );
   }
+
+  
+  
 
   getLevelDescription(prioritaet: string): string {
     switch (prioritaet) {
@@ -126,8 +137,30 @@ export class ManageTicketComponent implements OnInit {
         return 'Unbekannt';
     }
   }
-  
-  
+
+  getPriorityBadge(prioritaet: string): string {
+    switch (prioritaet) {
+      case '1':
+        return 'badge-normal';
+      case '2':
+        return 'badge-dringend';
+      case '3':
+        return 'badge-kritisch';
+      default:
+        return 'badge-secondary';
+    }
+  }
+
+  getStatusBadge(status: string): string {
+    switch (status) {
+      case 'offen':
+        return 'badge-offen';
+      case 'geschlossen':
+        return 'badge-geschlossen';
+      default:
+        return 'badge-secondary';
+    }
+  }
 
   getImageMimeType(filename: string): string {
     const extension = (filename.split('.').pop() || '').toLowerCase();
@@ -143,5 +176,6 @@ export class ManageTicketComponent implements OnInit {
         return 'image/jpeg';
     }
   }
-  
+
+
 }
