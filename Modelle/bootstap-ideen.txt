@@ -1,0 +1,16 @@
+Navbar: 
+	Home (Login)
+	Ticket erstellen
+	Tickets managen
+	Suchleiste (TicketID oder Titel)
+	Profil
+		(Badge)
+	
+Alerts:
+	Succes (erfolgreiche Anmeldung)
+	Danger (fehlgeschlagene Anmeldung)
+
+Scrollspy:
+	
+Images:
+	Responsive Images

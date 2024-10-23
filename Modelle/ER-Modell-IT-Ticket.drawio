@@ -1,0 +1,215 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
+  <diagram name="Page-1" id="9f46799a-70d6-7492-0946-bef42562c5a5">
+    <mxGraphModel dx="2074" dy="1196" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#1A1A1A" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-1" value="Benutzer" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-3" value="Ticket" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="770" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-5" value="Kunde" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-7" value="IT" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="140" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-8" value="Datei" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="660" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-9" value="Kommentar" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="880" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-13" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-20" target="OOh_zH-0b6EzH4gis4E1-3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="720" y="350" as="sourcePoint" />
+            <mxPoint x="670" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-14" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-21" target="OOh_zH-0b6EzH4gis4E1-3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="920" y="350" as="sourcePoint" />
+            <mxPoint x="670" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-18" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-9" target="OOh_zH-0b6EzH4gis4E1-21" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="620" y="450" as="sourcePoint" />
+            <mxPoint x="920" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-19" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-8" target="OOh_zH-0b6EzH4gis4E1-20" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="155" y="480" as="sourcePoint" />
+            <mxPoint x="720" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-20" value="Teil von" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="680" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-21" value="Teil von" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="860" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-22" value="erstellt / bearbeitet" style="shape=rhombus;double=1;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="500" y="200" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-24" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-22" target="OOh_zH-0b6EzH4gis4E1-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="330" as="sourcePoint" />
+            <mxPoint x="530" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-25" value="1" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="OOh_zH-0b6EzH4gis4E1-24" connectable="0" vertex="1">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="70" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-26" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-22" target="OOh_zH-0b6EzH4gis4E1-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="310" as="sourcePoint" />
+            <mxPoint x="710" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-27" value="N" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="OOh_zH-0b6EzH4gis4E1-26" connectable="0" vertex="1">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-60" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-28" value="Ticket-ID" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;" parent="1" vertex="1">
+          <mxGeometry x="910" y="140" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-29" value="Benutzer-ID" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;" parent="1" vertex="1">
+          <mxGeometry x="120" y="140" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-30" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=1;entryDx=0;entryDy=0;exitX=0;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-1" target="OOh_zH-0b6EzH4gis4E1-29" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="359.31" as="sourcePoint" />
+            <mxPoint x="320" y="359.31" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-31" value="" style="endArrow=none;html=1;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-28" target="OOh_zH-0b6EzH4gis4E1-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="430" as="sourcePoint" />
+            <mxPoint x="720" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-32" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-34" target="OOh_zH-0b6EzH4gis4E1-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="380" as="sourcePoint" />
+            <mxPoint x="210" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-33" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-35" target="OOh_zH-0b6EzH4gis4E1-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="90" y="400" as="sourcePoint" />
+            <mxPoint x="140" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-34" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=hexagon;perimeter=hexagonPerimeter2;arcSize=6;size=0.3;" parent="1" vertex="1">
+          <mxGeometry x="180" y="360" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-35" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=hexagon;perimeter=hexagonPerimeter2;arcSize=6;size=0.3;" parent="1" vertex="1">
+          <mxGeometry x="340" y="360" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-36" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-34" target="OOh_zH-0b6EzH4gis4E1-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="430" as="sourcePoint" />
+            <mxPoint x="720" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-37" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-35" target="OOh_zH-0b6EzH4gis4E1-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="430" as="sourcePoint" />
+            <mxPoint x="190" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-38" value="ist ein" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="200" y="375" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-39" value="ist ein" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="360" y="375" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-40" value="Pfad" style="ellipse;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="670" y="630" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-42" value="&lt;span style=&quot;border-bottom: 1px dotted&quot;&gt;Kommentar-ID&lt;/span&gt;" style="ellipse;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="890" y="630" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-43" value="..." style="ellipse;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="120" y="80" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-44" value="..." style="ellipse;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="910" y="80" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-45" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-1" target="OOh_zH-0b6EzH4gis4E1-43" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="210" as="sourcePoint" />
+            <mxPoint x="215" y="184" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-46" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-3" target="OOh_zH-0b6EzH4gis4E1-44" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="210" as="sourcePoint" />
+            <mxPoint x="230" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-47" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-42" target="OOh_zH-0b6EzH4gis4E1-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="840" y="760" as="sourcePoint" />
+            <mxPoint x="860" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-48" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-40" target="OOh_zH-0b6EzH4gis4E1-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="780" y="760" as="sourcePoint" />
+            <mxPoint x="800" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-49" value="1" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="769.995172413793" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-50" value="1" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="889.995172413793" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-51" value="N" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="750.0048275862069" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-52" value="N" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="920.0048275862069" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-53" value="1" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="259.99517241379306" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-54" value="1" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="359.99517241379306" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-55" value="N" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="430.004827586207" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-56" value="N" style="resizable=0;html=1;whiteSpace=wrap;align=right;verticalAlign=bottom;" parent="1" connectable="0" vertex="1">
+          <mxGeometry x="200.00482758620694" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-57" value="&amp;nbsp;Rechte" style="shape=note;size=20;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="150" y="620" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-58" value="&amp;nbsp;Rechte" style="shape=note;size=20;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="370" y="620" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-59" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-7" target="OOh_zH-0b6EzH4gis4E1-57" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="580" as="sourcePoint" />
+            <mxPoint x="290" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="OOh_zH-0b6EzH4gis4E1-60" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="OOh_zH-0b6EzH4gis4E1-5" target="OOh_zH-0b6EzH4gis4E1-58" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="590" as="sourcePoint" />
+            <mxPoint x="210" y="630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
