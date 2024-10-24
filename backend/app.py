@@ -88,12 +88,14 @@ def assign_ticket(ticket_id):
 
 
 # Endpunkt für den Login
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 @error_handler
 def login():
     data = request.get_json()
     name = data.get('name')
     email = data.get('email')
+
+    print(f"Login attempt: name={name}, email={email}")
 
     if not name or not email:
         return jsonify({
@@ -103,6 +105,7 @@ def login():
 
     for account_id in db.accounts_db:
         account_data = db.accounts_db[account_id]
+        print(f"Checking account: {account_data}")
         if account_data.get('name') == name and account_data.get('email') == email:
             return jsonify({
                 'success': True,
@@ -117,6 +120,8 @@ def login():
         'success': False,
         'message': 'Ungültige Anmeldedaten.'
     }), 401
+
+
 
 # Endpunkt zum Abrufen aller Benutzer
 @app.route('/api/users', methods=['GET'])
