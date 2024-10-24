@@ -246,6 +246,43 @@ def update_ticket(ticket_id):
     except ResourceNotFound:
         return jsonify({'error': 'Ticket nicht gefunden'}), 404
 
+# Endpunkt zum Registrieren eines neuen Benutzers
+@app.route('/api/accounts', methods=['POST'])
+@error_handler
+def register_user():
+    try:
+        data = request.json
+        name = data.get('name')
+        email = data.get('email')
+        abteilung = data.get('abteilung')
+        role = data.get('role', 'user')  # Standardrolle "user", falls nicht angegeben
+
+        if not name or not email:
+            return jsonify({'error': 'Name und E-Mail sind erforderlich'}), 400
+
+        # Überprüfe, ob die E-Mail bereits registriert ist
+        for account_id in db.accounts_db:
+            account = db.accounts_db[account_id]
+            if account.get('email') == email:
+                return jsonify({'error': 'E-Mail ist bereits registriert'}), 409
+
+        # Erstelle einen neuen Benutzer
+        new_user = {
+            '_id': str(datetime.now().timestamp()),
+            'name': name,
+            'email': email,
+            'abteilung': abteilung,
+            'role': role
+        }
+
+        db.accounts_db.save(new_user)
+
+        return jsonify({'message': 'Benutzer erfolgreich registriert', 'user_id': new_user['_id']}), 201
+
+    except Exception as e:
+        app.logger.error(f"Fehler beim Registrieren des Benutzers: {str(e)}")
+        return jsonify({'error': 'Fehler beim Registrieren des Benutzers'}), 500
+
 
 # Flask wird auf Port 5000 ausgeführt
 if __name__ == '__main__':

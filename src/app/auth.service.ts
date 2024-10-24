@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -25,7 +24,7 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl = 'http://localhost:5000/api';  // Der API-Pfad enthält '/api'
   private readonly STORAGE_KEY = 'currentUser';
   private userSubject: BehaviorSubject<User | null>;
 
@@ -40,7 +39,7 @@ export class AuthService {
         tap(response => {
           if (response.success) {
             const user: User = {
-              _id: response.name, // oder eine andere ID falls verfügbar
+              _id: response.name,  // Setze die ID auf den Namen, falls keine explizite ID vorhanden ist
               name: response.name,
               email: response.email,
               abteilung: response.abteilung,
@@ -52,9 +51,9 @@ export class AuthService {
       );
   }
 
-  getStoredUser() {
+  getStoredUser(): User | null {
     if (typeof window !== 'undefined' && window.localStorage) {
-      const user = localStorage.getItem('user');
+      const user = localStorage.getItem(this.STORAGE_KEY);
       if (user) {
         return JSON.parse(user);
       }
@@ -104,16 +103,19 @@ export class AuthService {
     return userRole === expectedRole;
   }
 
+  // Registrierung eines neuen Benutzers
   register(userData: Partial<User>): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/accounts`, userData);
-  }
+}
 
+
+  // Aktualisiere den aktuellen Benutzer
   updateUser(userData: Partial<User>): Observable<User> {
     const currentUser = this.getCurrentUser();
     if (!currentUser?._id) {
       throw new Error('Kein Benutzer angemeldet');
     }
-    
+
     return this.http.put<User>(`${this.apiUrl}/accounts/${currentUser._id}`, userData)
       .pipe(
         tap(response => {
