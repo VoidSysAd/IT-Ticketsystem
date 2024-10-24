@@ -1,5 +1,3 @@
-// app.routes.ts
-
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegistrateComponent } from './registrate/registrate.component';
@@ -10,7 +8,7 @@ import { ManageTicketComponent } from './admin/manage-ticket/manage-ticket.compo
 import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },  // Default route
   { path: 'login', component: LoginComponent },
   { path: 'registrate', component: RegistrateComponent },
   { path: 'anmelden', component: AnmeldenComponent },
@@ -31,6 +29,5 @@ export const routes: Routes = [
     component: ManageTicketComponent,
     canActivate: [AuthGuard],
     data: { expectedRole: 'admin' },
-  },
-  // ... weitere Routen
+  }
 ];

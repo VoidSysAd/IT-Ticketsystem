@@ -1,130 +1,249 @@
 <div class="container mt-5">
+  <!-- Tab Navigation -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'offen'"
+         (click)="setActiveTab('offen')">
+        <i class="fas fa-hourglass-start"></i> Offene Tickets
+        <span class="badge bg-primary ms-2">{{offeneTickets.length}}</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'geschlossen'"
+         (click)="setActiveTab('geschlossen')">
+        <i class="fas fa-check-circle"></i> Geschlossene Tickets
+        <span class="badge bg-secondary ms-2">{{geschlosseneTickets.length}}</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'meine'"
+         (click)="setActiveTab('meine')">
+        <i class="fas fa-user"></i> Meine Tickets
+        <span class="badge bg-info ms-2">{{meineTickets.length}}</span>
+      </a>
+    </li>
+  </ul>
+
   <div class="row">
-    <!-- Offene Tickets -->
+    <!-- Ticket Liste basierend auf aktivem Tab -->
     <div class="col-md-6">
-      <h2 class="text-primary mb-4"><i class="fas fa-hourglass-start"></i> Offene Tickets</h2>
-      <ul class="list-group mb-4">
-        <li
-          *ngFor="let ticket of offeneTickets"
-          class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-          (click)="selectTicket(ticket)"
-        >
-          <span>
-            <i class="fas fa-ticket-alt me-2"></i>{{ ticket.titel }}
-          </span>
-          <span class="badge bg-primary rounded-pill">{{ ticket.erstellungsdatum | date: 'short' }}</span>
-        </li>
-      </ul>
-    </div>
+      <div [ngSwitch]="activeTab">
+        <!-- Offene Tickets -->
+        <div *ngSwitchCase="'offen'">
+          <ul class="list-group mb-4">
+            <li *ngIf="offeneTickets.length === 0" class="list-group-item">
+              Keine offenen Tickets vorhanden.
+            </li>
+            <li *ngFor="let ticket of offeneTickets"
+                class="list-group-item list-group-item-action"
+                (click)="selectTicket(ticket)">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>
+                  <i class="fas fa-ticket-alt me-2"></i>{{ ticket.titel }}
+                </span>
+                <span class="badge bg-primary">{{ ticket.erstellungsdatum | date: 'short' }}</span>
+              </div>
+              <small class="text-muted d-block">
+                Zugewiesen an: {{ ticket.zugewiesenerBenutzer || 'Niemand' }}
+              </small>
+            </li>
+          </ul>
+        </div>
 
-    <!-- Geschlossene Tickets -->
-    <div class="col-md-6">
-      <h2 class="text-secondary mb-4"><i class="fas fa-check-circle"></i> Geschlossene Tickets</h2>
-      <ul class="list-group mb-4">
-        <li
-          *ngFor="let ticket of geschlosseneTickets"
-          class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-          (click)="selectTicket(ticket)"
-        >
-          <span>
-            <i class="fas fa-ticket-alt me-2"></i>{{ ticket.titel }}
-          </span>
-          <span class="badge bg-secondary rounded-pill">{{ ticket.erstellungsdatum | date: 'short' }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
+        <!-- Geschlossene Tickets -->
+        <div *ngSwitchCase="'geschlossen'">
+          <ul class="list-group mb-4">
+            <li *ngIf="geschlosseneTickets.length === 0" class="list-group-item">
+              Keine geschlossenen Tickets vorhanden.
+            </li>
+            <li *ngFor="let ticket of geschlosseneTickets"
+                class="list-group-item list-group-item-action"
+                (click)="selectTicket(ticket)">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>
+                  <i class="fas fa-ticket-alt me-2"></i>{{ ticket.titel }}
+                </span>
+                <span class="badge bg-secondary">{{ ticket.erstellungsdatum | date: 'short' }}</span>
+              </div>
+              <small class="text-muted d-block">
+                Zugewiesen an: {{ ticket.zugewiesenerBenutzer || 'Niemand' }}
+              </small>
+            </li>
+          </ul>
+        </div>
 
-  <!-- Ticket Details -->
-  <div *ngIf="selectedTicket" class="card mt-4">
-    <div class="card-header bg-info text-white">
-      <h4><i class="fas fa-info-circle"></i> Details für Ticket #{{ selectedTicket.id }}</h4>
-    </div>
-    <div class="card-body">
-      <p><strong>Titel:</strong> {{ selectedTicket.titel }}</p>
-      <p><strong>Beschreibung:</strong> {{ selectedTicket.beschreibung }}</p>
-      <p><strong>Stufe:</strong> {{ getLevelDescription(selectedTicket.prioritaet) }}</p>
-      <p>
-        <strong>Status:</strong>
-        <span
-          class="badge"
-          [ngClass]="{
-            'bg-success': selectedTicket.status?.toLowerCase() === 'geschlossen',
-            'bg-warning text-dark': selectedTicket.status?.toLowerCase() === 'offen'
-          }"
-        >
-          {{ selectedTicket.status || 'Unbekannt' }}
-        </span>
-      </p>
-
-      <button
-        *ngIf="selectedTicket && selectedTicket.status"
-        class="btn mt-3 mb-4 px-4 py-2"
-        [ngClass]="{
-          'btn-danger': selectedTicket.status === 'offen',
-          'btn-success': selectedTicket.status === 'geschlossen'
-        }"
-        (click)="toggleTicketStatus()"
-      >
-        <i class="fas fa-exchange-alt"></i> Status ändern zu "{{ selectedTicket.status === 'offen' ? 'geschlossen' : 'offen' }}"
-      </button>
-
-      <p>
-        <strong>Erstellungsdatum:</strong>
-        {{ selectedTicket.erstellungsdatum | date: 'short' }}
-      </p>
-      <p>
-        <strong>Schließungsdatum:</strong>
-        {{ selectedTicket.schlussdatum || 'Nicht geschlossen' }}
-      </p>
-
-      <!-- Bilder anzeigen -->
-      <div *ngIf="selectedTicket.images && selectedTicket.images.length > 0" class="mb-4">
-        <h5><i class="fas fa-images"></i> Bilder</h5>
-        <div class="ticket-images">
-          <img
-            *ngFor="let image of selectedTicket.images"
-            [src]="'data:' + getImageMimeType(image.filename) + ';base64,' + image.data"
-            [alt]="image.filename"
-            class="img-thumbnail ticket-image"
-          />
+        <!-- Meine Tickets -->
+        <div *ngSwitchCase="'meine'">
+          <ul class="list-group mb-4">
+            <li *ngIf="meineTickets.length === 0" class="list-group-item">
+              Keine zugewiesenen Tickets vorhanden.
+            </li>
+            <li *ngFor="let ticket of meineTickets"
+                class="list-group-item list-group-item-action"
+                (click)="selectTicket(ticket)">
+              <div class="d-flex justify-content-between align-items-center">
+                <span>
+                  <i class="fas fa-ticket-alt me-2"></i>{{ ticket.titel }}
+                </span>
+                <span class="badge" [ngClass]="{
+                  'bg-warning text-dark': ticket.status === 'offen',
+                  'bg-success': ticket.status === 'geschlossen'
+                }">{{ ticket.status }}</span>
+              </div>
+              <small class="text-muted d-block">
+                Erstellt am: {{ ticket.erstellungsdatum | date: 'short' }}
+              </small>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      <hr />
 
-      <!-- Kommentare -->
-      <h5><i class="fas fa-comments"></i> Kommentare</h5>
-      <ul
-        *ngIf="selectedTicket.kommentare && selectedTicket.kommentare.length > 0"
-        class="list-group mb-3"
-      >
-        <li *ngFor="let comment of selectedTicket.kommentare" class="list-group-item">
-          <strong>{{ comment.autor }}:</strong> {{ comment.inhalt }}
-          <br />
-          <small class="text-muted">{{ comment.zeitstempel | date: 'short' }}</small>
-        </li>
-      </ul>
-      <p
-        *ngIf="!selectedTicket.kommentare || selectedTicket.kommentare.length === 0"
-        class="text-muted"
-      >
-        Keine Kommentare vorhanden.
-      </p>
 
-      <!-- Neuen Kommentar hinzufügen -->
-      <div class="form-group">
-        <label for="newComment"><i class="fas fa-edit"></i> Neuen Kommentar hinzufügen:</label>
-        <textarea
-          id="newComment"
-          class="form-control"
-          [(ngModel)]="newCommentContent"
-          rows="3"
-          placeholder="Geben Sie Ihren Kommentar ein"
-        ></textarea>
-        <button class="btn btn-primary mt-2" (click)="addComment()">
-          <i class="fas fa-paper-plane"></i> Kommentar hinzufügen
-        </button>
+
+    <!-- Ticket Details -->
+    <div class="col-md-6">
+      <div *ngIf="selectedTicket" class="card">
+        <div class="card-header bg-info text-white">
+          <h4><i class="fas fa-info-circle"></i> Ticket Details</h4>
+        </div>
+        <div class="card-body">
+          <!-- Zuweisungsbereich -->
+          <div class="mb-3">
+            <label class="form-label"><i class="fas fa-user-plus"></i> Ticket zuweisen</label>
+            <div class="input-group">
+              <select class="form-select" [(ngModel)]="selectedUser">
+                <option value="">Benutzer auswählen...</option>
+                <option *ngFor="let user of users" [value]="user._id">
+                  {{user.name}} ({{user.abteilung || 'Keine Abteilung'}})
+                </option>
+              </select>
+              <button class="btn btn-primary" 
+                      (click)="assignTicket(selectedTicket._id, selectedUser)"
+                      [disabled]="!selectedUser">
+                <i class="fas fa-user-check"></i> Zuweisen
+              </button>
+            </div>
+            <small class="text-muted">
+              Aktuell zugewiesen an: 
+              <strong>{{ selectedTicket.zugewiesenerBenutzer || 'Niemand' }}</strong>
+            </small>
+          </div>
+
+          <!-- Ticket Details Start -->
+          <div class="ticket-details mt-4">
+            <h5 class="ticket-title mb-3">
+              <i class="fas fa-ticket-alt me-2"></i>
+              {{selectedTicket.titel}}
+            </h5>
+
+            <!-- Ticket Metadaten -->
+            <div class="ticket-metadata mb-3">
+              <div class="mb-2">
+                <i class="fas fa-calendar me-2"></i>
+                <small class="text-muted">
+                  Erstellt am: {{selectedTicket.erstellungsdatum | date:'short'}}
+                  <span *ngIf="selectedTicket.schlussdatum">
+                    | Geschlossen am: {{selectedTicket.schlussdatum | date:'short'}}
+                  </span>
+                </small>
+              </div>
+              <div class="mb-2">
+                <i class="fas fa-user me-2"></i>
+                <small class="text-muted">
+                  Ersteller: {{selectedTicket.ersteller}}
+                </small>
+              </div>
+            </div>
+
+            <!-- Priorität und Status Badges -->
+            <div class="ticket-badges mb-3">
+              <span class="badge me-2" [ngClass]="getPriorityBadge(selectedTicket.prioritaet)">
+                <i class="fas fa-flag me-1"></i>
+                {{getLevelDescription(selectedTicket.prioritaet)}}
+              </span>
+              <span class="badge" [ngClass]="getStatusBadge(selectedTicket.status)">
+                <i class="fas" [ngClass]="{
+                  'fa-clock': selectedTicket.status === 'offen',
+                  'fa-check-circle': selectedTicket.status === 'geschlossen'
+                }"></i>
+                {{selectedTicket.status}}
+              </span>
+            </div>
+
+            <!-- Beschreibung -->
+            <div class="ticket-description mb-4">
+              <h6><i class="fas fa-align-left me-2"></i>Beschreibung</h6>
+              <p class="bg-light p-3 rounded">{{selectedTicket.beschreibung}}</p>
+            </div>
+
+            <!-- Status Toggle Button -->
+            <div class="mb-4">
+              <button class="btn w-100" [ngClass]="{
+                'btn-success': selectedTicket.status === 'offen',
+                'btn-warning': selectedTicket.status === 'geschlossen'
+              }" (click)="toggleTicketStatus()">
+                <i class="fas" [ngClass]="{
+                  'fa-check-circle': selectedTicket.status === 'offen',
+                  'fa-undo': selectedTicket.status === 'geschlossen'
+                }"></i>
+                {{selectedTicket.status === 'offen' ? 'Ticket schließen' : 'Ticket wieder öffnen'}}
+              </button>
+            </div>
+
+            <!-- Anhänge -->
+            <div class="ticket-attachments mb-4" *ngIf="selectedTicket.anhaenge?.length">
+              <h6><i class="fas fa-paperclip me-2"></i>Anhänge</h6>
+              <div class="list-group">
+                <a *ngFor="let anhang of selectedTicket.anhaenge" 
+                   [href]="anhang.pfad" 
+                   target="_blank"
+                   class="list-group-item list-group-item-action">
+                  <i class="fas fa-file me-2"></i>
+                  {{anhang.filename}}
+                </a>
+              </div>
+            </div>
+
+            <!-- Kommentare -->
+            <div class="ticket-comments">
+              <h6><i class="fas fa-comments me-2"></i>Kommentare</h6>
+              
+              <!-- Kommentarliste -->
+              <div class="comment-list mb-3">
+                <div *ngFor="let comment of selectedTicket.kommentare" 
+                     class="card mb-2">
+                  <div class="card-body py-2">
+                    <p class="mb-1">{{comment.inhalt}}</p>
+                    <small class="text-muted">
+                      Von {{comment.ersteller}} am {{comment.erstellungsdatum | date:'short'}}
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Neuer Kommentar -->
+              <div class="add-comment">
+                <div class="form-group">
+                  <textarea 
+                    class="form-control" 
+                    rows="2" 
+                    [(ngModel)]="newCommentContent"
+                    placeholder="Neuen Kommentar hinzufügen..."></textarea>
+                </div>
+                <button 
+                  class="btn btn-primary mt-2" 
+                  (click)="addComment()"
+                  [disabled]="!newCommentContent.trim()">
+                  <i class="fas fa-paper-plane me-1"></i> Kommentar senden
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Ticket Details End -->
+          
+        </div>
       </div>
     </div>
   </div>

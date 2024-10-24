@@ -1,5 +1,3 @@
-// auth.guard.ts
-
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
@@ -23,16 +21,27 @@ export class AuthGuard implements CanActivate {
     const expectedRole = route.data['expectedRole'];
 
     if (!this.authService.isLoggedIn()) {
-      // Benutzer ist nicht angemeldet
+      console.log('Benutzer ist nicht eingeloggt, Weiterleitung zu Login-Seite');
       return this.router.parseUrl('/login');
     }
 
-    if (expectedRole && !this.authService.hasRole(expectedRole)) {
-      // Benutzer hat nicht die erforderliche Rolle
-      // Optional: Leiten Sie den Benutzer auf eine "Zugriff verweigert"-Seite weiter
-      // return this.router.parseUrl('/access-denied');
-      // Oder leiten Sie zur Login-Seite um
-      return this.router.parseUrl('/login');
+    const userRole = this.authService.getUserRole();
+    console.log(`Benutzerrolle: ${userRole}, Erwartete Rolle: ${expectedRole}`);
+
+    if (expectedRole) {
+      if (Array.isArray(expectedRole)) {
+        // Prüfe, ob die Rolle des Benutzers in der erwarteten Rollen-Liste ist
+        if (!expectedRole.includes(userRole || '')) {
+          console.log('Benutzer hat keine Berechtigung, Weiterleitung zu Login-Seite');
+          return this.router.parseUrl('/login');
+        }
+      } else {
+        // Einzelne Rolle prüfen
+        if (expectedRole !== userRole) {
+          console.log('Benutzer hat keine Berechtigung, Weiterleitung zu Login-Seite');
+          return this.router.parseUrl('/login');
+        }
+      }
     }
 
     return true;
