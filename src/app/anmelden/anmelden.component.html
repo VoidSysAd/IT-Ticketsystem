@@ -1,12 +1,10 @@
-<!-- anmelden.component.html -->
-
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card shadow-lg">
           <div class="card-header bg-primary text-white text-center">
-            <h2>Anmelden</h2>
+            <h2><i class="fas fa-sign-in-alt"></i> Anmelden</h2>
           </div>
           <div class="card-body">
             <div
@@ -29,7 +27,11 @@
                 formControlName="name"
                 type="text"
                 placeholder="Ihr Name"
+                [ngClass]="{'is-invalid': loginForm.get('name')?.invalid && loginForm.get('name')?.touched}"
               />
+              <div class="invalid-feedback">
+                Bitte geben Sie Ihren Namen ein.
+              </div>
             </div>
             <div class="form-group mb-4">
               <label for="email">E-Mail</label>
@@ -39,14 +41,18 @@
                 formControlName="email"
                 type="email"
                 placeholder="Ihre E-Mail"
+                [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
               />
+              <div class="invalid-feedback">
+                Bitte geben Sie eine gültige E-Mail-Adresse ein.
+              </div>
             </div>
             <button
-              class="btn btn-primary btn-block px-4 py-2"
+              class="btn btn-primary btn-block px-4 py-2 w-100"
               type="submit"
               [disabled]="loginForm.invalid"
             >
-              Anmelden
+              <i class="fas fa-sign-in-alt"></i> Anmelden
             </button>
           </div>
         </div>

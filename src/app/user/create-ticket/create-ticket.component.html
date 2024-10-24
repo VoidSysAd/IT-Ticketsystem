@@ -2,18 +2,21 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div *ngIf="ticketCreated; else ticketForm" class="alert alert-success text-center">
-        <h4>Ticket erfolgreich erstellt!</h4>
+        <h4 class="alert-heading">Ticket erfolgreich erstellt!</h4>
         <p>Ticket-ID: <strong>{{ createdTicketId }}</strong></p>
-        <button class="btn btn-primary mt-3" (click)="createNewTicket()">Neues Ticket erstellen</button>
+        <hr>
+        <button class="btn btn-primary mt-3" (click)="createNewTicket()">
+          <i class="fas fa-plus-circle"></i> Neues Ticket erstellen
+        </button>
       </div>
 
       <ng-template #ticketForm>
         <div class="card shadow-lg">
           <div class="card-header bg-info text-white text-center">
-            <h2>Ticket erstellen</h2>
+            <h2><i class="fas fa-ticket-alt"></i> Ticket erstellen</h2>
           </div>
           <div class="card-body">
-            <form (ngSubmit)="createTicket(ticketForm)" #ticketForm="ngForm">
+            <form (ngSubmit)="createTicket(ticketForm)" #ticketForm="ngForm" novalidate>
               <div class="form-group mb-4">
                 <label for="titel"><strong>Titel:</strong></label>
                 <input
@@ -23,7 +26,12 @@
                   [(ngModel)]="ticket.titel"
                   name="titel"
                   required
+                  placeholder="Geben Sie den Titel des Tickets ein"
+                  [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.titel}"
                 />
+                <div class="invalid-feedback">
+                  Titel ist erforderlich.
+                </div>
               </div>
 
               <div class="form-group mb-4">
@@ -35,28 +43,37 @@
                   name="description"
                   rows="4"
                   required
+                  placeholder="Beschreiben Sie das Problem detailliert"
+                  [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.description}"
                 ></textarea>
+                <div class="invalid-feedback">
+                  Beschreibung ist erforderlich.
+                </div>
               </div>
 
               <div class="form-group mb-4">
                 <label for="image"><strong>Bild hochladen:</strong></label>
-                <input type="file" id="image" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+                <input type="file" id="image" class="form-control-file" (change)="onFileSelected($event)" accept="image/*">
               </div>
 
               <div class="form-group mb-4">
                 <label for="level"><strong>Stufe:</strong></label>
                 <select
                   id="level"
-                  class="form-control"
+                  class="form-select"
                   [(ngModel)]="ticket.level"
                   name="level"
                   required
+                  [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.level}"
                 >
                   <option value="" disabled selected>Bitte wählen</option>
                   <option value="1">Normal</option>
                   <option value="2">Dringend</option>
                   <option value="3">Kritisch</option>
                 </select>
+                <div class="invalid-feedback">
+                  Bitte wählen Sie eine Stufe aus.
+                </div>
               </div>
 
               <div class="text-center">
@@ -65,7 +82,7 @@
                   class="btn btn-primary px-4 py-2"
                   [disabled]="!ticketForm.form.valid"
                 >
-                  Ticket erstellen
+                  <i class="fas fa-paper-plane"></i> Ticket erstellen
                 </button>
               </div>
             </form>

@@ -1,17 +1,27 @@
 .card {
-    border-radius: 10px;
-  }
-  
-  .btn {
-    font-weight: bold;
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .btn:hover {
-    transform: scale(1.05);
-  }
-  
-  .form-group label {
-    font-weight: bold;
-  }
-  
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  font-weight: bold;
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  background-color: #28a745 !important; /* Anpassung der Hintergrundfarbe bei Hover */
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+/* Optional: Zusätzliche Styles für Eingabefelder */
+.form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+.form-select.is-invalid {
+  border-color: #dc3545;
+}

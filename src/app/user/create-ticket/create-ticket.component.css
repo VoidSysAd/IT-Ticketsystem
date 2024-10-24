@@ -1,0 +1,11 @@
+/* Optional: Stil für die Bildvorschau */
+.ticket-image-preview {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* Weitere Anpassungen können hier hinzugefügt werden */
+  

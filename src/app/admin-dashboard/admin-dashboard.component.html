@@ -1,34 +1,31 @@
-<!-- admin-dashboard.component.html -->
-
 <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-lg">
-          <div class="card-header bg-info text-white text-center">
-            <h2>Admin Dashboard</h2>
-          </div>
-          <div class="card-body text-center">
-            <p class="mb-4">
-              Was möchten Sie tun?
-            </p>
-            <!-- Ticket erstellen -->
-            <button
-              class="btn btn-primary btn-block mb-3 px-4 py-2"
-              (click)="navigateTo('create-ticket')"
-            >
-              Ticket erstellen
-            </button>
-  
-            <!-- Tickets verwalten -->
-            <button
-              class="btn btn-secondary btn-block mb-3 px-4 py-2"
-              (click)="navigateTo('manage-ticket')"
-            >
-              Tickets verwalten
-            </button>
-          </div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-info text-white text-center">
+          <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+        </div>
+        <div class="card-body text-center">
+          <p class="mb-4">
+            Was möchten Sie tun?
+          </p>
+          <!-- Ticket erstellen -->
+          <button
+            class="btn btn-primary btn-block mb-3 px-4 py-2 w-100"
+            (click)="navigateTo('create-ticket')"
+          >
+            <i class="fas fa-plus-circle"></i> Ticket erstellen
+          </button>
+
+          <!-- Tickets verwalten -->
+          <button
+            class="btn btn-secondary btn-block mb-3 px-4 py-2 w-100"
+            (click)="navigateTo('manage-ticket')"
+          >
+            <i class="fas fa-tasks"></i> Tickets verwalten
+          </button>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

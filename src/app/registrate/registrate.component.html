@@ -1,34 +1,61 @@
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <div class="container mt-5">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card shadow-lg">
-            <div class="card-header bg-success text-white text-center">
-              <h2>Registrierung</h2>
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-lg">
+          <div class="card-header bg-success text-white text-center">
+            <h2><i class="fas fa-user-plus"></i> Registrierung</h2>
+          </div>
+          <div class="card-body">
+            <div class="form-group mb-3">
+              <label for="name">Name</label>
+              <input
+                id="name"
+                class="form-control"
+                formControlName="name"
+                type="text"
+                placeholder="Ihr Name"
+                [ngClass]="{'is-invalid': registrationForm.get('name')?.invalid && registrationForm.get('name')?.touched}"
+              />
+              <div class="invalid-feedback">
+                Bitte geben Sie Ihren Namen ein.
+              </div>
             </div>
-            <div class="card-body">
-              <div class="form-group mb-3">
-                <label for="name">Name</label>
-                <input id="name" class="form-control" formControlName="name" type="text" placeholder="Ihr Name">
+            <div class="form-group mb-3">
+              <label for="abteilung">Abteilung</label>
+              <select
+                id="abteilung"
+                class="form-select"
+                formControlName="abteilung"
+                [ngClass]="{'is-invalid': registrationForm.get('abteilung')?.invalid && registrationForm.get('abteilung')?.touched}"
+              >
+                <option value="">Bitte wählen Sie eine Abteilung</option>
+                <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+              </select>
+              <div class="invalid-feedback">
+                Bitte wählen Sie eine Abteilung aus.
               </div>
-              <div class="form-group mb-3">
-                <label for="abteilung">Abteilung</label>
-                <select id="abteilung" class="form-control" formControlName="abteilung">
-                  <option value="">Bitte wählen Sie eine Abteilung</option>
-                  <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
-                </select>
-              </div>
-              <div class="form-group mb-4">
-                <label for="email">E-Mail</label>
-                <input id="email" class="form-control" formControlName="email" type="email" placeholder="Ihre E-Mail">
-              </div>
-              <button class="btn btn-success btn-block px-4 py-2" type="submit" [disabled]="registrationForm.invalid">
-                Registrieren
-              </button>
             </div>
+            <div class="form-group mb-4">
+              <label for="email">E-Mail</label>
+              <input
+                id="email"
+                class="form-control"
+                formControlName="email"
+                type="email"
+                placeholder="Ihre E-Mail"
+                [ngClass]="{'is-invalid': registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched}"
+              />
+              <div class="invalid-feedback">
+                Bitte geben Sie eine gültige E-Mail-Adresse ein.
+              </div>
+            </div>
+            <button class="btn btn-success btn-block px-4 py-2 w-100" type="submit" [disabled]="registrationForm.invalid">
+              <i class="fas fa-user-check"></i> Registrieren
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </form>
-  
+  </div>
+</form>

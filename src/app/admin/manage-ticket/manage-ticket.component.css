@@ -1,12 +1,13 @@
 .custom-toggle-btn {
-    transition: all 0.3s ease;
-  }
-  
+  transition: all 0.3s ease;
+}
+
 .custom-toggle-btn:hover {
   transform: scale(1.05);
   background-color: #007bff !important; /* Beispielhafte Änderung der Hintergrundfarbe bei Hover */
 }
 
+/* Stil für die Bilddarstellung */
 .ticket-images {
   display: flex;
   flex-wrap: wrap;
@@ -18,5 +19,21 @@
   max-height: 200px;
   object-fit: cover;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.ticket-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Zusätzliche Stile für bessere Darstellung der Kommentare */
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
 }
