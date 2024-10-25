@@ -12,51 +12,45 @@ export class TicketService {
 
   constructor(private http: HttpClient) {}
 
-  // Erstelle ein Ticket (JSON Daten werden gesendet)
+  // Erstelle ein Ticket
   createTicket(ticketData: Partial<Ticket>): Observable<any> {
-    return this.http.post(this.apiUrl, ticketData);  // Korrekte URL und JSON-Daten
-  }
+    return this.http.post(`${this.apiUrl}`, ticketData);
+}
 
-  // Lade alle Tickets
+
   getTickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(this.apiUrl);  // Korrekte URL für alle Tickets
+    return this.http.get<Ticket[]>('http://localhost:5000/api/tickets');
   }
 
-  // Lade alle Benutzer
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>('http://localhost:5000/api/users');
   }
 
-  // Weise ein Ticket einem Benutzer zu
   assignTicket(ticketId: string, userId: string): Observable<{ assigned_to: string }> {
     return this.http.put<{ assigned_to: string }>(
-      `${this.apiUrl}/${ticketId}/assign`,  // URL korrekt angepasst
+      `${this.apiUrl}/${ticketId}/assign`,  
       { userId }
     );
   }
 
-  // Kommentar zu einem Ticket hinzufügen
-  addComment(ticketId: string, comment: { inhalt: string }): Observable<{ comment: any }> {
+  addComment(ticketId: string, comment: { inhalt: string, current_user: string }): Observable<{ comment: any }> {
     return this.http.post<{ comment: any }>(
       `${this.apiUrl}/${ticketId}/comments`, 
       comment
     );
   }
 
-  // Aktualisiere ein Ticket (z.B. Status oder Schlussdatum)
   updateTicket(ticketId: string, updateData: Partial<Ticket>): Observable<Ticket> {
     return this.http.put<Ticket>(
-      `${this.apiUrl}/${ticketId}`,  // Korrekte URL
+      `${this.apiUrl}/${ticketId}`,
       updateData
     );
   }
 
-  // Lösche ein Ticket
   deleteTicket(ticketId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${ticketId}`);
   }
 
-  // Dateien zu einem Ticket hochladen (wenn du es benötigst)
   uploadFiles(ticketId: string, files: File[]): Observable<any> {
     const formData = new FormData();
     files.forEach(file => {
@@ -64,13 +58,8 @@ export class TicketService {
     });
     return this.http.post(`${this.apiUrl}/${ticketId}/attachments`, formData);
   }
-  
-  // Einzelnes Ticket abrufen
+
   getTicket(ticketId: string): Observable<Ticket> {
     return this.http.get<Ticket>(`${this.apiUrl}/${ticketId}`);
   }
 }
-
-// Re-export types
-export type { Ticket } from '../interfaces/ticket.interface';
-export type { User } from '../auth.service';

@@ -91,16 +91,46 @@ export class ManageTicketComponent implements OnInit {
   }
 
   selectTicket(ticket: Ticket): void {
-    this.selectedTicket = ticket;
-  }
+    let base64Prefix = '';
+
+    // Prüfen, ob ein Bild existiert und der Base64-String vorhanden ist
+    if (ticket.bildBase64) {
+        // Überprüfen, ob der Base64-String bereits einen Präfix enthält
+        if (!ticket.bildBase64.startsWith('data:image/')) {
+            // Erkennung des Bildtyps anhand der ersten paar Zeichen des Base64-Strings
+            const imageType = ticket.bildBase64.charAt(0) === '/' ? 'jpeg' :
+                              ticket.bildBase64.charAt(0) === 'i' ? 'png' :
+                              ticket.bildBase64.charAt(0) === 'R' ? 'gif' :
+                              'jpeg'; // Fallback für jpg/jpeg
+
+            // Setze den korrekten Base64-Präfix basierend auf dem erkannten Bildtyp
+            base64Prefix = `data:image/${imageType};base64,`;
+        }
+    }
+
+    // Zuweisung des Bildes zum ausgewählten Ticket
+    this.selectedTicket = {
+      ...ticket,
+      bildBase64: ticket.bildBase64 ? `${base64Prefix}${ticket.bildBase64}` : undefined
+    };
+
+    console.log('Selected Ticket:', this.selectedTicket);  // Debug-Ausgabe, um sicherzustellen, dass das Bild vorhanden ist
+}
+
+
+  
+  
+  
 
   addComment(): void {
     if (!this.selectedTicket || !this.newCommentContent.trim()) {
-      return;
+        return;
     }
 
+    const currentUser = this.currentUser?.name || 'Unknown User';  // Fallback für den Fall, dass current_user undefined ist
+
     this.ticketService
-      .addComment(this.selectedTicket._id, { inhalt: this.newCommentContent })
+      .addComment(this.selectedTicket._id, { inhalt: this.newCommentContent, current_user: currentUser })
       .subscribe({
         next: (response) => {
           if (this.selectedTicket && response.comment) {
@@ -115,7 +145,9 @@ export class ManageTicketComponent implements OnInit {
           console.error('Fehler beim Hinzufügen des Kommentars:', error);
         }
       });
-  }
+}
+
+  
 
   toggleTicketStatus(): void {
     if (!this.selectedTicket) {
@@ -180,17 +212,5 @@ export class ManageTicketComponent implements OnInit {
 
   getStatusBadge(status: string): string {
     return status === 'offen' ? 'badge-warning' : 'badge-success';
-  }
-
-  getImageMimeType(filename: string): string {
-    const ext = filename.split('.').pop()?.toLowerCase();
-    const mimeTypes: { [key: string]: string } = {
-      'jpg': 'image/jpeg',
-      'jpeg': 'image/jpeg',
-      'png': 'image/png',
-      'gif': 'image/gif',
-      'pdf': 'application/pdf'
-    };
-    return mimeTypes[ext || ''] || 'application/octet-stream';
   }
 }

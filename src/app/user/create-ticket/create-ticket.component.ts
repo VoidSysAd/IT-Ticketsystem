@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'; 
 import { NgForm, FormsModule } from '@angular/forms';
 import { TicketService } from '../../services/ticket.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import type { Ticket } from '../../interfaces/ticket.interface'; // Ticket importieren
+import type { Ticket } from '../../interfaces/ticket.interface'; 
 
 @Component({
   selector: 'app-create-ticket',
@@ -15,10 +15,11 @@ import type { Ticket } from '../../interfaces/ticket.interface'; // Ticket impor
 export class CreateTicketComponent {
   ticket: Partial<Ticket> = {
     titel: '',
-    beschreibung: '', // Verwende 'beschreibung', um dem Interface zu entsprechen
-    prioritaet: '', // Verwende 'prioritaet' anstelle von 'level'
+    beschreibung: '',
+    prioritaet: '',
     erstellungsdatum: new Date().toISOString(),
-    status: 'offen',  // Hier stellen wir sicher, dass der Status entweder "offen" oder "geschlossen" ist
+    status: 'offen',
+    bildBase64: '' 
   };
   ticketCreated: boolean = false;
   createdTicketId: string = '';
@@ -33,7 +34,15 @@ export class CreateTicketComponent {
     const element = event.target as HTMLInputElement;
     const files = element.files;
     if (files && files.length > 0) {
-      this.selectedFile = files[0];
+      const file = files[0];
+      
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          this.ticket.bildBase64 = reader.result;
+        }
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -41,10 +50,11 @@ export class CreateTicketComponent {
     if (ticketForm.valid) {
       const ticketData: Partial<Ticket> = {
         titel: this.ticket.titel,
-        beschreibung: this.ticket.beschreibung, // Verwende 'beschreibung'
-        prioritaet: this.ticket.prioritaet, // Verwende 'prioritaet'
+        beschreibung: this.ticket.beschreibung,
+        prioritaet: this.ticket.prioritaet,
         erstellungsdatum: new Date().toISOString(),
-        status: 'offen',  // Der Status wird als "offen" definiert
+        status: 'offen',
+        bildBase64: this.ticket.bildBase64 // Hier wird das Base64-Bild gesendet
       };
 
       this.ticketService.createTicket(ticketData).subscribe({
@@ -58,10 +68,13 @@ export class CreateTicketComponent {
           alert('Es gab einen Fehler beim Erstellen des Tickets.');
         }
       });
+      
+      
     } else {
       alert('Bitte füllen Sie alle Felder korrekt aus.');
     }
-  }
+}
+
 
   createNewTicket(): void {
     this.ticketCreated = false;
@@ -71,7 +84,7 @@ export class CreateTicketComponent {
       beschreibung: '',
       prioritaet: '',
       erstellungsdatum: new Date().toISOString(),
-      status: 'offen',  // Standardmäßig auf "offen" gesetzt
+      status: 'offen',
     };
   }
 }

@@ -99,9 +99,6 @@
       </div>
     </div>
 
-
-
-
     <!-- Ticket Details -->
     <div class="col-md-6">
       <div *ngIf="selectedTicket" class="card">
@@ -178,6 +175,17 @@
               <p class="bg-light p-3 rounded">{{selectedTicket.beschreibung}}</p>
             </div>
 
+            <!-- Bild anzeigen -->
+            <div class="ticket-image mb-4" *ngIf="selectedTicket.bildBase64">
+              <h6><i class="fas fa-image me-2"></i>Angehängtes Bild</h6>
+              <img [src]="selectedTicket.bildBase64" alt="Ticket Bild" class="img-fluid rounded" style="max-width: 100%; height: auto;">
+            </div>
+            <div *ngIf="!selectedTicket.bildBase64">
+              <p>Kein Bild angehängt.</p>
+            </div>
+            
+
+
             <!-- Status Toggle Button -->
             <div class="mb-4">
               <button class="btn w-100" [ngClass]="{
@@ -190,20 +198,6 @@
                 }"></i>
                 {{selectedTicket.status === 'offen' ? 'Ticket schließen' : 'Ticket wieder öffnen'}}
               </button>
-            </div>
-
-            <!-- Anhänge -->
-            <div class="ticket-attachments mb-4" *ngIf="selectedTicket.anhaenge?.length">
-              <h6><i class="fas fa-paperclip me-2"></i>Anhänge</h6>
-              <div class="list-group">
-                <a *ngFor="let anhang of selectedTicket.anhaenge" 
-                   [href]="anhang.pfad" 
-                   target="_blank"
-                   class="list-group-item list-group-item-action">
-                  <i class="fas fa-file me-2"></i>
-                  {{anhang.filename}}
-                </a>
-              </div>
             </div>
 
             <!-- Kommentare -->

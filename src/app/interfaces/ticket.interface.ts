@@ -2,11 +2,11 @@
 export interface Ticket {
   _id: string;
   titel: string;
-  beschreibung: string; // Dies wird im HTML als 'description' verwendet
+  beschreibung: string;
   ersteller: string;
   zugewiesenerBenutzer?: string;
   status: 'offen' | 'geschlossen';
-  prioritaet: string; // Dies wird im HTML als 'level' verwendet
+  prioritaet: string;
   erstellungsdatum: string;
   schlussdatum?: string;
   kommentare?: Array<{
@@ -18,4 +18,6 @@ export interface Ticket {
     filename: string;
     pfad: string;
   }>;
+  
+  bildBase64?: string;  // Füge dies hinzu, um das Base64-Bild zu speichern
 }

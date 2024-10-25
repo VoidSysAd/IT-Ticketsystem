@@ -28,3 +28,13 @@
   background-color: #28a745;
   color: white;
 }
+
+.ticket-image img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #ccc; /* Optional, um das Bild hervorzuheben */
+  padding: 5px; /* Optional */
+}
+

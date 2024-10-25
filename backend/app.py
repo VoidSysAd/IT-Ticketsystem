@@ -1,11 +1,12 @@
+import base64
 from flask import Flask, request, jsonify
 import couchdb
 from couchdb.http import ResourceNotFound, ResourceConflict, PreconditionFailed
 from flask_cors import CORS
 from datetime import datetime
-from werkzeug.utils import secure_filename
 from functools import wraps
 import os
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}, supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
@@ -34,6 +35,7 @@ class DatabaseConnection:
 
 # Globale Datenbankinstanz
 db = DatabaseConnection()
+
 @app.before_request
 def handle_preflight():
     if request.method == 'OPTIONS':
@@ -122,7 +124,6 @@ def login():
     }), 401
 
 
-
 # Endpunkt zum Abrufen aller Benutzer
 @app.route('/api/users', methods=['GET'])
 @error_handler
@@ -145,28 +146,37 @@ def get_users():
 
 
 @app.route('/api/tickets', methods=['POST'])
+@error_handler
 def create_ticket():
     try:
-        titel = request.form.get('titel')
-        beschreibung = request.form.get('beschreibung')
-        prioritaet = request.form.get('prioritaet')
-        erstellungsdatum = request.form.get('erstellungsdatum')
-        status = request.form.get('status')
-        
-        # Überprüfung, ob Datei hochgeladen wurde
-        if 'image' in request.files:
-            image = request.files['image']
-            filename = secure_filename(image.filename)
-            image.save(os.path.join('uploads', filename))  # Speicherort anpassen
+        data = request.json
+        titel = data.get('titel')
+        beschreibung = data.get('beschreibung')
+        prioritaet = data.get('prioritaet')
+        erstellungsdatum = data.get('erstellungsdatum')
+        status = data.get('status')
+        bild_base64 = data.get('bildBase64')  # Base64-encoded image
 
-        # Erstellen des Tickets
+        app.logger.info(f"Ticket-Daten: Titel={titel}, Beschreibung={beschreibung}, Priorität={prioritaet}, Status={status}, BildBase64 vorhanden: {bool(bild_base64)}")
+
+        if not titel or not beschreibung or not prioritaet:
+            app.logger.error("Fehlende Ticket-Daten")
+            return jsonify({'error': 'Titel, Beschreibung und Priorität sind erforderlich'}), 400
+
+        # Bild in Base64 speichern
+        bild_pfad = None
+        if bild_base64:
+            bild_pfad = bild_base64  # Das Bild bleibt im Base64-Format und wird direkt in der Datenbank gespeichert.
+
+        # Ticket erstellen
         new_ticket = {
             '_id': str(datetime.now().timestamp()),
             'titel': titel,
             'beschreibung': beschreibung,
             'prioritaet': prioritaet,
             'status': status,
-            'erstellungsdatum': erstellungsdatum
+            'erstellungsdatum': erstellungsdatum,
+            'bild_base64': bild_pfad  # Bild in der Datenbank als Base64-String speichern
         }
 
         db.tickets_db.save(new_ticket)
@@ -178,7 +188,6 @@ def create_ticket():
         return jsonify({'error': 'Fehler beim Erstellen des Tickets'}), 500
 
 
-
 @app.route('/api/tickets', methods=['GET'])
 @error_handler
 def get_tickets():
@@ -186,6 +195,7 @@ def get_tickets():
         tickets = []
         for doc_id in db.tickets_db:
             ticket = db.tickets_db[doc_id]
+            app.logger.info(f"Ticket {ticket['_id']} - Bild vorhanden: {'bild_base64' in ticket}")
             tickets.append({
                 '_id': ticket['_id'],
                 'titel': ticket.get('titel', 'Kein Titel'),
@@ -196,38 +206,43 @@ def get_tickets():
                 'zugewiesenerBenutzer': ticket.get('zugewiesenerBenutzer', 'Niemand'),
                 'schlussdatum': ticket.get('schlussdatum', None),
                 'kommentare': ticket.get('kommentare', []),
-                'anhaenge': ticket.get('anhaenge', [])
+                'bildBase64': ticket.get('bild_base64', None)  # Hier wird jetzt 'bild_base64' verwendet
             })
         return jsonify(tickets), 200
     except Exception as e:
         app.logger.error(f"Fehler beim Abrufen der Tickets: {str(e)}")
         return jsonify({'error': 'Fehler beim Abrufen der Tickets'}), 500
 
+
+
+
 @app.route('/api/tickets/<ticket_id>/comments', methods=['POST'])
-@error_handler
 def add_comment(ticket_id):
     try:
         ticket = db.tickets_db[ticket_id]
         comment = request.json.get('inhalt', '').strip()
+        current_user = request.json.get('current_user', 'Anonymous')
+
         if not comment:
             return jsonify({'error': 'Leerer Kommentar'}), 400
         
         comment_data = {
             'inhalt': comment,
-            'ersteller': 'current_user',  # Füge hier die richtige Benutzerzuweisung hinzu
+            'ersteller': current_user,
             'erstellungsdatum': datetime.now().isoformat()
         }
 
-        # Kommentare initialisieren, wenn noch keine vorhanden sind
         if 'kommentare' not in ticket:
             ticket['kommentare'] = []
-        
+
         ticket['kommentare'].append(comment_data)
         db.tickets_db.save(ticket)
-        
+
         return jsonify({'comment': comment_data}), 200
     except ResourceNotFound:
         return jsonify({'error': 'Ticket nicht gefunden'}), 404
+    except Exception as e:
+        return jsonify({'error': 'Fehler beim Hinzufügen des Kommentars', 'details': str(e)}), 500
 
 
 @app.route('/api/tickets/<ticket_id>', methods=['PUT'])
@@ -250,43 +265,6 @@ def update_ticket(ticket_id):
         return jsonify(ticket), 200
     except ResourceNotFound:
         return jsonify({'error': 'Ticket nicht gefunden'}), 404
-
-# Endpunkt zum Registrieren eines neuen Benutzers
-@app.route('/api/accounts', methods=['POST'])
-@error_handler
-def register_user():
-    try:
-        data = request.json
-        name = data.get('name')
-        email = data.get('email')
-        abteilung = data.get('abteilung')
-        role = data.get('role', 'user')  # Standardrolle "user", falls nicht angegeben
-
-        if not name or not email:
-            return jsonify({'error': 'Name und E-Mail sind erforderlich'}), 400
-
-        # Überprüfe, ob die E-Mail bereits registriert ist
-        for account_id in db.accounts_db:
-            account = db.accounts_db[account_id]
-            if account.get('email') == email:
-                return jsonify({'error': 'E-Mail ist bereits registriert'}), 409
-
-        # Erstelle einen neuen Benutzer
-        new_user = {
-            '_id': str(datetime.now().timestamp()),
-            'name': name,
-            'email': email,
-            'abteilung': abteilung,
-            'role': role
-        }
-
-        db.accounts_db.save(new_user)
-
-        return jsonify({'message': 'Benutzer erfolgreich registriert', 'user_id': new_user['_id']}), 201
-
-    except Exception as e:
-        app.logger.error(f"Fehler beim Registrieren des Benutzers: {str(e)}")
-        return jsonify({'error': 'Fehler beim Registrieren des Benutzers'}), 500
 
 
 # Flask wird auf Port 5000 ausgeführt
