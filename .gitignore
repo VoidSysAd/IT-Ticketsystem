@@ -41,6 +41,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+Install/node-v20.18.0-x64.msi
+Install/apache-couchdb-3.4.1.msi
+
 tickets/*.json
 
 git add .gitignore
