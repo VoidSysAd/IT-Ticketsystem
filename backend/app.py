@@ -266,6 +266,36 @@ def update_ticket(ticket_id):
     except ResourceNotFound:
         return jsonify({'error': 'Ticket nicht gefunden'}), 404
 
+@app.route('/api/accounts', methods=['POST'])
+@error_handler
+def create_account():
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+    abteilung = data.get('abteilung')
+    role = data.get('role', 'user')  # Standardrolle 'user', falls nicht angegeben
+
+    if not name or not email or not abteilung:
+        return jsonify({'error': 'Name, Abteilung und E-Mail sind erforderlich'}), 400
+
+    # Erstelle das Account-Dokument
+    new_account = {
+        '_id': str(datetime.now().timestamp()),
+        'name': name,
+        'email': email,
+        'abteilung': abteilung,
+        'role': role
+    }
+
+    try:
+        db.accounts_db.save(new_account)
+        return jsonify({'message': 'Account erfolgreich erstellt', 'account_id': new_account['_id']}), 201
+    except ResourceConflict:
+        return jsonify({'error': 'Ein Account mit dieser ID existiert bereits'}), 409
+    except Exception as e:
+        app.logger.error(f"Fehler beim Erstellen des Accounts: {str(e)}")
+        return jsonify({'error': 'Fehler beim Erstellen des Accounts'}), 500
+
 
 # Flask wird auf Port 5000 ausgeführt
 if __name__ == '__main__':
