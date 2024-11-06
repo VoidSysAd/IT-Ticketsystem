@@ -5,21 +5,21 @@
       <a class="nav-link" [class.active]="activeTab === 'offen'"
          (click)="setActiveTab('offen')">
         <i class="fas fa-hourglass-start"></i> Offene Tickets
-        <span class="badge bg-primary ms-2">{{offeneTickets.length}}</span>
+        <span class="badge ms-2">{{offeneTickets.length}}</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" [class.active]="activeTab === 'geschlossen'"
          (click)="setActiveTab('geschlossen')">
         <i class="fas fa-check-circle"></i> Geschlossene Tickets
-        <span class="badge bg-secondary ms-2">{{geschlosseneTickets.length}}</span>
+        <span class="badge ms-2">{{geschlosseneTickets.length}}</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" [class.active]="activeTab === 'meine'"
          (click)="setActiveTab('meine')">
         <i class="fas fa-user"></i> Meine Tickets
-        <span class="badge bg-info ms-2">{{meineTickets.length}}</span>
+        <span class="badge ms-2">{{meineTickets.length}}</span>
       </a>
     </li>
   </ul>
@@ -102,7 +102,7 @@
     <!-- Ticket Details -->
     <div class="col-md-6">
       <div *ngIf="selectedTicket" class="card">
-        <div class="card-header bg-info text-white">
+        <div class="card-header">
           <h4><i class="fas fa-info-circle"></i> Ticket Details</h4>
         </div>
         <div class="card-body">

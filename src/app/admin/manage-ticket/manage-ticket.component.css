@@ -38,3 +38,108 @@
   padding: 5px; /* Optional */
 }
 
+/* Dark mode styles */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.container {
+  background-color: #1e1e1e; /* Dark background for container */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.nav-tabs {
+  background-color: #333; /* Dark background for tabs */
+  border: none;
+}
+
+.nav-link {
+  color: #d1d1d1; /* Light text color */
+  cursor: pointer;
+}
+
+.nav-link.active {
+  background-color: #6200ea; /* Active tab highlight color */
+  color: white;
+}
+
+.nav-link:hover {
+  background-color: #444; /* Hover effect */
+  color: #fff;
+}
+
+.badge {
+  background-color: #6200ea; /* Default badge color */
+}
+
+.list-group-item {
+  background-color: #2a2a2a; /* Dark background for list items */
+  color: #e0e0e0; /* Light text color */
+  border: none;
+}
+
+.list-group-item-action:hover {
+  background-color: #3a3a3a; /* Hover effect */
+}
+
+.card {
+  background-color: #333; /* Dark background for cards */
+  color: #e0e0e0;
+  border-radius: 8px;
+}
+
+.card-header {
+  background-color: #6200ea; /* Purple background for card header */
+  color: #fff;
+}
+
+.ticket-details {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.ticket-description {
+  background-color: #333;
+  color: #e0e0e0;
+  border-radius: 8px;
+}
+
+.ticket-comments {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.add-comment textarea {
+  background-color: #444;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+.add-comment button {
+  background-color: #6200ea;
+  color: white;
+}
+
+.add-comment button:hover {
+  background-color: #3700b3;
+}
+
+/* Adjustments for buttons */
+.btn-primary {
+  background-color: #6200ea;
+  border-color: #6200ea;
+}
+
+.btn-primary:hover {
+  background-color: #3700b3;
+  border-color: #3700b3;
+}
+
+.text-muted {
+  color: #9e9e9e !important;
+}

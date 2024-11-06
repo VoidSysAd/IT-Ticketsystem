@@ -1,29 +1,31 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow-lg">
-        <div class="card-header bg-info text-white text-center">
-          <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
-        </div>
-        <div class="card-body text-center">
-          <p class="mb-4">
-            Bitte melden Sie sich an oder registrieren Sie sich.
-          </p>
-          <!-- Anmelden-Button -->
-          <button
-            class="btn btn-primary btn-block mb-3 px-4 py-2 w-100"
-            (click)="navigateToAnmelden()"
-          >
-            <i class="fas fa-sign-in-alt"></i> Anmelden
-          </button>
-
-          <!-- Registrierung -->
-          <button
-            class="btn btn-success btn-block px-4 py-2 w-100"
-            (click)="navigateTo('registrate')"
-          >
-            <i class="fas fa-user-plus"></i> Registrierung
-          </button>
+<div class="content">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-lg">
+          <div class="card-header text-white text-center">
+            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+          </div>
+          <div class="card-body text-center">
+            <p class="mb-4">
+              Bitte melden Sie sich an oder registrieren Sie sich.
+            </p>
+            <!-- Anmelden-Button -->
+            <button
+              class="btn btn-primary btn-block mb-3 px-4 py-2 w-100"
+              (click)="navigateToAnmelden()"
+            >
+              <i class="fas fa-sign-in-alt"></i> Anmelden
+            </button>
+  
+            <!-- Registrierung -->
+            <button
+              class="btn btn-success btn-block px-4 py-2 w-100"
+              (click)="navigateTo('registrate')"
+            >
+              <i class="fas fa-user-plus"></i> Registrierung
+            </button>
+          </div>
         </div>
       </div>
     </div>

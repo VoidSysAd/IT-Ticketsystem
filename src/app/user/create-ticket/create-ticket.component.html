@@ -52,9 +52,15 @@
               </div>
 
               <div class="form-group mb-4">
-                <label for="image"><strong>Bild hochladen:</strong></label>
-                <input type="file" id="image" class="form-control-file" (change)="onFileSelected($event)" accept="image/*">
+                <label for="image" class="font-weight-bold">Bild hochladen:</label>
+                
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*">
+                </div>
+              
+                <small class="form-text text-muted">Maximale Dateigröße: 5 MB. Unterstützte Formate: JPG, PNG, GIF.</small>
               </div>
+              
 
               <div class="form-group mb-4">
                 <label for="prioritaet"><strong>Priorität:</strong></label>

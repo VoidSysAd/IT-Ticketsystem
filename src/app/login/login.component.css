@@ -1,6 +1,9 @@
 .card {
   border-radius: 15px; /* Runde Ecken für die Karte */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: rgb(50, 50, 50);
+  color: white;
+  border: none;
 }
 
 .btn {
@@ -9,6 +12,12 @@
 }
 
 .btn:hover {
-  transform: scale(1.05); /* Vergrößert den Button leicht, wenn er gehighlighted wird */
+  transform: scale(1.005); /* Vergrößert den Button leicht, wenn er gehighlighted wird */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+.card-header {
+  background-color: rgb(60, 60, 60);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
