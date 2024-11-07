@@ -4,6 +4,7 @@ import { TicketService } from '../../services/ticket.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import type { Ticket } from '../../interfaces/ticket.interface'; 
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-create-ticket',
@@ -19,7 +20,8 @@ export class CreateTicketComponent {
     prioritaet: '',
     erstellungsdatum: new Date().toISOString(),
     status: 'offen',
-    bildBase64: '' 
+    bildBase64: '',
+    ersteller: '' // Neu hinzugefügt 
   };
   ticketCreated: boolean = false;
   createdTicketId: string = '';
@@ -27,8 +29,13 @@ export class CreateTicketComponent {
 
   constructor(
     private ticketService: TicketService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private authService: AuthService // Inject AuthService
+  ) {    // Setze den aktuellen Benutzer als Ersteller
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser && currentUser.name) {
+      this.ticket.ersteller = currentUser.name;
+    }}
 
   onFileSelected(event: Event): void {
     const element = event.target as HTMLInputElement;
@@ -54,7 +61,8 @@ export class CreateTicketComponent {
         prioritaet: this.ticket.prioritaet,
         erstellungsdatum: new Date().toISOString(),
         status: 'offen',
-        bildBase64: this.ticket.bildBase64 // Hier wird das Base64-Bild gesendet
+        bildBase64: this.ticket.bildBase64, // Hier wird das Base64-Bild gesendet
+        ersteller: this.ticket.ersteller // Neu hinzugefügt
       };
 
       this.ticketService.createTicket(ticketData).subscribe({
@@ -77,6 +85,7 @@ export class CreateTicketComponent {
 
 
   createNewTicket(): void {
+    const currentUser = this.authService.getCurrentUser();
     this.ticketCreated = false;
     this.createdTicketId = '';
     this.ticket = {
@@ -85,6 +94,7 @@ export class CreateTicketComponent {
       prioritaet: '',
       erstellungsdatum: new Date().toISOString(),
       status: 'offen',
+      ersteller: currentUser?.name || '' // Behalte den Ersteller beim Zurücksetzen
     };
   }
 }

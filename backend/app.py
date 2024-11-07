@@ -156,6 +156,7 @@ def create_ticket():
         erstellungsdatum = data.get('erstellungsdatum')
         status = data.get('status')
         bild_base64 = data.get('bildBase64')  # Base64-encoded image
+        ersteller = data.get('ersteller')  # Neu hinzugefügt
 
         app.logger.info(f"Ticket-Daten: Titel={titel}, Beschreibung={beschreibung}, Priorität={prioritaet}, Status={status}, BildBase64 vorhanden: {bool(bild_base64)}")
 
@@ -176,7 +177,8 @@ def create_ticket():
             'prioritaet': prioritaet,
             'status': status,
             'erstellungsdatum': erstellungsdatum,
-            'bild_base64': bild_pfad  # Bild in der Datenbank als Base64-String speichern
+            'bild_base64': bild_pfad,  # Bild in der Datenbank als Base64-String speichern
+            'ersteller': ersteller  # Neu hinzugefügt
         }
 
         db.tickets_db.save(new_ticket)
@@ -206,7 +208,8 @@ def get_tickets():
                 'zugewiesenerBenutzer': ticket.get('zugewiesenerBenutzer', 'Niemand'),
                 'schlussdatum': ticket.get('schlussdatum', None),
                 'kommentare': ticket.get('kommentare', []),
-                'bildBase64': ticket.get('bild_base64', None)  # Hier wird jetzt 'bild_base64' verwendet
+                'bildBase64': ticket.get('bild_base64', None),  # Hier wird jetzt 'bild_base64' verwendet
+                'ersteller': ticket.get('ersteller', 'Unbekannt')
             })
         return jsonify(tickets), 200
     except Exception as e:

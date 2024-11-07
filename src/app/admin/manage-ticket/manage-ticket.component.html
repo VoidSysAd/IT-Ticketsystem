@@ -34,6 +34,7 @@
             <li *ngIf="offeneTickets.length === 0" class="list-group-item">
               Keine offenen Tickets vorhanden.
             </li>
+            <!-- Offene Tickets - ca. Zeile 32 -->
             <li *ngFor="let ticket of offeneTickets"
                 class="list-group-item list-group-item-action"
                 (click)="selectTicket(ticket)">
@@ -44,7 +45,8 @@
                 <span class="badge bg-primary">{{ ticket.erstellungsdatum | date: 'short' }}</span>
               </div>
               <small class="text-muted d-block">
-                Zugewiesen an: {{ ticket.zugewiesenerBenutzer || 'Niemand' }}
+                Zugewiesen an: {{ ticket.zugewiesenerBenutzer || 'Niemand' }} |
+                Erstellt von: {{ ticket.ersteller || 'Unbekannt' }}
               </small>
             </li>
           </ul>
@@ -56,6 +58,7 @@
             <li *ngIf="geschlosseneTickets.length === 0" class="list-group-item">
               Keine geschlossenen Tickets vorhanden.
             </li>
+            <!-- Geschlossene Tickets - ca. Zeile 55 -->
             <li *ngFor="let ticket of geschlosseneTickets"
                 class="list-group-item list-group-item-action"
                 (click)="selectTicket(ticket)">
@@ -66,7 +69,8 @@
                 <span class="badge bg-secondary">{{ ticket.erstellungsdatum | date: 'short' }}</span>
               </div>
               <small class="text-muted d-block">
-                Zugewiesen an: {{ ticket.zugewiesenerBenutzer || 'Niemand' }}
+                Zugewiesen an: {{ ticket.zugewiesenerBenutzer || 'Niemand' }} |
+                Erstellt von: {{ ticket.ersteller || 'Unbekannt' }}
               </small>
             </li>
           </ul>
@@ -78,6 +82,7 @@
             <li *ngIf="meineTickets.length === 0" class="list-group-item">
               Keine zugewiesenen Tickets vorhanden.
             </li>
+            <!-- Meine Tickets - ca. Zeile 78 -->
             <li *ngFor="let ticket of meineTickets"
                 class="list-group-item list-group-item-action"
                 (click)="selectTicket(ticket)">
@@ -91,7 +96,8 @@
                 }">{{ ticket.status }}</span>
               </div>
               <small class="text-muted d-block">
-                Erstellt am: {{ ticket.erstellungsdatum | date: 'short' }}
+                Erstellt am: {{ ticket.erstellungsdatum | date: 'short' }} |
+                Erstellt von: {{ ticket.ersteller || 'Unbekannt' }}
               </small>
             </li>
           </ul>
