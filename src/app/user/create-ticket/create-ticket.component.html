@@ -1,101 +1,119 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div *ngIf="ticketCreated; else ticketForm" class="alert alert-success text-center">
+<form (ngSubmit)="createTicket(ticketForm)" #ticketForm="ngForm" novalidate>
+  <div class="create-ticket-container">
+    <div class="create-ticket-card">
+      <!-- Erfolgsmeldung -->
+      <div
+        *ngIf="ticketCreated; else ticketFormTemplate"
+        class="alert alert-success text-center"
+        role="alert"
+      >
         <h4 class="alert-heading">Ticket erfolgreich erstellt!</h4>
         <p>Ticket-ID: <strong>{{ createdTicketId }}</strong></p>
         <hr>
-        <button class="btn btn-primary mt-3" (click)="createNewTicket()">
+        <button class="btn btn-primary mt-3" type="button" (click)="createNewTicket()">
           <i class="fas fa-plus-circle"></i> Neues Ticket erstellen
         </button>
       </div>
 
-      <ng-template #ticketForm>
-        <div class="card shadow-lg">
-          <div class="card-header bg-info text-white text-center">
-            <h2><i class="fas fa-ticket-alt"></i> Ticket erstellen</h2>
+      <!-- Ticket-Erstellungsformular -->
+      <ng-template #ticketFormTemplate>
+        <div class="ticket-form-header">
+          <h2><i class="fas fa-ticket-alt"></i> Ticket erstellen</h2>
+        </div>
+        <div class="ticket-form-body">
+          <div class="form-group mb-4">
+            <label for="titel"><strong>Titel:</strong></label>
+            <input
+              type="text"
+              id="titel"
+              class="form-control"
+              [(ngModel)]="ticket.titel"
+              name="titel"
+              required
+              placeholder="Geben Sie den Titel des Tickets ein"
+              [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.titel}"
+              aria-label="Titel"
+            />
+            <div class="invalid-feedback">
+              Titel ist erforderlich.
+            </div>
           </div>
-          <div class="card-body">
-            <form (ngSubmit)="createTicket(ticketForm)" #ticketForm="ngForm" novalidate>
-              <div class="form-group mb-4">
-                <label for="titel"><strong>Titel:</strong></label>
-                <input
-                  type="text"
-                  id="titel"
-                  class="form-control"
-                  [(ngModel)]="ticket.titel"
-                  name="titel"
-                  required
-                  placeholder="Geben Sie den Titel des Tickets ein"
-                  [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.titel}"
-                />
-                <div class="invalid-feedback">
-                  Titel ist erforderlich.
-                </div>
-              </div>
 
-              <div class="form-group mb-4">
-                <label for="beschreibung"><strong>Beschreibung:</strong></label>
-                <textarea
-                  id="beschreibung"
-                  class="form-control"
-                  [(ngModel)]="ticket.beschreibung"
-                  name="beschreibung"
-                  rows="4"
-                  required
-                  placeholder="Beschreiben Sie das Problem detailliert"
-                  [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.beschreibung}"
-                ></textarea> <!-- Kommentar hier entfernt -->
-                <div class="invalid-feedback">
-                  Beschreibung ist erforderlich.
-                </div>
-              </div>
+          <div class="form-group mb-4">
+            <label for="beschreibung"><strong>Beschreibung:</strong></label>
+            <textarea
+              id="beschreibung"
+              class="form-control"
+              [(ngModel)]="ticket.beschreibung"
+              name="beschreibung"
+              rows="4"
+              required
+              placeholder="Beschreiben Sie das Problem detailliert"
+              [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.beschreibung}"
+              aria-label="Beschreibung"
+            ></textarea>
+            <div class="invalid-feedback">
+              Beschreibung ist erforderlich.
+            </div>
+          </div>
 
-              <div class="form-group mb-4">
-                <label for="image" class="font-weight-bold">Bild hochladen:</label>
-                
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*">
-                </div>
-              
-                <small class="form-text text-muted">Maximale Dateigröße: 5 MB. Unterstützte Formate: JPG, PNG, GIF.</small>
-              </div>
-              
+          <div class="form-group mb-4">
+            <label for="image" class="font-weight-bold">Bild hochladen:</label>
+            <div class="file-upload-wrapper">
+              <input
+                type="file"
+                class="file-upload-input"
+                id="image"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+              />
+              <label for="image" class="btn btn-file-upload">
+                <i class="fas fa-upload"></i> Bild auswählen
+              </label>
+              <span class="file-upload-text" *ngIf="selectedFileName">{{ selectedFileName }}</span>
+            </div>
+            <small class="form-text">Maximale Dateigröße: 5 MB. Unterstützte Formate: JPG, PNG, GIF.</small>
 
-              <div class="form-group mb-4">
-                <label for="prioritaet"><strong>Priorität:</strong></label>
-                <select
-                  id="prioritaet"
-                  class="form-select"
-                  [(ngModel)]="ticket.prioritaet"
-                  name="prioritaet"
-                  required
-                  [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.prioritaet}"
-                >
-                  <option value="" disabled selected>Bitte wählen</option>
-                  <option value="niedrig">Niedrig</option>
-                  <option value="normal">Normal</option>
-                  <option value="hoch">Hoch</option>
-                  <option value="dringend">Dringend</option>
-                </select>
-                <div class="invalid-feedback">
-                  Bitte wählen Sie eine Priorität aus.
-                </div>
-              </div>
+            <!-- Bildvorschau -->
+            <div *ngIf="ticket.bildBase64" class="ticket-image-preview">
+              <img [src]="ticket.bildBase64" alt="Bildvorschau">
+            </div>
+          </div>
 
-              <div class="text-center">
-                <button
-                  type="submit"
-                  class="btn btn-primary px-4 py-2"
-                  [disabled]="!ticketForm.form.valid"
-                >
-                  <i class="fas fa-paper-plane"></i> Ticket erstellen
-                </button>
-              </div>
-            </form>
+          <div class="form-group mb-4">
+            <label for="prioritaet"><strong>Priorität:</strong></label>
+            <select
+              id="prioritaet"
+              class="form-select"
+              [(ngModel)]="ticket.prioritaet"
+              name="prioritaet"
+              required
+              [ngClass]="{'is-invalid': ticketForm.submitted && !ticket.prioritaet}"
+              aria-label="Priorität"
+            >
+              <option value="" disabled selected>Bitte wählen</option>
+              <option value="niedrig">Niedrig</option>
+              <option value="normal">Normal</option>
+              <option value="hoch">Hoch</option>
+              <option value="dringend">Dringend</option>
+            </select>
+            <div class="invalid-feedback">
+              Bitte wählen Sie eine Priorität aus.
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button
+              type="submit"
+              class="btn btn-submit px-4 py-2"
+              [disabled]="!ticketForm.form.valid"
+              aria-label="Ticket erstellen"
+            >
+              <i class="fas fa-paper-plane"></i> Ticket erstellen
+            </button>
           </div>
         </div>
       </ng-template>
     </div>
   </div>
-</div>
+</form>

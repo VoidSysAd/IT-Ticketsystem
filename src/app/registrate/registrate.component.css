@@ -1,6 +1,94 @@
-.card {
+/* Grundlegende Stile für die Registrierungs-Komponente im Dark Mode */
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #1c1c1e; /* Sehr dunkler Hintergrund */
+  min-height: 100vh;
+}
+
+.registration-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 25px;
+  background-color: #2e2e2e; /* Dunkleres Grau für die Karte */
+  border: 1px solid #444; /* Neutrale, dunkle Rahmenfarbe */
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.registration-header {
+  background-color: #1b1b1b; /* Sehr dunkler Hintergrund */
+  color: #ffffff; /* Weißer Text */
+  padding: 15px 20px;
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+  margin: -25px -25px 25px -25px; /* Um die Rundungen zu betonen */
+}
+
+.registration-header h2 {
+  margin: 0;
+  font-size: 1.6em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.registration-body {
+  padding: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  color: #ffffff; /* Weißer Text */
+  margin-bottom: 8px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #616161; /* Neutrale Rahmenfarbe */
+  border-radius: 8px;
+  font-size: 1em;
+  background-color: #616161; /* Dunkles Grau */
+  color: #ffffff; /* Weißer Text */
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #1976d2; /* Blau beim Fokus */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.5);
+}
+
+.form-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #616161; /* Neutrale Rahmenfarbe */
+  border-radius: 8px;
+  background-color: #616161; /* Dunkles Grau */
+  color: #ffffff; /* Weißer Text */
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.form-select:focus {
+  border-color: #1976d2; /* Blau beim Fokus */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.5);
+}
+
+.is-invalid {
+  border-color: #e53935; /* Rotes Rot für Fehler */
+}
+
+.invalid-feedback {
+  color: #ef9a9a; /* Helles Rot für Fehlermeldungen */
+  font-size: 0.9em;
+  margin-top: 5px;
 }
 
 .btn {
@@ -8,20 +96,49 @@
   transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-.btn:hover {
+.btn-submit {
+  background-color: #43a047; /* Grün als primäre Farbe */
+  border: none;
+  color: #ffffff; /* Weißer Text */
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  width: 100%;
+}
+
+.btn-submit:hover {
+  background-color: #388e3c; /* Dunkleres Grün beim Hover */
   transform: scale(1.05);
-  background-color: #28a745 !important; /* Anpassung der Hintergrundfarbe bei Hover */
 }
 
-.form-group label {
-  font-weight: bold;
+.text-center {
+  text-align: center;
 }
 
-/* Optional: Zusätzliche Styles für Eingabefelder */
-.form-control.is-invalid {
-  border-color: #dc3545;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registration-container {
+    padding: 20px;
+  }
 
-.form-select.is-invalid {
-  border-color: #dc3545;
+  .registration-card {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .registration-header {
+    margin: -20px -20px 20px -20px;
+  }
+
+  .registration-description {
+    font-size: 1em;
+    margin-bottom: 25px;
+  }
+
+  .btn-submit {
+    padding: 10px 16px;
+    font-size: 0.95em;
+  }
 }

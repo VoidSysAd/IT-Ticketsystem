@@ -1,0 +1,196 @@
+/* Grundlegende Stile für die Login-Komponente im Dark Mode */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: #1c1c1e; /* Sehr dunkler Hintergrund, konsistent mit anderen Komponenten */
+    min-height: 100vh;
+  }
+  
+  .login-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #2e2e2e; /* Dunkleres Grau für die Karte */
+    border: 1px solid #444; /* Neutrale, dunkle Rahmenfarbe */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Alert-Stile im Dark Mode */
+  .alert-success {
+    background-color: #3a5f3a; /* Dunkles Grün für Erfolg */
+    border: 1px solid #4caf50;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Weißer Text */
+  }
+  
+  .alert-danger {
+    background-color: #e53935; /* Rotes Rot für Fehler */
+    border: 1px solid #f44336;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Weißer Text */
+  }
+  
+  .alert-info {
+    background-color: #2196f3; /* Blau für Info */
+    border: 1px solid #2196f3;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Weißer Text */
+  }
+  
+  /* Login Formular */
+  .login-form-card {
+    background-color: #424242; /* Dunkleres Grau */
+    border: 1px solid #616161;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+  
+  .login-form-header {
+    background-color: #1b1b1b; /* Sehr dunkler Hintergrund */
+    color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+  }
+  
+  .login-form-header h2 {
+    margin: 0;
+    font-size: 1.6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .login-form-body {
+    padding: 25px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #ffffff; /* Weißer Text */
+    margin-bottom: 8px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #616161; /* Neutrale Rahmenfarbe */
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #616161; /* Dunkles Grau */
+    color: #ffffff; /* Weißer Text */
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #1976d2; /* Blau beim Fokus */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.5);
+  }
+  
+  .is-invalid {
+    border-color: #e53935; /* Rotes Rot für Fehler */
+  }
+  
+  .invalid-feedback {
+    color: #ef9a9a; /* Helles Rot für Fehlermeldungen */
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+  
+  .btn-submit {
+    background-color: #43a047; /* Grün */
+    border: none;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-submit:hover {
+    background-color: #388e3c; /* Dunkleres Grün beim Hover */
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Bildvorschau */
+  .ticket-image-preview {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid #616161;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  }
+  
+  .ticket-image-preview img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .login-container {
+      padding: 20px;
+    }
+  
+    .login-card {
+      padding: 15px;
+    }
+  
+    .alert-success,
+    .alert-danger,
+    .alert-info {
+      padding: 20px;
+    }
+  
+    .alert-heading {
+      font-size: 1.2em;
+    }
+  
+    .btn-primary {
+      padding: 10px 16px;
+      font-size: 0.95em;
+    }
+  
+    .login-form-body {
+      padding: 20px;
+    }
+  
+    .login-form-header h2 {
+      font-size: 1.4em;
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+    }
+  
+    .ticket-image-preview {
+      margin-top: 8px;
+    }
+  
+    .btn-submit {
+      padding: 10px 16px;
+      font-size: 0.95em;
+    }
+  }
+  

@@ -1,0 +1,118 @@
+/* Grundlegende Stile für die Admin Dashboard Komponente im Dark Mode */
+.admin-dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: #1c1c1e; /* Sehr dunkler Hintergrund */
+    min-height: 100vh;
+  }
+  
+  .dashboard-card {
+    width: 100%;
+    max-width: 600px;
+    padding: 25px;
+    background-color: #2e2e2e; /* Dunkleres Grau für die Karte */
+    border: 1px solid #444; /* Neutrale, dunkle Rahmenfarbe */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  }
+  
+  .dashboard-header {
+    background-color: #1b1b1b; /* Sehr dunkler Hintergrund */
+    color: #ffffff; /* Weißer Text */
+    padding: 15px 20px;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    margin: -25px -25px 25px -25px; /* Um die Rundungen zu betonen */
+  }
+  
+  .dashboard-header h2 {
+    margin: 0;
+    font-size: 1.6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .dashboard-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .dashboard-description {
+    font-size: 1.1em;
+    color: #e0e0e0; /* Helles Grau für bessere Lesbarkeit */
+    margin-bottom: 30px;
+  }
+  
+  .dashboard-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #ffffff; /* Weißer Text */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .dashboard-button i {
+    margin-right: 8px;
+    font-size: 1.2em;
+  }
+  
+  /* Stil für "Ticket erstellen" Button */
+  .create-ticket-btn {
+    background-color: #007aff; /* Blau als primäre Farbe */
+  }
+  
+  .create-ticket-btn:hover {
+    background-color: #005bb5; /* Dunkleres Blau beim Hover */
+    transform: translateY(-2px);
+  }
+  
+  /* Stil für "Tickets verwalten" Button */
+  .manage-ticket-btn {
+    background-color: #34c759; /* Grün als sekundäre Farbe */
+  }
+  
+  .manage-ticket-btn:hover {
+    background-color: #28a745; /* Dunkleres Grün beim Hover */
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .admin-dashboard-container {
+      padding: 20px;
+    }
+  
+    .dashboard-card {
+      padding: 20px;
+      max-width: 100%;
+    }
+  
+    .dashboard-header {
+      margin: -20px -20px 20px -20px;
+    }
+  
+    .dashboard-description {
+      font-size: 1em;
+      margin-bottom: 25px;
+    }
+  
+    .dashboard-button {
+      max-width: 100%;
+      padding: 10px 16px;
+      font-size: 0.95em;
+    }
+  }
+  

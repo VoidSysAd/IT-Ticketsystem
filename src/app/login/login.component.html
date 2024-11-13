@@ -1,33 +1,42 @@
-<div class="content">
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-lg">
-          <div class="card-header text-white text-center">
-            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
-          </div>
-          <div class="card-body text-center">
-            <p class="mb-4">
-              Bitte melden Sie sich an oder registrieren Sie sich.
-            </p>
-            <!-- Anmelden-Button -->
-            <button
-              class="btn btn-primary btn-block mb-3 px-4 py-2 w-100"
-              (click)="navigateToAnmelden()"
-            >
-              <i class="fas fa-sign-in-alt"></i> Anmelden
-            </button>
-  
-            <!-- Registrierung -->
-            <button
-              class="btn btn-success btn-block px-4 py-2 w-100"
-              (click)="navigateTo('registrate')"
-            >
-              <i class="fas fa-user-plus"></i> Registrierung
-            </button>
-          </div>
-        </div>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <link rel="stylesheet" href="login.component.css">
+  <!-- Font Awesome für Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+      </div>
+      <div class="login-body text-center">
+        <p class="login-description mb-4">
+          Bitte melden Sie sich an oder registrieren Sie sich.
+        </p>
+        <!-- Anmelden-Button -->
+        <button
+          class="btn btn-primary btn-login mb-3 px-4 py-2 w-100"
+          (click)="navigateToAnmelden()"
+          aria-label="Anmelden"
+        >
+          <i class="fas fa-sign-in-alt"></i> Anmelden
+        </button>
+
+        <!-- Registrierung -->
+        <button
+          class="btn btn-success btn-register px-4 py-2 w-100"
+          (click)="navigateTo('registrate')"
+          aria-label="Registrierung"
+        >
+          <i class="fas fa-user-plus"></i> Registrierung
+        </button>
       </div>
     </div>
   </div>
-</div>
+</body>
+</html>
