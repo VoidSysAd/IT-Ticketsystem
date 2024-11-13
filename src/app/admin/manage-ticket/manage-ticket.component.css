@@ -139,15 +139,15 @@ body {
 }
 
 .priority-1 {
-  background-color: #ff3b30;
+  background-color: #ff3b30; /* Rot für höchste Priorität */
 }
 
 .priority-2 {
-  background-color: #ffcc00;
+  background-color: #ffcc00; /* Gelb für mittlere Priorität */
 }
 
 .priority-3 {
-  background-color: #4cd964;
+  background-color: #4cd964; /* Grün für niedrige Priorität */
 }
 
 .ticket-content {
@@ -167,24 +167,10 @@ body {
   font-size: 0.9em;
 }
 
-.ticket-status .status-badge {
-  padding: 5px 10px;
-  border-radius: 12px;
-  font-size: 0.8em;
-  text-transform: uppercase;
-  color: #fff;
-}
-
-.status-badge {
-  background-color: #007aff;
-}
-
-.status-badge.Geschlossen {
-  background-color: #8e8e93;
-}
-
-.status-badge.Offen {
-  background-color: #ff3b30;
+.priority-text {
+  margin-left: 10px;
+  font-size: 0.9em;
+  color: #7e7e7e;
 }
 
 /* Detail View */
@@ -200,60 +186,58 @@ body {
 .detail-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start; /* Oben ausrichten */
   border-bottom: 1px solid #dcdcdc;
   padding-bottom: 15px;
   margin-bottom: 20px;
 }
 
-.title-section h2 {
-  margin: 0;
-  color: #2e2e2e;
-  font-size: 1.5em;
-  font-weight: 600;
+.title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Abstand zwischen Titel und Badges */
 }
 
 .ticket-badges {
   display: flex;
-  gap: 10px;
+  gap: 10px; /* Abstand zwischen den Badges */
+  flex-wrap: wrap; /* Umbrüche erlauben, um Überlappungen zu vermeiden */
+  margin-top: 10px; /* Optional: Abstand vom Titel */
 }
 
 .priority-badge {
-  padding: 5px 12px;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
   border-radius: 12px;
-  font-size: 0.8em;
+  font-size: 0.9em;
   text-transform: uppercase;
   color: #fff;
+  background-color: #555555; /* Standardfarbe, überschrieben durch spezifische Klassen */
 }
 
-.priority-1 {
-  background-color: #ff3b30;
+.priority-badge i {
+  margin-right: 5px; /* Abstand zwischen Icon und Text */
 }
 
-.priority-2 {
-  background-color: #ffcc00;
+/* Spezifische Farben für Prioritätsstufen */
+.priority-badge.priority-1 {
+  background-color: #ff3b30; /* Rot */
 }
 
-.priority-3 {
-  background-color: #4cd964;
+.priority-badge.priority-2 {
+  background-color: #ffcc00; /* Gelb */
 }
 
-.status-badge {
-  padding: 5px 12px;
-  border-radius: 12px;
-  font-size: 0.8em;
-  text-transform: uppercase;
-  color: #fff;
+.priority-badge.priority-3 {
+  background-color: #4cd964; /* Grün */
 }
 
-.status-badge.Offen {
-  background-color: #ff3b30;
+.priority-badge:hover {
+  opacity: 0.9;
 }
 
-.status-badge.Geschlossen {
-  background-color: #8e8e93;
-}
-
+/* Action Bar */
 .action-bar {
   display: flex;
   gap: 15px;
@@ -269,14 +253,23 @@ body {
   padding: 8px 12px;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
-  background-color: #f7f7f7;
+  background-color: #ffffff; /* Weißer Hintergrund */
   font-size: 0.9em;
+  color: #333333; /* Dunklere Schriftfarbe */
+  font-weight: 500; /* Erhöhtes Schriftgewicht */
+}
+
+.custom-select:hover,
+.custom-select:focus {
+  border-color: #007aff; /* Blaue Umrandung bei Hover/Fokus */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 122, 255, 0.5); /* Leichter Schatten */
 }
 
 .btn-assign {
   padding: 8px 16px;
-  background-color: #007aff;
-  color: #fff;
+  background-color: #555555; /* Dunkleres Grau */
+  color: #ffffff; /* Weiße Schrift */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -285,13 +278,13 @@ body {
 }
 
 .btn-assign:hover {
-  background-color: #005bb5;
+  background-color: #333333; /* Noch dunkler beim Hover */
 }
 
 .btn-toggle-status {
   padding: 8px 16px;
-  background-color: #34c759;
-  color: #fff;
+  background-color: #555555; /* Dunkleres Grau */
+  color: #ffffff; /* Weiße Schrift */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -300,7 +293,7 @@ body {
 }
 
 .btn-toggle-status:hover {
-  background-color: #28a745;
+  background-color: #333333; /* Noch dunkler beim Hover */
 }
 
 .detail-content {
@@ -389,8 +382,8 @@ body {
 .btn-submit-comment {
   align-self: flex-end;
   padding: 8px 16px;
-  background-color: #007aff;
-  color: #fff;
+  background-color: #555555; /* Dunkleres Grau */
+  color: #ffffff; /* Weiße Schrift */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -404,7 +397,7 @@ body {
 }
 
 .btn-submit-comment:not(:disabled):hover {
-  background-color: #005bb5;
+  background-color: #333333; /* Noch dunkler beim Hover */
 }
 
 /* Responsive Design */
@@ -436,5 +429,16 @@ body {
   .detail-view {
     margin-top: 15px;
     padding: 15px 20px;
+  }
+
+  /* Anpassung für die Ticket-Listenansicht auf kleinen Bildschirmen */
+  .ticket-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .priority-text {
+    margin-left: 0;
+    margin-top: 5px;
   }
 }

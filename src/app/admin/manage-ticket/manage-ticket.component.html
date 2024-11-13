@@ -39,21 +39,18 @@
           <p>Keine offenen Tickets vorhanden</p>
         </div>
         
-
         <div *ngFor="let ticket of offeneTickets" 
              class="ticket-item"
              [class.selected]="selectedTicket?._id === ticket._id"
              (click)="selectTicket(ticket)">
-          <div class="ticket-priority" [ngClass]="'priority-' + ticket.prioritaet"></div>
+          <div class="ticket-priority" [ngClass]="'priority-' + ticket.prioritaet" title="Priorität: {{ getLevelDescription(ticket.prioritaet) }}"></div>
           <div class="ticket-content">
             <h3>{{ ticket.titel }}</h3>
             <p class="ticket-meta">
               Erstellt von {{ ticket.ersteller }} • {{ ticket.erstellungsdatum | date:'short' }}
             </p>
           </div>
-          <div class="ticket-status">
-            <span class="status-badge">Offen</span>
-          </div>
+          <span class="priority-text">{{ getLevelDescription(ticket.prioritaet) }}</span>
         </div>
       </div>
 
@@ -72,16 +69,14 @@
              class="ticket-item"
              [class.selected]="selectedTicket?._id === ticket._id"
              (click)="selectTicket(ticket)">
-          <div class="ticket-priority" [ngClass]="'priority-' + ticket.prioritaet"></div>
+          <div class="ticket-priority" [ngClass]="'priority-' + ticket.prioritaet" title="Priorität: {{ getLevelDescription(ticket.prioritaet) }}"></div>
           <div class="ticket-content">
             <h3>{{ ticket.titel }}</h3>
             <p class="ticket-meta">
               Erstellt von {{ ticket.ersteller }} • {{ ticket.erstellungsdatum | date:'short' }}
             </p>
           </div>
-          <div class="ticket-status">
-            <span class="status-badge">Geschlossen</span>
-          </div>
+          <span class="priority-text">{{ getLevelDescription(ticket.prioritaet) }}</span>
         </div>
       </div>
       
@@ -100,16 +95,14 @@
              class="ticket-item"
              [class.selected]="selectedTicket?._id === ticket._id"
              (click)="selectTicket(ticket)">
-          <div class="ticket-priority" [ngClass]="'priority-' + ticket.prioritaet"></div>
+          <div class="ticket-priority" [ngClass]="'priority-' + ticket.prioritaet" title="Priorität: {{ getLevelDescription(ticket.prioritaet) }}"></div>
           <div class="ticket-content">
             <h3>{{ ticket.titel }}</h3>
             <p class="ticket-meta">
               Erstellt am {{ ticket.erstellungsdatum | date:'short' }}
             </p>
           </div>
-          <div class="ticket-status">
-            <span class="status-badge">{{ ticket.status | titlecase }}</span>
-          </div>
+          <span class="priority-text">{{ getLevelDescription(ticket.prioritaet) }}</span>
         </div>
       </div>
     </section>
@@ -121,10 +114,7 @@
           <h2>{{ selectedTicket.titel }}</h2>
           <div class="ticket-badges">
             <span class="priority-badge" [ngClass]="'priority-' + selectedTicket.prioritaet">
-              {{ getLevelDescription(selectedTicket.prioritaet) }}
-            </span>
-            <span class="status-badge" [ngClass]="selectedTicket.status">
-              {{ selectedTicket.status | titlecase }}
+              <i class="fas fa-exclamation-triangle"></i> {{ getLevelDescription(selectedTicket.prioritaet) }}
             </span>
           </div>
         </div>
