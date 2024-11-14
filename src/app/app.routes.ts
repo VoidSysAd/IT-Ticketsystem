@@ -6,6 +6,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { CreateTicketComponent } from './user/create-ticket/create-ticket.component';
 import { ManageTicketComponent } from './admin/manage-ticket/manage-ticket.component';
 import { AuthGuard } from './auth.guard';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Default route
@@ -29,5 +30,12 @@ export const routes: Routes = [
     component: ManageTicketComponent,
     canActivate: [AuthGuard],
     data: { expectedRole: 'admin' },
+  },
+
+  {
+    path: 'user-dashboard',
+    component: UserDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'user' },
   }
 ];

@@ -36,44 +36,44 @@ export class AnmeldenComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
-
+  
       this.authService.login(credentials.name, credentials.email).subscribe(
         (response: any) => {
           console.log('Login - Serverantwort:', response);
           if (response.success) {
-            // Speichere die Benutzerinformationen im AuthService
+            // Save user information in AuthService
             this.authService.setUser(response);
-
-            // Erfolgsmeldung anzeigen
-            this.message =
-              'Anmeldung erfolgreich! Sie werden weitergeleitet...';
-
-            // Navigiere basierend auf der Rolle
+  
+            // Show success message
+            this.message = 'Anmeldung erfolgreich! Sie werden weitergeleitet...';
+            this.messageType = 'success';
+  
+            // Navigate based on role
             if (response.role === 'admin') {
-              // Admin wird zur Admin-Dashboard-Komponente weitergeleitet
-              setTimeout(() => {
-                this.router.navigate(['/admin-dashboard']);
-              }, 1000); // 1 Sekunden Verzögerung
+              this.router.navigate(['/admin-dashboard']); // Navigate to admin dashboard
+            } else if (response.role === 'user') {
+              this.router.navigate(['/user-dashboard']); // Navigate to user dashboard
             } else {
-              // Benutzer wird zur Create-Ticket-Seite weitergeleitet
-              setTimeout(() => {
-                this.router.navigate(['/create-ticket']);
-              }, 1000); // 1 Sekunden Verzögerung
+              this.message = 'Unbekannte Benutzerrolle.';
+              this.messageType = 'error';
             }
           } else {
-            // Fehlermeldung anzeigen
+            // Show error message if login fails
             this.message = response.message || 'Anmeldedaten sind ungültig.';
+            this.messageType = 'error';
           }
         },
         (error) => {
           console.error('Fehler bei der Anmeldung:', error);
-          this.message =
-            error.error.message ||
-            'Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
+          this.message = error.error.message || 'Es gab einen Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
+          this.messageType = 'error';
         }
       );
     } else {
       this.message = 'Bitte füllen Sie alle Felder korrekt aus.';
+      this.messageType = 'error';
     }
   }
+  
+  
 }

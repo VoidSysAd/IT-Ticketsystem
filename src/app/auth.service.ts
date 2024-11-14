@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 export interface User {
   _id: string;
@@ -21,51 +22,70 @@ export interface LoginResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/api';  // Der API-Pfad enthält '/api'
+  private apiUrl = 'http://localhost:5000/api';
   private readonly STORAGE_KEY = 'currentUser';
   private userSubject: BehaviorSubject<User | null>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     const storedUser = this.getStoredUser();
     this.userSubject = new BehaviorSubject<User | null>(storedUser);
   }
 
+  // Login function with role-based navigation
   login(name: string, email: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { name, email })
-      .pipe(
-        tap(response => {
-          if (response.success) {
-            const user: User = {
-              _id: response.name,  // Setze die ID auf den Namen, falls keine explizite ID vorhanden ist
-              name: response.name,
-              email: response.email,
-              abteilung: response.abteilung,
-              role: response.role
-            };
-            this.setUser(user);
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { name, email }).pipe(
+      tap(response => {
+        if (response.success) {
+          const user: User = {
+            _id: response.name,
+            name: response.name,
+            email: response.email,
+            abteilung: response.abteilung,
+            role: response.role,
+          };
+          this.setUser(user);
+          
+          // Redirect based on role
+          if (response.role === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          } else if (response.role === 'user') {
+            this.router.navigate(['/user-dashboard']);
+          } else {
+            alert('Unrecognized role');
           }
-        })
-      );
+        } else {
+          alert(response.message);
+        }
+      }),
+      catchError(error => {
+        console.error('Login failed:', error);
+        throw error;
+      })
+    );
+  }
+
+  isLocalStorageAvailable(): boolean {
+    return typeof window !== 'undefined' && !!window.localStorage;
   }
 
   getStoredUser(): User | null {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (this.isLocalStorageAvailable()) {
       const user = localStorage.getItem(this.STORAGE_KEY);
-      if (user) {
-        return JSON.parse(user);
-      }
+      return user ? JSON.parse(user) : null;
     }
     return null;
   }
 
   setUser(user: User | null): void {
-    if (user) {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
-    } else {
-      localStorage.removeItem(this.STORAGE_KEY);
+    if (this.isLocalStorageAvailable()) {
+      if (user) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
+      } else {
+        localStorage.removeItem(this.STORAGE_KEY);
+      }
     }
     this.userSubject.next(user);
   }
@@ -80,6 +100,7 @@ export class AuthService {
 
   logout(): void {
     this.setUser(null);
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
@@ -96,35 +117,40 @@ export class AuthService {
     if (!userRole) {
       return false;
     }
-
-    if (Array.isArray(expectedRole)) {
-      return expectedRole.includes(userRole);
-    }
-    return userRole === expectedRole;
+    return Array.isArray(expectedRole)
+      ? expectedRole.includes(userRole)
+      : userRole === expectedRole;
   }
 
-  // Registrierung eines neuen Benutzers
   register(userData: Partial<User>): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/accounts`, userData);
-}
+    return this.http.post<User>(`${this.apiUrl}/accounts`, userData).pipe(
+      tap(() => {
+        alert('Registration successful');
+        this.router.navigate(['/login']);
+      }),
+      catchError(error => {
+        console.error('Registration failed:', error);
+        throw error;
+      })
+    );
+  }
 
-
-  // Aktualisiere den aktuellen Benutzer
   updateUser(userData: Partial<User>): Observable<User> {
     const currentUser = this.getCurrentUser();
     if (!currentUser?._id) {
-      throw new Error('Kein Benutzer angemeldet');
+      throw new Error('No user logged in');
     }
 
-    return this.http.put<User>(`${this.apiUrl}/accounts/${currentUser._id}`, userData)
-      .pipe(
-        tap(response => {
-          if (currentUser) {
-            const updatedUser = { ...currentUser, ...userData };
-            this.setUser(updatedUser);
-          }
-        })
-      );
+    return this.http.put<User>(`${this.apiUrl}/accounts/${currentUser._id}`, userData).pipe(
+      tap(response => {
+        const updatedUser = { ...currentUser, ...userData };
+        this.setUser(updatedUser);
+      }),
+      catchError(error => {
+        console.error('Update failed:', error);
+        throw error;
+      })
+    );
   }
 
   hasPermission(permission: string): boolean {
@@ -132,15 +158,11 @@ export class AuthService {
     if (!userRole) {
       return false;
     }
-
     const rolePermissions: Record<string, string[]> = {
-      'admin': ['create', 'read', 'update', 'delete'],
-      'user': ['read', 'create'],
-      'support': ['read', 'update']
+      admin: ['create', 'read', 'update', 'delete'],
+      user: ['read', 'create'],
+      support: ['read', 'update'],
     };
-
-    return userRole in rolePermissions && 
-           rolePermissions[userRole].includes(permission);
+    return rolePermissions[userRole]?.includes(permission);
   }
-
 }
