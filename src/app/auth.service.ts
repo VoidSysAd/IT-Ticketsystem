@@ -142,4 +142,5 @@ export class AuthService {
     return userRole in rolePermissions && 
            rolePermissions[userRole].includes(permission);
   }
+
 }

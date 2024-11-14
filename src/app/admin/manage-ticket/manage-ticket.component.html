@@ -22,7 +22,20 @@
         <span class="counter">{{geschlosseneTickets.length}}</span>
       </a>
     </nav>
+
+    <!-- Neue Buttons hinzufügen -->
+    <div class="sidebar-actions">
+      <button class="nav-button create-ticket" (click)="navigateToCreateTicket()">
+        <i class="fas fa-plus-circle"></i>
+        <span>Erstelle Ticket</span>
+      </button>
+      <button class="nav-button logout" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Ausloggen</span>
+      </button>
+    </div>
   </aside>
+
 
   <!-- Main Content -->
   <main class="main-content">

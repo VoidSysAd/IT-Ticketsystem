@@ -5,6 +5,8 @@ import { AuthService } from '../../auth.service';
 import type { User } from '../../auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router'; // Importiere Router
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-manage-ticket',
@@ -13,7 +15,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ]
 })
 export class ManageTicketComponent implements OnInit {
@@ -29,7 +32,8 @@ export class ManageTicketComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -213,4 +217,16 @@ export class ManageTicketComponent implements OnInit {
   getStatusBadge(status: string): string {
     return status === 'offen' ? 'badge-warning' : 'badge-success';
   }
+
+  // Methode zum Navigieren zur Create-Ticket-Seite
+  navigateToCreateTicket(): void {
+    this.router.navigate(['/create-ticket']);
+  }
+
+  // Logout-Methode
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }
+

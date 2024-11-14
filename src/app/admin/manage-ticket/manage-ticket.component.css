@@ -70,6 +70,52 @@ body {
   color: #fff;
 }
 
+/* Neue Styles für die zwei Buttons */
+.sidebar-actions {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-button {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  text-align: left;
+  font-size: 1em;
+}
+
+.nav-button i {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+/* Style für den 'Erstelle Ticket'-Button */
+.nav-button.create-ticket {
+  background-color: #1c1c1c; /* Gleiche Farbe wie die Sidebar */
+  color: #dcdcdc;
+}
+
+.nav-button.create-ticket:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Style für den 'Ausloggen'-Button */
+.nav-button.logout {
+  background-color: #ff4d4d; /* Schönes Rot */
+  color: #fff;
+}
+
+.nav-button.logout:hover {
+  background-color: #e60000; /* Dunkleres Rot beim Hover */
+  color: #fff;
+}
+
 /* Main Content */
 .main-content {
   flex: 1;
@@ -440,5 +486,24 @@ body {
   .priority-text {
     margin-left: 0;
     margin-top: 5px;
+  }
+
+  /* Anpassungen für die neuen Buttons auf kleinen Bildschirmen */
+  .sidebar-actions {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .nav-button {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 15px;
+  }
+}
+
+@media (max-height: 700px) {
+  .sidebar-actions {
+    padding: 10px;
   }
 }
