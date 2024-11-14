@@ -23,7 +23,7 @@ class DatabaseConnection:
     def _initialize(self):
         # CouchDB läuft auf Port 5984
         self.couch = couchdb.Server('http://localhost:5984/')
-        self.couch.resource.credentials = ('dsadm', 'Leptop12')  # Zugangsdaten hier anpassen
+        self.couch.resource.credentials = ('dsadm', 'Leptop12')  
         self.tickets_db = self._get_or_create_db('tickets')
         self.accounts_db = self._get_or_create_db('accounts')
     
