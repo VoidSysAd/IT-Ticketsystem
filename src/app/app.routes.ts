@@ -7,6 +7,7 @@ import { CreateTicketComponent } from './user/create-ticket/create-ticket.compon
 import { ManageTicketComponent } from './admin/manage-ticket/manage-ticket.component';
 import { AuthGuard } from './auth.guard';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { ShowStatusComponentComponent } from './show-status/show-status.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Default route
@@ -35,6 +36,12 @@ export const routes: Routes = [
   {
     path: 'user-dashboard',
     component: UserDashboardComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'user' },
+  },
+  {
+    path: 'show-status',
+    component: ShowStatusComponentComponent,  // Add this route for show-status
     canActivate: [AuthGuard],
     data: { expectedRole: 'user' },
   }

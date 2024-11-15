@@ -165,4 +165,10 @@ export class AuthService {
     };
     return rolePermissions[userRole]?.includes(permission);
   }
+
+  // auth.service.ts
+  getCurrentUserId(): string | null {
+    return this.getCurrentUser()?.email || null;  // Use email or any other unique identifier
+  }
+
 }

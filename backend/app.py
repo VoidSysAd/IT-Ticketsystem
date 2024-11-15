@@ -216,6 +216,46 @@ def get_tickets():
         app.logger.error(f"Fehler beim Abrufen der Tickets: {str(e)}")
         return jsonify({'error': 'Fehler beim Abrufen der Tickets'}), 500
 
+@app.route('/api/user-tickets', methods=['GET'])
+@error_handler
+def get_user_tickets():
+    try:
+        # Retrieve the name as the identifier for filtering
+        user_id = request.args.get('userId')
+        app.logger.info(f"Fetching tickets for user name (ersteller): {user_id}")
+
+        if not user_id:
+            return jsonify({'error': 'User name (userId) is required'}), 400
+
+        tickets = []
+        for doc_id in db.tickets_db:
+            ticket = db.tickets_db[doc_id]
+            ticket_ersteller = ticket.get('ersteller')
+            app.logger.info(f"Checking ticket with ID: {ticket['_id']}, Ersteller: {ticket_ersteller}")
+
+            if ticket_ersteller == user_id:
+                app.logger.info(f"Match found for ticket ID: {ticket['_id']}")
+                tickets.append({
+                    '_id': ticket['_id'],
+                    'titel': ticket.get('titel', 'Kein Titel'),
+                    'beschreibung': ticket.get('beschreibung', 'Keine Beschreibung'),
+                    'prioritaet': ticket.get('prioritaet', 'normal'),
+                    'status': ticket.get('status', 'offen'),
+                    'erstellungsdatum': ticket.get('erstellungsdatum', ''),
+                    'zugewiesenerBenutzer': ticket.get('zugewiesenerBenutzer', 'Niemand'),
+                    'schlussdatum': ticket.get('schlussdatum', None),
+                    'kommentare': ticket.get('kommentare', []),
+                    'bildBase64': ticket.get('bild_base64', None),
+                    'ersteller': ticket_ersteller
+                })
+
+        app.logger.info(f"Total tickets found for user (name) {user_id}: {len(tickets)}")
+        return jsonify(tickets), 200
+    except Exception as e:
+        app.logger.error(f"Fehler beim Abrufen der Benutzer-Tickets: {str(e)}")
+        return jsonify({'error': 'Fehler beim Abrufen der Benutzer-Tickets'}), 500
+
+
 
 
 

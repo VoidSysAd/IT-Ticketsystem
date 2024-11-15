@@ -1,0 +1,107 @@
+<div class="app-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>Meine Tickets</h1>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a [class.active]="activeTab === 'offen'" (click)="setActiveTab('offen')" class="nav-item">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Offene Tickets</span>
+        <span class="counter">{{offeneTickets.length}}</span>
+      </a>
+      <a [class.active]="activeTab === 'geschlossen'" (click)="setActiveTab('geschlossen')" class="nav-item">
+        <i class="fas fa-check-circle"></i>
+        <span>Geschlossene Tickets</span>
+        <span class="counter">{{geschlosseneTickets.length}}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-actions">
+      <button class="nav-button create-ticket" (click)="navigateToCreateTicket()">
+        <i class="fas fa-plus-circle"></i>
+        <span>Erstelle Ticket</span>
+      </button>
+      <button class="nav-button logout" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Ausloggen</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Ticket List -->
+    <section class="list-view">
+      <div class="ticket-list">
+        <div *ngIf="tickets.length === 0" class="empty-state">
+          <i class="fas fa-ticket-alt fa-3x"></i>
+          <p>Sie haben derzeit keine Tickets</p>
+        </div>
+
+        <div *ngFor="let ticket of filteredTickets" 
+             class="ticket-item"
+             [class.selected]="selectedTicket?._id === ticket._id"
+             (click)="selectTicket(ticket)">
+          <div class="ticket-priority" [ngClass]="'priority-' + ticket.prioritaet"></div>
+          <div class="ticket-content">
+            <h3>{{ ticket.titel }}</h3>
+            <p class="ticket-meta">
+              Erstellt am {{ ticket.erstellungsdatum | date:'short' }}
+            </p>
+          </div>
+          <span class="ticket-status" [ngClass]="'status-' + ticket.status">
+            {{ ticket.status }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detail View -->
+    <section class="detail-view" *ngIf="selectedTicket">
+      <div class="detail-header">
+        <div class="title-section">
+          <h2>{{ selectedTicket.titel }}</h2>
+          <div class="ticket-badges">
+            <span class="priority-badge" [ngClass]="'priority-' + selectedTicket.prioritaet">
+              <i class="fas fa-exclamation-triangle"></i> {{ selectedTicket.prioritaet }}
+            </span>
+            <span class="status-badge" [ngClass]="'status-' + selectedTicket.status">
+              <i class="fas fa-info-circle"></i> {{ selectedTicket.status }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-content">
+        <div class="info-section">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Erstellt am</label>
+              <span>{{ selectedTicket.erstellungsdatum | date:'short' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Zugewiesen an</label>
+              <span>{{ selectedTicket.zugewiesenerBenutzer || 'Nicht zugewiesen' }}</span>
+            </div>
+            <div class="info-item">
+              <label>Schlussdatum</label>
+              <span>{{ selectedTicket.schlussdatum ? (selectedTicket.schlussdatum | date:'short') : 'Noch nicht geschlossen' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="description-section">
+          <h3>Beschreibung</h3>
+          <p>{{ selectedTicket.beschreibung }}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
