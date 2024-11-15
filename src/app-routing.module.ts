@@ -27,14 +27,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { expectedRole: ['user', 'admin'] }
   },
-  // ... weitere Routen
   {
     path: 'manage-ticket',
     component: ManageTicketComponent,
     canActivate: [AuthGuard],
     data: { expectedRole: 'admin' }
   },
-  // ... andere Routen
 ];
 
 @NgModule({
